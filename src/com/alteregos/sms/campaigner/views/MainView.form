@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.5">
+  <NonVisualComponents>
+    <Container class="javax.swing.JPanel" name="mainPanel">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="mainPanel" noResource="true"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[800, 550]"/>
+        </Property>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="800" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="523" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+    </Container>
+    <Container class="javax.swing.JMenuBar" name="menuBar">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="menuBar" noResource="true"/>
+      </Properties>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <Menu class="javax.swing.JMenu" name="fileMenu">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="fileMenu.text"/>
+            <Property name="name" type="java.lang.String" value="fileMenu" noResource="true"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+          </AuxValues>
+          <SubComponents>
+            <Menu class="javax.swing.JMenu" name="newMenu">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" resourceKey="newMenu.icon"/>
+                <Property name="text" type="java.lang.String" resourceKey="newMenu.text"/>
+                <Property name="name" type="java.lang.String" value="newMenu" noResource="true"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="newSmsMenuItem">
+                  <Properties>
+                    <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                      <action class="com.absolute.sms.views.MainView" id="showNewSmsView" methodName="showNewSmsView"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="newSmsMenuItem" noResource="true"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JSeparator" name="newMenuSeparator1">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="newMenuSeparator1" noResource="true"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="newAutoReplyRuleMenuItem">
+                  <Properties>
+                    <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                      <action class="com.absolute.sms.views.MainView" id="showNewAutoReplyRuleView" methodName="showNewAutoReplyRuleView"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="newAutoReplyRuleMenuItem" noResource="true"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JSeparator" name="newMenuSeparator2">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="newMenuSeparator2" noResource="true"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="newPhonebookEntryMenuItem">
+                  <Properties>
+                    <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                      <action class="com.absolute.sms.views.MainView" id="showNewPhonebookEntryView" methodName="showNewPhonebookEntryView"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="newPhonebookEntryMenuItem" noResource="true"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="newGroupMenuItem">
+                  <Properties>
+                    <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                      <action class="com.absolute.sms.views.MainView" id="showNewGroupView" methodName="showNewGroupView"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="newGroupMenuItem" noResource="true"/>
+                  </Properties>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
+            <MenuItem class="javax.swing.JMenuItem" name="exitMenuItem">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="org.jdesktop.application.Application" id="quit" methodName="quit"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="exitMenuItem" noResource="true"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+              </AuxValues>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="manageMenu">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="manageMenu.text"/>
+            <Property name="name" type="java.lang.String" value="manageMenu" noResource="true"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="manageAutoReplyRulesMenuItem">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="com.absolute.sms.views.MainView" id="showManageAutoReplyRulesView" methodName="showManageAutoReplyRulesView"/>
+                </Property>
+                <Property name="text" type="java.lang.String" resourceKey="manageAutoReplyRulesMenuItem.text"/>
+                <Property name="name" type="java.lang.String" value="manageAutoReplyRulesMenuItem" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JSeparator" name="manageMenuSeparator1">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="manageMenuSeparator1" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="managePhoneBookMenuItem">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="com.absolute.sms.views.MainView" id="showPhonebookManagerView" methodName="showPhonebookManagerView"/>
+                </Property>
+                <Property name="text" type="java.lang.String" resourceKey="managePhoneBookMenuItem.text"/>
+                <Property name="name" type="java.lang.String" value="managePhoneBookMenuItem" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="manageGroupsMenuItem">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="com.absolute.sms.views.MainView" id="showManageGroupsView" methodName="showManageGroupsView"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="manageGroupsMenuItem" noResource="true"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="smsMenu">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="smsMenu.text"/>
+            <Property name="name" type="java.lang.String" value="smsMenu" noResource="true"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="inboxMenuItem">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="com.absolute.sms.views.MainView" id="showInboxView" methodName="showInboxView"/>
+                </Property>
+                <Property name="text" type="java.lang.String" resourceKey="inboxMenuItem.text"/>
+                <Property name="name" type="java.lang.String" value="inboxMenuItem" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="outboxMenuItem">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="com.absolute.sms.views.MainView" id="showOutboxView" methodName="showOutboxView"/>
+                </Property>
+                <Property name="text" type="java.lang.String" resourceKey="outboxMenuItem.text"/>
+                <Property name="name" type="java.lang.String" value="outboxMenuItem" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="callsReceivedMenuItem">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="com.absolute.sms.views.MainView" id="showCallsReceivedView" methodName="showCallsReceivedView"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="callsReceivedMenuItem" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JSeparator" name="smsMenuSeparator1">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="smsMenuSeparator1" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="dndMenuItem">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="com.absolute.sms.views.MainView" id="showDndView" methodName="showDndView"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="dndMenuItem" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JSeparator" name="smsMenuSeparator2">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="smsMenuSeparator2" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="reportsMenuItem">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="com.absolute.sms.views.MainView" id="showReportsView" methodName="showReportsView"/>
+                </Property>
+                <Property name="text" type="java.lang.String" resourceKey="reportsMenuItem.text"/>
+                <Property name="name" type="java.lang.String" value="reportsMenuItem" noResource="true"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="applicationMenu">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="applicationMenu.text"/>
+            <Property name="name" type="java.lang.String" value="applicationMenu" noResource="true"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="servicesMenuItem">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="com.absolute.sms.views.MainView" id="showSettingsView" methodName="showSettingsView"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="servicesMenuItem" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="settingsMenuItem">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="com.absolute.sms.views.MainView" id="showServicesView" methodName="showServicesView"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="settingsMenuItem" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <Menu class="javax.swing.JMenu" name="lookMenuItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="lookMenuItem.text"/>
+                <Property name="name" type="java.lang.String" value="lookMenuItem" noResource="true"/>
+              </Properties>
+            </Menu>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="helpMenu">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="helpMenu.text"/>
+            <Property name="name" type="java.lang.String" value="helpMenu" noResource="true"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+          </AuxValues>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="userManualMenuItem">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="com.absolute.sms.views.MainView" id="showUserManualView" methodName="showUserManualView"/>
+                </Property>
+                <Property name="text" type="java.lang.String" resourceKey="userManualMenuItem.text"/>
+                <Property name="name" type="java.lang.String" value="userManualMenuItem" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="aboutMenuItem">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="com.absolute.sms.views.MainView" id="showAboutBox" methodName="showAboutBox"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="aboutMenuItem" noResource="true"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+              </AuxValues>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="statusPanel">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="statusPanel" noResource="true"/>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Component id="statusPanelSeparator" alignment="0" pref="800" max="32767" attributes="0"/>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="statusMessageLabel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="626" max="32767" attributes="0"/>
+                  <Component id="progressBar" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="statusAnimationLabel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <Component id="statusPanelSeparator" min="-2" pref="2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="statusMessageLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="statusAnimationLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="progressBar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JSeparator" name="statusPanelSeparator">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="statusPanelSeparator" noResource="true"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="statusMessageLabel">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="statusMessageLabel" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="statusAnimationLabel">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="2"/>
+            <Property name="name" type="java.lang.String" value="statusAnimationLabel" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JProgressBar" name="progressBar">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="progressBar" noResource="true"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JToolBar" name="toolBar">
+      <Properties>
+        <Property name="floatable" type="boolean" value="false"/>
+        <Property name="rollover" type="boolean" value="true"/>
+        <Property name="name" type="java.lang.String" value="toolBar" noResource="true"/>
+      </Properties>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JButton" name="homeToolBarButton">
+          <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="com.absolute.sms.views.MainView" id="showHomeView" methodName="showHomeView"/>
+            </Property>
+            <Property name="text" type="java.lang.String" resourceKey="homeToolBarButton.text"/>
+            <Property name="toolTipText" type="java.lang.String" resourceKey="homeToolBarButton.toolTipText"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="name" type="java.lang.String" value="homeToolBarButton" noResource="true"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+          <AccessibilityProperties>
+            <Property name="AccessibleContext.accessibleName" type="java.lang.String" resourceKey="homeToolBarButton.AccessibleContext.accessibleName"/>
+          </AccessibilityProperties>
+        </Component>
+        <Component class="javax.swing.JToolBar$Separator" name="toolBarSeparator1">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="toolBarSeparator1" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="newSmsToolBarButton">
+          <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="com.absolute.sms.views.MainView" id="showNewSmsViewToolbarAction" methodName="showNewSmsViewToolbarAction"/>
+            </Property>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="name" type="java.lang.String" value="newSmsToolBarButton" noResource="true"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+          <AccessibilityProperties>
+            <Property name="AccessibleContext.accessibleName" type="java.lang.String" resourceKey="newSmsToolBarButton.AccessibleContext.accessibleName"/>
+          </AccessibilityProperties>
+        </Component>
+        <Component class="javax.swing.JButton" name="newAutoReplyRuleToolbarButton">
+          <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="com.absolute.sms.views.MainView" id="showNewAutoReplyRuleViewToolbarAction" methodName="showNewAutoReplyRuleViewToolbarAction"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" resourceKey="newAutoReplyRuleToolbarButton.toolTipText"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="name" type="java.lang.String" value="newAutoReplyRuleToolbarButton" noResource="true"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+          <AccessibilityProperties>
+            <Property name="AccessibleContext.accessibleName" type="java.lang.String" resourceKey="newAutoReplyRuleToolbarButton.AccessibleContext.accessibleName"/>
+          </AccessibilityProperties>
+        </Component>
+        <Component class="javax.swing.JButton" name="newPhonebookEntryToolbarButton">
+          <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="com.absolute.sms.views.MainView" id="showNewPhonebookEntryViewToolbarAction" methodName="showNewPhonebookEntryViewToolbarAction"/>
+            </Property>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="name" type="java.lang.String" value="newPhonebookEntryToolbarButton" noResource="true"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+          <AccessibilityProperties>
+            <Property name="AccessibleContext.accessibleName" type="java.lang.String" resourceKey="newPhonebookEntryToolbarButton.AccessibleContext.accessibleName"/>
+          </AccessibilityProperties>
+        </Component>
+        <Component class="javax.swing.JButton" name="newGroupToolbarButton">
+          <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="com.absolute.sms.views.MainView" id="showNewGroupViewToolbarAction" methodName="showNewGroupViewToolbarAction"/>
+            </Property>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="name" type="java.lang.String" value="newGroupToolbarButton" noResource="true"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JToolBar$Separator" name="toolbarSeparator2">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="toolbarSeparator2" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="autoReplyRulesToolBarButton">
+          <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="com.absolute.sms.views.MainView" id="showAutoReplyRulesManagerViewToolbarAction" methodName="showAutoReplyRulesManagerViewToolbarAction"/>
+            </Property>
+            <Property name="text" type="java.lang.String" resourceKey="autoReplyRulesToolBarButton.text"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="name" type="java.lang.String" value="autoReplyRulesToolBarButton" noResource="true"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+          <AccessibilityProperties>
+            <Property name="AccessibleContext.accessibleName" type="java.lang.String" resourceKey="autoReplyRulesToolBarButton.AccessibleContext.accessibleName"/>
+          </AccessibilityProperties>
+        </Component>
+        <Component class="javax.swing.JButton" name="phoneBookToolBarButton">
+          <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="com.absolute.sms.views.MainView" id="showPhonebookManagerViewToolbarAction" methodName="showPhonebookManagerViewToolbarAction"/>
+            </Property>
+            <Property name="text" type="java.lang.String" resourceKey="phoneBookToolBarButton.text"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="name" type="java.lang.String" value="phoneBookToolBarButton" noResource="true"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+          <AccessibilityProperties>
+            <Property name="AccessibleContext.accessibleName" type="java.lang.String" resourceKey="phoneBookToolBarButton.AccessibleContext.accessibleName"/>
+          </AccessibilityProperties>
+        </Component>
+        <Component class="javax.swing.JButton" name="groupsToolbarButton">
+          <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="com.absolute.sms.views.MainView" id="showManageGroupsViewToolbarAction" methodName="showManageGroupsViewToolbarAction"/>
+            </Property>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="name" type="java.lang.String" value="groupsToolbarButton" noResource="true"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JToolBar$Separator" name="toolBarSeparator3">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="toolBarSeparator3" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="inboxToolBarButton">
+          <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="com.absolute.sms.views.MainView" id="showInboxViewToolbarAction" methodName="showInboxViewToolbarAction"/>
+            </Property>
+            <Property name="text" type="java.lang.String" resourceKey="inboxToolBarButton.text"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="name" type="java.lang.String" value="inboxToolBarButton" noResource="true"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+          <AccessibilityProperties>
+            <Property name="AccessibleContext.accessibleName" type="java.lang.String" resourceKey="inboxToolBarButton.AccessibleContext.accessibleName"/>
+          </AccessibilityProperties>
+        </Component>
+        <Component class="javax.swing.JButton" name="outboxToolBarButton">
+          <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="com.absolute.sms.views.MainView" id="showOutboxViewToolbarAction" methodName="showOutboxViewToolbarAction"/>
+            </Property>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="name" type="java.lang.String" value="outboxToolBarButton" noResource="true"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+          <AccessibilityProperties>
+            <Property name="AccessibleContext.accessibleName" type="java.lang.String" resourceKey="outboxToolBarButton.AccessibleContext.accessibleName"/>
+          </AccessibilityProperties>
+        </Component>
+        <Component class="javax.swing.JButton" name="callsReceivedToolBarButton">
+          <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="com.absolute.sms.views.MainView" id="showCallsReceivedViewToolbarAction" methodName="showCallsReceivedViewToolbarAction"/>
+            </Property>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="name" type="java.lang.String" value="callsReceivedToolBarButton" noResource="true"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="doNotDisturbToolbarButton">
+          <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="com.absolute.sms.views.MainView" id="showDndViewToolbarAction" methodName="showDndViewToolbarAction"/>
+            </Property>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="name" type="java.lang.String" value="doNotDisturbToolbarButton" noResource="true"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JToolBar$Separator" name="toolBarSeparator4">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="toolBarSeparator4" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="reportsToolBarButton">
+          <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="com.absolute.sms.views.MainView" id="showReportsViewToolbarAction" methodName="showReportsViewToolbarAction"/>
+            </Property>
+            <Property name="text" type="java.lang.String" resourceKey="reportsToolBarButton.text"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="name" type="java.lang.String" value="reportsToolBarButton" noResource="true"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+          <AccessibilityProperties>
+            <Property name="AccessibleContext.accessibleName" type="java.lang.String" resourceKey="reportsToolBarButton.AccessibleContext.accessibleName"/>
+          </AccessibilityProperties>
+        </Component>
+        <Component class="javax.swing.JToolBar$Separator" name="toolbarSeparator5">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="toolbarSeparator5" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="settingsToolBarButton">
+          <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="com.absolute.sms.views.MainView" id="showSettingsViewToolbarAction" methodName="showSettingsViewToolbarAction"/>
+            </Property>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="name" type="java.lang.String" value="settingsToolBarButton" noResource="true"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="servicesToolBarButton">
+          <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="com.absolute.sms.views.MainView" id="showServicesViewToolbarAction" methodName="showServicesViewToolbarAction"/>
+            </Property>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="name" type="java.lang.String" value="servicesToolBarButton" noResource="true"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JToolBar$Separator" name="toolbarSeparator6">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="toolbarSeparator6" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="productLogoLabel">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+            <Property name="icon" type="javax.swing.Icon" resourceKey="productLogoLabel.icon"/>
+            <Property name="text" type="java.lang.String" resourceKey="productLogoLabel.text"/>
+            <Property name="horizontalTextPosition" type="int" value="4"/>
+            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[3840, 25]"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="productLogoLabel" noResource="true"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+  </NonVisualComponents>
+  <Properties>
+    <Property name="component" type="javax.swing.JComponent" editor="org.netbeans.modules.form.ComponentChooserEditor">
+      <ComponentRef name="mainPanel"/>
+    </Property>
+    <Property name="menuBar" type="javax.swing.JMenuBar" editor="org.netbeans.modules.form.ComponentChooserEditor">
+      <ComponentRef name="menuBar"/>
+    </Property>
+    <Property name="statusBar" type="javax.swing.JComponent" editor="org.netbeans.modules.form.ComponentChooserEditor">
+      <ComponentRef name="statusPanel"/>
+    </Property>
+    <Property name="toolBar" type="javax.swing.JToolBar" editor="org.netbeans.modules.form.ComponentChooserEditor">
+      <ComponentRef name="toolBar"/>
+    </Property>
+  </Properties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="2"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,88,0,0,3,32"/>
+  </AuxValues>
+</Form>

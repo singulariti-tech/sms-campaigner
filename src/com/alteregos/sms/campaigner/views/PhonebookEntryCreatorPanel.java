@@ -1,0 +1,182 @@
+package com.alteregos.sms.campaigner.views;
+
+import com.alteregos.sms.campaigner.data.beans.Phonebook;
+import com.alteregos.sms.campaigner.data.validation.PhonebookEntryValidator;
+import com.alteregos.sms.campaigner.exceptions.ExceptionParser;
+import com.alteregos.sms.campaigner.exceptions.ITaskResult;
+import com.alteregos.sms.campaigner.exceptions.SuccessfulTaskResult;
+import javax.persistence.EntityManager;
+import javax.persistence.RollbackException;
+import javax.swing.JOptionPane;
+import org.jdesktop.application.Action;
+import org.jdesktop.application.Application;
+import org.jdesktop.application.Task;
+
+/**
+ *
+ * @author  John Emmanuel
+ */
+public class PhonebookEntryCreatorPanel extends javax.swing.JPanel {
+
+    /** Creates new form PhonebookEntryCreatorPanel */
+    public PhonebookEntryCreatorPanel() {
+        initComponents();
+        entityManager = javax.persistence.Persistence.createEntityManagerFactory("absolute-smsPU").createEntityManager();
+        phoneBook = new Phonebook();
+        this.validator = new PhonebookEntryValidator(nameTextField, mobileNoTextField);
+    }
+
+    //<editor-fold defaultstate="collapsed" desc="Actions">
+    @Action
+    public Task saveEntry() {
+        if (validator.validate()) {
+            return new SaveEntryTask(org.jdesktop.application.Application.getInstance(com.alteregos.sms.campaigner.Main.class));
+        }
+        return null;
+    }
+
+    private class SaveEntryTask extends Task<Object, Void> {
+
+        public SaveEntryTask(Application app) {
+            super(app);
+        }
+
+        @Override
+        protected Object doInBackground() {
+            ITaskResult result = null;
+            phoneBook.setAddress(postalAddressTextArea.getText().trim());
+            phoneBook.setMobileNo(mobileNoTextField.getText().trim());
+            phoneBook.setEmail(emailAddressTextField.getText().trim());
+            phoneBook.setName(nameTextField.getText().trim());
+            try {
+                entityManager.getTransaction().begin();
+                entityManager.persist(phoneBook);
+                entityManager.getTransaction().commit();
+                result = new SuccessfulTaskResult();
+            } catch (RollbackException rex) {
+                result = ExceptionParser.getError(rex);
+            }
+            return result;
+        }
+
+        @Override
+        protected void succeeded(Object object) {
+            super.succeeded(object);
+            ITaskResult result = (ITaskResult) object;
+            if (result.isSuccessful()) {
+                nameTextField.setText("");
+                emailAddressTextField.setText("");
+                mobileNoTextField.setText("");
+                postalAddressTextArea.setText("");
+            } else {
+                JOptionPane.showMessageDialog(null, result.getResultMessage().getLabel());
+            }
+            phoneBook = new Phonebook();
+        }
+    }
+
+    @Action
+    public void clearEntry() {
+        phoneBook = new Phonebook();
+        nameTextField.setText("");
+        postalAddressTextArea.setText("");
+        mobileNoTextField.setText("");
+        emailAddressTextField.setText("");
+
+    }
+    //</editor-fold>   
+
+
+    @SuppressWarnings("unchecked")
+    private void initComponents() {
+
+        phoneBookEntryCreatorPanel = new javax.swing.JPanel();
+        nameLabel = new javax.swing.JLabel();
+        mobileNoLabel = new javax.swing.JLabel();
+        emailAddressLabel = new javax.swing.JLabel();
+        postalAddressLabel = new javax.swing.JLabel();
+        nameTextField = new javax.swing.JTextField();
+        mobileNoTextField = new javax.swing.JTextField();
+        emailAddressTextField = new javax.swing.JTextField();
+        postalAddressScrollPane = new javax.swing.JScrollPane();
+        postalAddressTextArea = new javax.swing.JTextArea();
+        clearButton = new javax.swing.JButton();
+        saveButton = new javax.swing.JButton();
+
+        setName("Form"); // NOI18N
+
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(com.alteregos.sms.campaigner.Main.class).getContext().getResourceMap(PhonebookEntryCreatorPanel.class);
+        phoneBookEntryCreatorPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("phoneBookEntryCreatorPanel.border.title"))); // NOI18N
+        phoneBookEntryCreatorPanel.setName("phoneBookEntryCreatorPanel"); // NOI18N
+
+        nameLabel.setText(resourceMap.getString("nameLabel.text")); // NOI18N
+        nameLabel.setName("nameLabel"); // NOI18N
+
+        mobileNoLabel.setText(resourceMap.getString("mobileNoLabel.text")); // NOI18N
+        mobileNoLabel.setName("mobileNoLabel"); // NOI18N
+
+        emailAddressLabel.setText(resourceMap.getString("emailAddressLabel.text")); // NOI18N
+        emailAddressLabel.setName("emailAddressLabel"); // NOI18N
+
+        postalAddressLabel.setText(resourceMap.getString("postalAddressLabel.text")); // NOI18N
+        postalAddressLabel.setName("postalAddressLabel"); // NOI18N
+
+        nameTextField.setText(resourceMap.getString("nameTextField.text")); // NOI18N
+        nameTextField.setName("nameTextField"); // NOI18N
+
+        mobileNoTextField.setText(resourceMap.getString("mobileNoTextField.text")); // NOI18N
+        mobileNoTextField.setName("mobileNoTextField"); // NOI18N
+
+        emailAddressTextField.setText(resourceMap.getString("emailAddressTextField.text")); // NOI18N
+        emailAddressTextField.setName("emailAddressTextField"); // NOI18N
+
+        postalAddressScrollPane.setName("postalAddressScrollPane"); // NOI18N
+
+        postalAddressTextArea.setColumns(20);
+        postalAddressTextArea.setFont(resourceMap.getFont("postalAddressTextArea.font")); // NOI18N
+        postalAddressTextArea.setRows(5);
+        postalAddressTextArea.setTabSize(1);
+        postalAddressTextArea.setName("postalAddressTextArea"); // NOI18N
+        postalAddressScrollPane.setViewportView(postalAddressTextArea);
+
+        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(com.alteregos.sms.campaigner.Main.class).getContext().getActionMap(PhonebookEntryCreatorPanel.class, this);
+        clearButton.setAction(actionMap.get("clearEntry")); // NOI18N
+        clearButton.setText(resourceMap.getString("clearButton.text")); // NOI18N
+        clearButton.setName("clearButton"); // NOI18N
+
+        saveButton.setAction(actionMap.get("saveEntry")); // NOI18N
+        saveButton.setText(resourceMap.getString("saveButton.text")); // NOI18N
+        saveButton.setName("saveButton"); // NOI18N
+
+        javax.swing.GroupLayout phoneBookEntryCreatorPanelLayout = new javax.swing.GroupLayout(phoneBookEntryCreatorPanel);
+        phoneBookEntryCreatorPanel.setLayout(phoneBookEntryCreatorPanelLayout);
+        phoneBookEntryCreatorPanelLayout.setHorizontalGroup(
+                phoneBookEntryCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(phoneBookEntryCreatorPanelLayout.createSequentialGroup().addContainerGap().addGroup(phoneBookEntryCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(postalAddressScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE).addComponent(postalAddressLabel).addGroup(phoneBookEntryCreatorPanelLayout.createSequentialGroup().addGroup(phoneBookEntryCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(nameLabel).addComponent(mobileNoLabel).addComponent(emailAddressLabel)).addGap(41, 41, 41).addGroup(phoneBookEntryCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(emailAddressTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE).addComponent(mobileNoTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE).addGroup(phoneBookEntryCreatorPanelLayout.createSequentialGroup().addComponent(nameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, phoneBookEntryCreatorPanelLayout.createSequentialGroup().addComponent(saveButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(clearButton))).addContainerGap()));
+        phoneBookEntryCreatorPanelLayout.setVerticalGroup(
+                phoneBookEntryCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(phoneBookEntryCreatorPanelLayout.createSequentialGroup().addContainerGap().addGroup(phoneBookEntryCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(nameLabel).addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(phoneBookEntryCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(mobileNoLabel).addComponent(mobileNoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(phoneBookEntryCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(emailAddressLabel).addComponent(emailAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(postalAddressLabel).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(postalAddressScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(phoneBookEntryCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(clearButton).addComponent(saveButton)).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(phoneBookEntryCreatorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
+        layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(phoneBookEntryCreatorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
+    }
+    
+    private javax.swing.JButton clearButton;
+    private javax.swing.JLabel emailAddressLabel;
+    private javax.swing.JTextField emailAddressTextField;
+    private javax.swing.JLabel mobileNoLabel;
+    private javax.swing.JTextField mobileNoTextField;
+    private javax.swing.JLabel nameLabel;
+    private javax.swing.JTextField nameTextField;
+    private javax.swing.JPanel phoneBookEntryCreatorPanel;
+    private javax.swing.JLabel postalAddressLabel;
+    private javax.swing.JScrollPane postalAddressScrollPane;
+    private javax.swing.JTextArea postalAddressTextArea;
+    private javax.swing.JButton saveButton;
+
+    private EntityManager entityManager;
+    private Phonebook phoneBook;
+    private PhonebookEntryValidator validator;
+}

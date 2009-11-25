@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.persistence.EntityManager" name="entityManager">
+      <Properties>
+        <Property name="persistenceUnit" type="java.lang.String" value="absolute-smsPU"/>
+      </Properties>
+    </Component>
+    <Component class="javax.persistence.Query" name="ruleQuery">
+      <Properties>
+        <Property name="query" type="java.lang.String" value="SELECT r FROM Rule r"/>
+        <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
+          <ComponentRef name="entityManager"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="java.util.List" name="ruleList">
+      <Properties>
+        <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
+          <ComponentRef name="ruleQuery"/>
+        </Property>
+        <Property name="observable" type="boolean" value="true"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;com.absolute.sms.data.beans.Rule&gt;"/>
+      </AuxValues>
+    </Component>
+  </NonVisualComponents>
+  <Properties>
+    <Property name="name" type="java.lang.String" value="Form" noResource="true"/>
+  </Properties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="2"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="borderContainer" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="borderContainer" max="32767" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JPanel" name="borderContainer">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder title="Rules Manager">
+              <Property name="titleX" resourceKey="borderContainer.border.title"/>
+            </TitledBorder>
+          </Border>
+        </Property>
+        <Property name="name" type="java.lang.String" value="borderContainer" noResource="true"/>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="rulesScrollPane" alignment="0" pref="671" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="startDateLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                          <Component id="startDateField" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="endDateLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="endDateField" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="filterButton" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="contentLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="contentScrollPane" alignment="0" pref="671" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="contentLengthField" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="enabledCheckbox" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="343" max="32767" attributes="0"/>
+                          <Component id="saveButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="deleteButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="refreshButton" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="secondaryKeywordLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="primaryKeywordLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="secondaryKeywordField" pref="563" max="32767" attributes="2"/>
+                              <Component id="primaryKeywordField" alignment="1" pref="563" max="32767" attributes="2"/>
+                          </Group>
+                      </Group>
+                  </Group>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="2" attributes="0">
+                      <Component id="startDateLabel" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="startDateField" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="endDateLabel" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="endDateField" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="filterButton" alignment="2" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <Component id="rulesScrollPane" pref="188" max="32767" attributes="0"/>
+                  <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="primaryKeywordLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="primaryKeywordField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="secondaryKeywordLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="secondaryKeywordField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <Component id="contentLabel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <Component id="contentScrollPane" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="contentLengthField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="enabledCheckbox" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="refreshButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="deleteButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="saveButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="startDateLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="startDateLabel.text"/>
+            <Property name="name" type="java.lang.String" value="startDateLabel" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="org.jdesktop.swingx.JXDatePicker" name="startDateField">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="startDateField" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="endDateLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="endDateLabel.text"/>
+            <Property name="name" type="java.lang.String" value="endDateLabel" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="org.jdesktop.swingx.JXDatePicker" name="endDateField">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="endDateField" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="filterButton">
+          <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="com.absolute.sms.views.RulesManagerPanel" id="filterListAction" methodName="filterListAction"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="filterButton" noResource="true"/>
+          </Properties>
+        </Component>
+        <Container class="javax.swing.JScrollPane" name="rulesScrollPane">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="rulesScrollPane" noResource="true"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JTable" name="rulesTable">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="rulesTable" noResource="true"/>
+              </Properties>
+              <BindingProperties>
+                <BindingProperty name="elements" source="ruleList" target="rulesTable" targetPath="elements" updateStrategy="0" immediately="true">
+                  <Subbinding sourcePath="${primaryKeyword}">
+                    <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                  </Subbinding>
+                  <Subbinding sourcePath="${secondaryKeyword}">
+                    <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                  </Subbinding>
+                  <Subbinding sourcePath="${content}">
+                    <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                  </Subbinding>
+                  <Subbinding sourcePath="${enabled}">
+                    <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Boolean.class"/>
+                  </Subbinding>
+                  <Subbinding sourcePath="${createdDate}">
+                    <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
+                  </Subbinding>
+                  <Subbinding sourcePath="${modifiedDate}">
+                    <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
+                  </Subbinding>
+                </BindingProperty>
+              </BindingProperties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Component class="javax.swing.JLabel" name="primaryKeywordLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="primaryKeywordLabel.text"/>
+            <Property name="name" type="java.lang.String" value="primaryKeywordLabel" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="primaryKeywordField">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="primaryKeywordField" noResource="true"/>
+          </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="rulesTable" sourcePath="${selectedElement.primaryKeyword}" target="primaryKeywordField" targetPath="text" updateStrategy="0" immediately="false">
+              <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+            </BindingProperty>
+            <BindingProperty name="enabled" source="rulesTable" sourcePath="${selectedElement != null}" target="primaryKeywordField" targetPath="enabled" updateStrategy="0" immediately="false"/>
+          </BindingProperties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="secondaryKeywordLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="secondaryKeywordLabel.text"/>
+            <Property name="name" type="java.lang.String" value="secondaryKeywordLabel" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="secondaryKeywordField">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="secondaryKeywordField" noResource="true"/>
+          </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="rulesTable" sourcePath="${selectedElement.secondaryKeyword}" target="secondaryKeywordField" targetPath="text" updateStrategy="0" immediately="false">
+              <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+            </BindingProperty>
+            <BindingProperty name="enabled" source="rulesTable" sourcePath="${selectedElement != null}" target="secondaryKeywordField" targetPath="enabled" updateStrategy="0" immediately="false"/>
+          </BindingProperties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="contentLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="contentLabel.text"/>
+            <Property name="name" type="java.lang.String" value="contentLabel" noResource="true"/>
+          </Properties>
+        </Component>
+        <Container class="javax.swing.JScrollPane" name="contentScrollPane">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="contentScrollPane" noResource="true"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JTextArea" name="contentTextArea">
+              <Properties>
+                <Property name="columns" type="int" value="20"/>
+                <Property name="font" type="java.awt.Font" resourceKey="contentTextArea.font"/>
+                <Property name="rows" type="int" value="5"/>
+                <Property name="name" type="java.lang.String" value="contentTextArea" noResource="true"/>
+              </Properties>
+              <BindingProperties>
+                <BindingProperty name="text" source="rulesTable" sourcePath="${selectedElement.content}" target="contentTextArea" targetPath="text" updateStrategy="0" immediately="false">
+                  <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                  <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                </BindingProperty>
+                <BindingProperty name="enabled" source="rulesTable" sourcePath="${selectedElement != null}" target="contentTextArea" targetPath="enabled" updateStrategy="0" immediately="false"/>
+              </BindingProperties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Component class="javax.swing.JTextField" name="contentLengthField">
+          <Properties>
+            <Property name="columns" type="int" value="3"/>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="text" type="java.lang.String" resourceKey="contentLengthField.text"/>
+            <Property name="name" type="java.lang.String" value="contentLengthField" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="enabledCheckbox">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="enabledCheckbox.text"/>
+            <Property name="name" type="java.lang.String" value="enabledCheckbox" noResource="true"/>
+          </Properties>
+          <BindingProperties>
+            <BindingProperty name="selected" source="rulesTable" sourcePath="${selectedElement.enabled}" target="enabledCheckbox" targetPath="selected" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="enabled" source="rulesTable" sourcePath="${selectedElement != null}" target="enabledCheckbox" targetPath="enabled" updateStrategy="0" immediately="false"/>
+          </BindingProperties>
+        </Component>
+        <Component class="javax.swing.JButton" name="refreshButton">
+          <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="com.absolute.sms.views.RulesManagerPanel" id="refreshListAction" methodName="refreshListAction"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="refreshButton" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="deleteButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="deleteButton.text"/>
+            <Property name="name" type="java.lang.String" value="deleteButton" noResource="true"/>
+          </Properties>
+          <BindingProperties>
+            <BindingProperty name="enabled" source="rulesTable" sourcePath="${selectedElement != null}" target="deleteButton" targetPath="enabled" updateStrategy="0" immediately="false"/>
+          </BindingProperties>
+        </Component>
+        <Component class="javax.swing.JButton" name="saveButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="saveButton.text"/>
+            <Property name="name" type="java.lang.String" value="saveButton" noResource="true"/>
+          </Properties>
+          <BindingProperties>
+            <BindingProperty name="enabled" source="rulesTable" sourcePath="${selectedElement != null}" target="saveButton" targetPath="enabled" updateStrategy="0" immediately="false"/>
+          </BindingProperties>
+        </Component>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>

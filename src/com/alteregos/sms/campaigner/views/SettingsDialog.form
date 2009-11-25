@@ -1,0 +1,743 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.5" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="title" type="java.lang.String" resourceKey="Form.title"/>
+    <Property name="name" type="java.lang.String" value="Form" noResource="true"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="2"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="tabbedPane" pref="393" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="tabbedPane" pref="354" max="32767" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JTabbedPane" name="tabbedPane">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="tabbedPane" noResource="true"/>
+      </Properties>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
+      <SubComponents>
+        <Container class="javax.swing.JPanel" name="portPanel">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="portPanel" noResource="true"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Port">
+                <Property name="tabTitle" type="java.lang.String" resourceKey="portPanel.TabConstraints.tabTitle"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="portContainer" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="portContainer" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Container class="javax.swing.JPanel" name="portContainer">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                    <TitledBorder/>
+                  </Border>
+                </Property>
+                <Property name="name" type="java.lang.String" value="portContainer" noResource="true"/>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="portSettingsStatusLabel" alignment="0" pref="336" max="32767" attributes="0"/>
+                              <Component id="saveButton" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="dataBitsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="stopBitsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="parityBitsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="comPortLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="flowControlLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="baudRateLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="comPortComboBox" pref="247" max="32767" attributes="0"/>
+                                      <Component id="flowControlComboBox" alignment="1" pref="247" max="32767" attributes="0"/>
+                                      <Component id="baudRateTextField" alignment="0" pref="247" max="32767" attributes="0"/>
+                                      <Component id="dataBitsTextField" alignment="0" pref="247" max="32767" attributes="0"/>
+                                      <Component id="stopBitsTextField" alignment="0" pref="247" max="32767" attributes="0"/>
+                                      <Component id="parityBitsTextField" alignment="0" pref="247" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <EmptySpace min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="comPortLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="comPortComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="flowControlLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="flowControlComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="baudRateLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="baudRateTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="dataBitsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="dataBitsTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="stopBitsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="stopBitsTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="parityBitsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="parityBitsTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="saveButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="94" max="32767" attributes="0"/>
+                          <Component id="portSettingsStatusLabel" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JLabel" name="comPortLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="comPortLabel.text"/>
+                    <Property name="name" type="java.lang.String" value="comPortLabel" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="flowControlLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="flowControlLabel.text"/>
+                    <Property name="name" type="java.lang.String" value="flowControlLabel" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="baudRateLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="baudRateLabel.text"/>
+                    <Property name="name" type="java.lang.String" value="baudRateLabel" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="dataBitsLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="dataBitsLabel.text"/>
+                    <Property name="name" type="java.lang.String" value="dataBitsLabel" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="stopBitsLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="stopBitsLabel.text"/>
+                    <Property name="name" type="java.lang.String" value="stopBitsLabel" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="parityBitsLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="parityBitsLabel.text"/>
+                    <Property name="name" type="java.lang.String" value="parityBitsLabel" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="comPortComboBox">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="0"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="comPortComboBox" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="flowControlComboBox">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="0"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="flowControlComboBox" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="baudRateTextField">
+                  <Properties>
+                    <Property name="editable" type="boolean" value="false"/>
+                    <Property name="text" type="java.lang.String" resourceKey="baudRateTextField.text"/>
+                    <Property name="name" type="java.lang.String" value="baudRateTextField" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="dataBitsTextField">
+                  <Properties>
+                    <Property name="editable" type="boolean" value="false"/>
+                    <Property name="text" type="java.lang.String" resourceKey="dataBitsTextField.text"/>
+                    <Property name="name" type="java.lang.String" value="dataBitsTextField" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="stopBitsTextField">
+                  <Properties>
+                    <Property name="editable" type="boolean" value="false"/>
+                    <Property name="text" type="java.lang.String" resourceKey="stopBitsTextField.text"/>
+                    <Property name="name" type="java.lang.String" value="stopBitsTextField" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="parityBitsTextField">
+                  <Properties>
+                    <Property name="editable" type="boolean" value="false"/>
+                    <Property name="text" type="java.lang.String" resourceKey="parityBitsTextField.text"/>
+                    <Property name="name" type="java.lang.String" value="parityBitsTextField" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="saveButton">
+                  <Properties>
+                    <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                      <action class="com.absolute.sms.views.SettingsDialog" id="savePortSettings" methodName="savePortSettings"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" resourceKey="saveButton.text"/>
+                    <Property name="name" type="java.lang.String" value="saveButton" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="portSettingsStatusLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="portSettingsStatusLabel.text"/>
+                    <Property name="name" type="java.lang.String" value="portSettingsStatusLabel" noResource="true"/>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="messageFooterPanel">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="messageFooterPanel" noResource="true"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Message Footer">
+                <Property name="tabTitle" type="java.lang.String" resourceKey="messageFooterPanel.TabConstraints.tabTitle"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="messageFooterContainer" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="messageFooterContainer" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Container class="javax.swing.JPanel" name="messageFooterContainer">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                    <TitledBorder/>
+                  </Border>
+                </Property>
+                <Property name="name" type="java.lang.String" value="messageFooterContainer" noResource="true"/>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="footerScrollPane" alignment="1" pref="336" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="messageLengthTextField" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace pref="142" max="32767" attributes="0"/>
+                                  <Component id="footerSaveButton" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="footerClearButton" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="footerScrollPane" pref="237" max="32767" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="messageLengthTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="footerClearButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="footerSaveButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Container class="javax.swing.JScrollPane" name="footerScrollPane">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="footerScrollPane" noResource="true"/>
+                  </Properties>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                  <SubComponents>
+                    <Component class="javax.swing.JTextArea" name="messageFooterTextArea">
+                      <Properties>
+                        <Property name="columns" type="int" value="20"/>
+                        <Property name="font" type="java.awt.Font" resourceKey="messageFooterTextArea.font"/>
+                        <Property name="lineWrap" type="boolean" value="true"/>
+                        <Property name="rows" type="int" value="5"/>
+                        <Property name="tabSize" type="int" value="1"/>
+                        <Property name="wrapStyleWord" type="boolean" value="true"/>
+                        <Property name="name" type="java.lang.String" value="messageFooterTextArea" noResource="true"/>
+                      </Properties>
+                    </Component>
+                  </SubComponents>
+                </Container>
+                <Component class="javax.swing.JTextField" name="messageLengthTextField">
+                  <Properties>
+                    <Property name="columns" type="int" value="3"/>
+                    <Property name="editable" type="boolean" value="false"/>
+                    <Property name="text" type="java.lang.String" resourceKey="messageLengthTextField.text"/>
+                    <Property name="name" type="java.lang.String" value="messageLengthTextField" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="footerClearButton">
+                  <Properties>
+                    <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                      <action class="com.absolute.sms.views.SettingsDialog" id="clearMessageFooter" methodName="clearMessageFooter"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" resourceKey="footerClearButton.text"/>
+                    <Property name="name" type="java.lang.String" value="footerClearButton" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="footerSaveButton">
+                  <Properties>
+                    <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                      <action class="com.absolute.sms.views.SettingsDialog" id="saveMessageFooter" methodName="saveMessageFooter"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" resourceKey="footerSaveButton.text"/>
+                    <Property name="name" type="java.lang.String" value="footerSaveButton" noResource="true"/>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="callNotificationPanel">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="callNotificationPanel" noResource="true"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Call Notification">
+                <Property name="tabTitle" type="java.lang.String" resourceKey="callNotificationPanel.TabConstraints.tabTitle"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="callNotificationContainer" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="callNotificationContainer" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Container class="javax.swing.JPanel" name="callNotificationContainer">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                    <TitledBorder/>
+                  </Border>
+                </Property>
+                <Property name="name" type="java.lang.String" value="callNotificationContainer" noResource="true"/>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="callNotificationScrollPane" alignment="1" pref="336" max="32767" attributes="0"/>
+                              <Component id="enableMessageFooterForCallNotificationCheckbox" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="enableCallNotificationCheckbox" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="callNotificationLongMessageCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="callNotificationLengthTextField" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace pref="142" max="32767" attributes="0"/>
+                                  <Component id="callNotificationSaveButton" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="callNotificationClearButton" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="-2" max="-2" attributes="0"/>
+                          <Component id="enableCallNotificationCheckbox" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" max="-2" attributes="0"/>
+                          <Component id="callNotificationLongMessageCheckBox" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" max="-2" attributes="0"/>
+                          <Component id="enableMessageFooterForCallNotificationCheckbox" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="callNotificationScrollPane" pref="165" max="32767" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="callNotificationClearButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="callNotificationSaveButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="callNotificationLengthTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Container class="javax.swing.JScrollPane" name="callNotificationScrollPane">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="callNotificationScrollPane" noResource="true"/>
+                  </Properties>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                  <SubComponents>
+                    <Component class="javax.swing.JTextArea" name="callNotificationTextArea">
+                      <Properties>
+                        <Property name="columns" type="int" value="20"/>
+                        <Property name="font" type="java.awt.Font" resourceKey="callNotificationTextArea.font"/>
+                        <Property name="lineWrap" type="boolean" value="true"/>
+                        <Property name="rows" type="int" value="5"/>
+                        <Property name="tabSize" type="int" value="1"/>
+                        <Property name="wrapStyleWord" type="boolean" value="true"/>
+                        <Property name="name" type="java.lang.String" value="callNotificationTextArea" noResource="true"/>
+                      </Properties>
+                      <BindingProperties>
+                        <BindingProperty name="enabled" source="enableCallNotificationCheckbox" sourcePath="${selected}" target="callNotificationTextArea" targetPath="enabled" updateStrategy="1" immediately="false">
+                          <Property name="incompletePathValue" type="boolean" value="null"/>
+                        </BindingProperty>
+                      </BindingProperties>
+                    </Component>
+                  </SubComponents>
+                </Container>
+                <Component class="javax.swing.JTextField" name="callNotificationLengthTextField">
+                  <Properties>
+                    <Property name="columns" type="int" value="3"/>
+                    <Property name="editable" type="boolean" value="false"/>
+                    <Property name="text" type="java.lang.String" resourceKey="callNotificationLengthTextField.text"/>
+                    <Property name="name" type="java.lang.String" value="callNotificationLengthTextField" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="callNotificationSaveButton">
+                  <Properties>
+                    <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                      <action class="com.absolute.sms.views.SettingsDialog" id="saveCallNotification" methodName="saveCallNotification"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" resourceKey="callNotificationSaveButton.text"/>
+                    <Property name="name" type="java.lang.String" value="callNotificationSaveButton" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="callNotificationClearButton">
+                  <Properties>
+                    <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                      <action class="com.absolute.sms.views.SettingsDialog" id="clearCallNotification" methodName="clearCallNotification"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" resourceKey="callNotificationClearButton.text"/>
+                    <Property name="name" type="java.lang.String" value="callNotificationClearButton" noResource="true"/>
+                  </Properties>
+                  <BindingProperties>
+                    <BindingProperty name="enabled" source="enableCallNotificationCheckbox" sourcePath="${selected}" target="callNotificationClearButton" targetPath="enabled" updateStrategy="0" immediately="false"/>
+                  </BindingProperties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="callNotificationLongMessageCheckBox">
+                  <Properties>
+                    <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                      <action class="com.absolute.sms.views.SettingsDialog" id="changeCallNotificationLength" methodName="changeCallNotificationLength"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" resourceKey="callNotificationLongMessageCheckBox.text"/>
+                    <Property name="name" type="java.lang.String" value="callNotificationLongMessageCheckBox" noResource="true"/>
+                  </Properties>
+                  <BindingProperties>
+                    <BindingProperty name="enabled" source="enableCallNotificationCheckbox" sourcePath="${selected}" target="callNotificationLongMessageCheckBox" targetPath="enabled" updateStrategy="0" immediately="false"/>
+                  </BindingProperties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="enableCallNotificationCheckbox">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="enableCallNotificationCheckbox.text"/>
+                    <Property name="name" type="java.lang.String" value="enableCallNotificationCheckbox" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="enableMessageFooterForCallNotificationCheckbox">
+                  <Properties>
+                    <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                      <action class="com.absolute.sms.views.SettingsDialog" id="enableMessageFooterForCallNotificationAction" methodName="enableMessageFooterForCallNotificationAction"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" resourceKey="enableMessageFooterForCallNotificationCheckbox.text"/>
+                    <Property name="name" type="java.lang.String" value="enableMessageFooterForCallNotificationCheckbox" noResource="true"/>
+                  </Properties>
+                  <BindingProperties>
+                    <BindingProperty name="enabled" source="enableCallNotificationCheckbox" sourcePath="${selected}" target="enableMessageFooterForCallNotificationCheckbox" targetPath="enabled" updateStrategy="0" immediately="false"/>
+                  </BindingProperties>
+                </Component>
+              </SubComponents>
+            </Container>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="defaultMessagePanel">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="defaultMessagePanel" noResource="true"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Default Message">
+                <Property name="tabTitle" type="java.lang.String" resourceKey="defaultMessagePanel.TabConstraints.tabTitle"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="defaultMessageContainer" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="defaultMessageContainer" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Container class="javax.swing.JPanel" name="defaultMessageContainer">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                    <TitledBorder/>
+                  </Border>
+                </Property>
+                <Property name="name" type="java.lang.String" value="defaultMessageContainer" noResource="true"/>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="defaultMessageScrollPane" alignment="0" pref="336" max="32767" attributes="0"/>
+                              <Component id="enableMessageFooterForDefaultMessageCheckbox" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="defaultMessageLongMessageCheckbox" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="enableDefaultMessageCheckbox" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="defaultMessageLengthTextField" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace pref="142" max="32767" attributes="0"/>
+                                  <Component id="defaultMessageSaveButton" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="defaultMessageClearButton" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="enableDefaultMessageCheckbox" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" max="-2" attributes="0"/>
+                          <Component id="defaultMessageLongMessageCheckbox" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" max="-2" attributes="0"/>
+                          <Component id="enableMessageFooterForDefaultMessageCheckbox" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="defaultMessageScrollPane" pref="165" max="32767" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="defaultMessageSaveButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="defaultMessageClearButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="defaultMessageLengthTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Container class="javax.swing.JScrollPane" name="defaultMessageScrollPane">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="defaultMessageScrollPane" noResource="true"/>
+                  </Properties>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                  <SubComponents>
+                    <Component class="javax.swing.JTextArea" name="defaultMessageTextArea">
+                      <Properties>
+                        <Property name="columns" type="int" value="20"/>
+                        <Property name="font" type="java.awt.Font" resourceKey="defaultMessageTextArea.font"/>
+                        <Property name="lineWrap" type="boolean" value="true"/>
+                        <Property name="rows" type="int" value="5"/>
+                        <Property name="tabSize" type="int" value="1"/>
+                        <Property name="wrapStyleWord" type="boolean" value="true"/>
+                        <Property name="name" type="java.lang.String" value="defaultMessageTextArea" noResource="true"/>
+                      </Properties>
+                      <BindingProperties>
+                        <BindingProperty name="enabled" source="enableDefaultMessageCheckbox" sourcePath="${selected}" target="defaultMessageTextArea" targetPath="enabled" updateStrategy="0" immediately="false"/>
+                      </BindingProperties>
+                    </Component>
+                  </SubComponents>
+                </Container>
+                <Component class="javax.swing.JTextField" name="defaultMessageLengthTextField">
+                  <Properties>
+                    <Property name="columns" type="int" value="3"/>
+                    <Property name="editable" type="boolean" value="false"/>
+                    <Property name="text" type="java.lang.String" resourceKey="defaultMessageLengthTextField.text"/>
+                    <Property name="name" type="java.lang.String" value="defaultMessageLengthTextField" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="defaultMessageSaveButton">
+                  <Properties>
+                    <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                      <action class="com.absolute.sms.views.SettingsDialog" id="saveDefaultMessage" methodName="saveDefaultMessage"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" resourceKey="defaultMessageSaveButton.text"/>
+                    <Property name="name" type="java.lang.String" value="defaultMessageSaveButton" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="defaultMessageClearButton">
+                  <Properties>
+                    <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                      <action class="com.absolute.sms.views.SettingsDialog" id="clearDefaultMessage" methodName="clearDefaultMessage"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" resourceKey="defaultMessageClearButton.text"/>
+                    <Property name="name" type="java.lang.String" value="defaultMessageClearButton" noResource="true"/>
+                  </Properties>
+                  <BindingProperties>
+                    <BindingProperty name="enabled" source="enableDefaultMessageCheckbox" sourcePath="${selected}" target="defaultMessageClearButton" targetPath="enabled" updateStrategy="0" immediately="false"/>
+                  </BindingProperties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="enableDefaultMessageCheckbox">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="enableDefaultMessageCheckbox.text"/>
+                    <Property name="name" type="java.lang.String" value="enableDefaultMessageCheckbox" noResource="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="defaultMessageLongMessageCheckbox">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="defaultMessageLongMessageCheckbox.text"/>
+                    <Property name="name" type="java.lang.String" value="defaultMessageLongMessageCheckbox" noResource="true"/>
+                  </Properties>
+                  <BindingProperties>
+                    <BindingProperty name="enabled" source="enableDefaultMessageCheckbox" sourcePath="${selected}" target="defaultMessageLongMessageCheckbox" targetPath="enabled" updateStrategy="0" immediately="false"/>
+                  </BindingProperties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="enableMessageFooterForDefaultMessageCheckbox">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="enableMessageFooterForDefaultMessageCheckbox.text"/>
+                    <Property name="name" type="java.lang.String" value="enableMessageFooterForDefaultMessageCheckbox" noResource="true"/>
+                  </Properties>
+                  <BindingProperties>
+                    <BindingProperty name="enabled" source="enableDefaultMessageCheckbox" sourcePath="${selected}" target="enableMessageFooterForDefaultMessageCheckbox" targetPath="enabled" updateStrategy="0" immediately="false"/>
+                  </BindingProperties>
+                </Component>
+              </SubComponents>
+            </Container>
+          </SubComponents>
+        </Container>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>

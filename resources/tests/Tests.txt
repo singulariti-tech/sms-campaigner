@@ -1,0 +1,4 @@
+Tests
+----------------------
+1. sqlite test for values containing '. Are they stored as is or do they need to be escaped.
+2. 
