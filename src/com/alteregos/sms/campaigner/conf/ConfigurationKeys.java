@@ -25,7 +25,7 @@ public enum ConfigurationKeys {
     DEFAULT_MESSAGE("DEFAULT-MESSAGE", "Enter custom message"),
     GATEWAY_PORT_NUMBER("GATEWAY-PORT-NUMBER", "49152"),
     GATEWAY_AUTO_START("GATEWAY-AUTO-START", "true"),
-    LOOK_AND_FEEL("LOOK-AND-FEEL", LookAndFeel.CREME.getClassName());
+    LOOK_AND_FEEL("LOOK-AND-FEEL", LookAndFeel.BUSINESS_BLUE_STEEL.getClassName());
     /**
      * 
      */

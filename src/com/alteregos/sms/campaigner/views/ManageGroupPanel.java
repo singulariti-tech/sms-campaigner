@@ -13,16 +13,19 @@ import javax.persistence.RollbackException;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 import javax.swing.table.DefaultTableModel;
+import net.miginfocom.swing.MigLayout;
 import org.apache.log4j.Logger;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.Task;
 
 /**
- * 
+ *
  * @author  John Emmanuel
  */
 public class ManageGroupPanel extends javax.swing.JPanel {
+
+    private static final long serialVersionUID = 1L;
 
     /** Creates new form ManageGroupPanel */
     public ManageGroupPanel() {
@@ -56,7 +59,7 @@ public class ManageGroupPanel extends javax.swing.JPanel {
     //</editor-fold>
 
     /**
-     * 
+     *
      */
     //<editor-fold defaultstate="collapsed" desc="Dependencies">
     private void initialize() {
@@ -190,7 +193,6 @@ public class ManageGroupPanel extends javax.swing.JPanel {
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("absolute-smsPU").createEntityManager();
         smsgroupQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT s FROM Smsgroup s");
         smsgroupList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(smsgroupQuery.getResultList());
-        borderContainer = new javax.swing.JPanel();
         groupLabel = new javax.swing.JLabel();
         contactsScrollPane = new javax.swing.JScrollPane();
         contactsTable = new javax.swing.JTable();
@@ -202,8 +204,8 @@ public class ManageGroupPanel extends javax.swing.JPanel {
         setName("Form"); // NOI18N
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(com.alteregos.sms.campaigner.Main.class).getContext().getResourceMap(ManageGroupPanel.class);
-        borderContainer.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("borderContainer.border.title"))); // NOI18N
-        borderContainer.setName("borderContainer"); // NOI18N
+        this.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("borderContainer.border.title"))); // NOI18N
+        this.setName("borderContainer"); // NOI18N
 
         groupLabel.setText(resourceMap.getString("groupLabel.text")); // NOI18N
         groupLabel.setName("groupLabel"); // NOI18N
@@ -256,25 +258,17 @@ public class ManageGroupPanel extends javax.swing.JPanel {
         deleteGroupsButton.setAction(actionMap.get("deleteGroupAction")); // NOI18N
         deleteGroupsButton.setName("deleteGroupsButton"); // NOI18N
 
-        javax.swing.GroupLayout borderContainerLayout = new javax.swing.GroupLayout(borderContainer);
-        borderContainer.setLayout(borderContainerLayout);
-        borderContainerLayout.setHorizontalGroup(
-                borderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(borderContainerLayout.createSequentialGroup().addContainerGap().addGroup(borderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(borderContainerLayout.createSequentialGroup().addComponent(groupLabel).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(groupsComboBox, 0, 415, Short.MAX_VALUE)).addComponent(contactsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, borderContainerLayout.createSequentialGroup().addComponent(deleteGroupsButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(addContactsButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(deleteContactsButton))).addContainerGap()));
-        borderContainerLayout.setVerticalGroup(
-                borderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(borderContainerLayout.createSequentialGroup().addContainerGap().addGroup(borderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(groupLabel).addComponent(groupsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(contactsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(borderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(deleteContactsButton).addComponent(addContactsButton).addComponent(deleteGroupsButton)).addContainerGap()));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(borderContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(borderContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
+        this.setLayout(new MigLayout("fill, insets panel", "[][grow][]", "[][grow][]"));
+        this.add(groupLabel);
+        this.add(groupsComboBox, "grow, push, wrap");
+        this.add(contactsScrollPane, "spanx 3, grow, push, wrap");
+        this.add(deleteGroupsButton, "spanx 3, split 3, right, gapafter 10");
+        this.add(addContactsButton);
+        this.add(deleteContactsButton);
 
         bindingGroup.bind();
     }
-    
     private javax.swing.JButton addContactsButton;
-    private javax.swing.JPanel borderContainer;
     private javax.swing.JScrollPane contactsScrollPane;
     private javax.swing.JTable contactsTable;
     private javax.swing.JButton deleteContactsButton;
@@ -285,7 +279,6 @@ public class ManageGroupPanel extends javax.swing.JPanel {
     private java.util.List<com.alteregos.sms.campaigner.data.beans.Smsgroup> smsgroupList;
     private javax.persistence.Query smsgroupQuery;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-
     private static Logger log = LoggerHelper.getLogger();
     private DefaultListCellRenderer defaultListCellRenderer;
 }

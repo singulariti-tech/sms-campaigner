@@ -106,8 +106,7 @@ public class InboxPanel extends javax.swing.JPanel {
 
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("absolute-smsPU").createEntityManager();
         inboxQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT i FROM Inbox i");
-        inboxList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(inboxQuery.getResultList());
-        inboxPanel = new javax.swing.JPanel(new MigLayout("debug, fill, insets panel"));
+        inboxList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(inboxQuery.getResultList());        
         inboxScrollPane = new javax.swing.JScrollPane();
         inboxTable = new javax.swing.JTable();
         startDateLabel = new javax.swing.JLabel();
@@ -121,8 +120,8 @@ public class InboxPanel extends javax.swing.JPanel {
 
         Main application = org.jdesktop.application.Application.getInstance(com.alteregos.sms.campaigner.Main.class);
         ResourceMap resourceMap = application.getContext().getResourceMap(InboxPanel.class);
-        inboxPanel.setBorder(BorderFactory.createTitledBorder(resourceMap.getString("inboxPanel.border.title"))); // NOI18N
-        inboxPanel.setName("inboxPanel"); // NOI18N
+        this.setBorder(BorderFactory.createTitledBorder(resourceMap.getString("inboxPanel.border.title"))); // NOI18N
+        this.setName("inboxPanel"); // NOI18N
 
         inboxScrollPane.setName("inboxScrollPane"); // NOI18N
 
@@ -168,18 +167,17 @@ public class InboxPanel extends javax.swing.JPanel {
         startDateField.setPreferredSize(dimension);
         endDateField.setPreferredSize(dimension);
 
-        inboxPanel.add(startDateLabel, "width min!");
-        inboxPanel.add(startDateField, "gapright 20");
-        inboxPanel.add(endDateLabel, "width min!");
-        inboxPanel.add(endDateField, "gapright 40");
-        inboxPanel.add(filterButton, "wrap");
+        this.setLayout(new MigLayout("insets panel", "[min!][grow,push]30[min!][grow,push]30[min!]", "[min!][][]"));
 
-        inboxPanel.add(inboxScrollPane, "spanx 5, grow, push, wrap");
-        inboxPanel.add(refreshButton, "spanx 5, right");
+        this.add(startDateLabel);
+        this.add(startDateField, "grow, push");
+        this.add(endDateLabel);
+        this.add(endDateField, "grow, push");
+        this.add(filterButton, "wrap");
 
-        this.setLayout(new MigLayout("debug, fill, insets panel"));
-        this.add(inboxPanel, "grow");
-        
+        this.add(inboxScrollPane, "spanx 5, grow, push, wrap");
+        this.add(refreshButton, "spanx 5, right");
+
         bindingGroup.bind();
     }
     private JXDatePicker endDateField;
@@ -187,7 +185,6 @@ public class InboxPanel extends javax.swing.JPanel {
     private javax.persistence.EntityManager entityManager;
     private javax.swing.JButton filterButton;
     private java.util.List<com.alteregos.sms.campaigner.data.beans.Inbox> inboxList;
-    private javax.swing.JPanel inboxPanel;
     private javax.persistence.Query inboxQuery;
     private javax.swing.JScrollPane inboxScrollPane;
     private javax.swing.JTable inboxTable;

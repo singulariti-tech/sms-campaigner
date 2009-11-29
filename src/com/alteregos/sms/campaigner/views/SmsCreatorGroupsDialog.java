@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import net.miginfocom.swing.MigLayout;
 import org.jdesktop.application.Action;
 
 /**
@@ -15,7 +16,12 @@ import org.jdesktop.application.Action;
  */
 public class SmsCreatorGroupsDialog extends javax.swing.JDialog {
 
-    /** Creates new form SmsCreatorGroupsDialog */
+    private static final long serialVersionUID = 1L;
+
+    /** Creates new form SmsCreatorGroupsDialog
+     * @param parent
+     * @param modal
+     */
     public SmsCreatorGroupsDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -88,7 +94,6 @@ public class SmsCreatorGroupsDialog extends javax.swing.JDialog {
         this.dispose();
     }
 
-
     @SuppressWarnings("unchecked")
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
@@ -133,25 +138,18 @@ public class SmsCreatorGroupsDialog extends javax.swing.JDialog {
         closeButton.setText(resourceMap.getString("closeButton.text")); // NOI18N
         closeButton.setName("closeButton"); // NOI18N
 
-        javax.swing.GroupLayout borderContainerLayout = new javax.swing.GroupLayout(borderContainer);
-        borderContainer.setLayout(borderContainerLayout);
-        borderContainerLayout.setHorizontalGroup(
-                borderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(borderContainerLayout.createSequentialGroup().addContainerGap().addGroup(borderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(groupsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, borderContainerLayout.createSequentialGroup().addComponent(addRecepientsButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(closeButton))).addContainerGap()));
-        borderContainerLayout.setVerticalGroup(
-                borderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(borderContainerLayout.createSequentialGroup().addContainerGap().addComponent(groupsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(borderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(closeButton).addComponent(addRecepientsButton)).addGap(14, 14, 14)));
+        this.setLayout(new MigLayout("fill, insets dialog"));
+        this.add(borderContainer);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(borderContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(borderContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
+        borderContainer.setLayout(new MigLayout("fill, insets panel"));
+        borderContainer.add(groupsScrollPane, "wrap");
+        borderContainer.add(addRecepientsButton, "split 2, right");
+        borderContainer.add(closeButton);
 
         bindingGroup.bind();
 
         pack();
     }
-
     private javax.swing.JButton addRecepientsButton;
     private javax.swing.JPanel borderContainer;
     private javax.swing.JButton closeButton;
@@ -161,7 +159,6 @@ public class SmsCreatorGroupsDialog extends javax.swing.JDialog {
     private java.util.List<com.alteregos.sms.campaigner.data.beans.Smsgroup> smsgroupList;
     private javax.persistence.Query smsgroupQuery;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    
     private SmsSenderPanel panel;
     private List<String> recepients;
 }

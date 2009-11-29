@@ -14,8 +14,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.table.TableColumn;
+import net.miginfocom.swing.MigLayout;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
+import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.Task;
 import org.jdesktop.swingx.JXDatePicker;
 
@@ -24,6 +26,8 @@ import org.jdesktop.swingx.JXDatePicker;
  * @author  John Emmanuel
  */
 public class OutboxPanel extends javax.swing.JPanel {
+
+    private static final long serialVersionUID = 1L;
 
     /** Creates new form OutboxPanel */
     public OutboxPanel() {
@@ -52,8 +56,7 @@ public class OutboxPanel extends javax.swing.JPanel {
             String actualType = OutboundSmsType.getType(sms.getType()).getMessage();
             boolean isCreatedDateBeforeStartDate = sms.getCreatedDate().before(startDate);
             boolean isCreatedDateAfterEndDate = sms.getCreatedDate().after(endDate);
-            if (!actualPriority.equals(priority) || !actualStatus.endsWith(status) || !actualType.equals(smsType)
-                    || isCreatedDateBeforeStartDate || isCreatedDateAfterEndDate) {
+            if (!actualPriority.equals(priority) || !actualStatus.endsWith(status) || !actualType.equals(smsType) || isCreatedDateBeforeStartDate || isCreatedDateAfterEndDate) {
                 filteredOutboxList.add(sms);
             }
         }
@@ -141,7 +144,6 @@ public class OutboxPanel extends javax.swing.JPanel {
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("absolute-smsPU").createEntityManager();
         outboxQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT o FROM Outbox o");
         outboxList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(outboxQuery.getResultList());
-        outboxPanel = new javax.swing.JPanel();
         resendButton = new javax.swing.JButton();
         priorityLabel = new javax.swing.JLabel();
         priorityComboBox = new javax.swing.JComboBox();
@@ -160,11 +162,11 @@ public class OutboxPanel extends javax.swing.JPanel {
 
         setName("Form"); // NOI18N
 
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(com.alteregos.sms.campaigner.Main.class).getContext().getResourceMap(OutboxPanel.class);
-        outboxPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("outboxPanel.border.title"))); // NOI18N
-        outboxPanel.setName("outboxPanel"); // NOI18N
+        ResourceMap resourceMap = Application.getInstance(com.alteregos.sms.campaigner.Main.class).getContext().getResourceMap(OutboxPanel.class);
+        this.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("outboxPanel.border.title"))); // NOI18N
+        this.setName("outboxPanel"); // NOI18N
 
-        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(com.alteregos.sms.campaigner.Main.class).getContext().getActionMap(OutboxPanel.class, this);
+        javax.swing.ActionMap actionMap = Application.getInstance(com.alteregos.sms.campaigner.Main.class).getContext().getActionMap(OutboxPanel.class, this);
         resendButton.setAction(actionMap.get("resendAction")); // NOI18N
         resendButton.setText(resourceMap.getString("resendButton.text")); // NOI18N
         resendButton.setName("resendButton"); // NOI18N
@@ -241,24 +243,21 @@ public class OutboxPanel extends javax.swing.JPanel {
 
         endDateField.setName("endDateField"); // NOI18N
 
-        javax.swing.GroupLayout outboxPanelLayout = new javax.swing.GroupLayout(outboxPanel);
-        outboxPanel.setLayout(outboxPanelLayout);
-        outboxPanelLayout.setHorizontalGroup(
-                outboxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(outboxPanelLayout.createSequentialGroup().addContainerGap().addGroup(outboxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(outboxPanelLayout.createSequentialGroup().addGroup(outboxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(priorityLabel).addComponent(startDateLabel)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(outboxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(startDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(priorityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)).addGap(18, 18, 18).addGroup(outboxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(endDateLabel).addComponent(statusLabel)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(outboxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(statusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(endDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(outboxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addGroup(outboxPanelLayout.createSequentialGroup().addComponent(typeLabel).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(typeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addComponent(filterButton))).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, outboxPanelLayout.createSequentialGroup().addComponent(resendButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(refreshButton)).addComponent(outboxScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)).addContainerGap()));
-
-        outboxPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[]{endDateField, filterButton, statusComboBox, typeComboBox});
-
-        outboxPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[]{priorityComboBox, startDateField});
-
-        outboxPanelLayout.setVerticalGroup(
-                outboxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, outboxPanelLayout.createSequentialGroup().addContainerGap().addGroup(outboxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(outboxPanelLayout.createSequentialGroup().addGroup(outboxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER).addComponent(priorityLabel).addComponent(statusLabel).addComponent(priorityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(statusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(outboxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER).addComponent(startDateLabel).addComponent(startDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(endDateLabel).addComponent(endDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))).addGroup(outboxPanelLayout.createSequentialGroup().addGroup(outboxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER).addComponent(typeLabel).addComponent(typeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(filterButton))).addGap(29, 29, 29).addComponent(outboxScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(outboxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(refreshButton).addComponent(resendButton)).addGap(12, 12, 12)));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(outboxPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(outboxPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
+        this.setLayout(new MigLayout("fill, insets panel", "[min!][][min!][][min!][]", "[min!][min!][grow][min!]"));
+        this.add(priorityLabel);
+        this.add(priorityComboBox, "grow");
+        this.add(statusLabel);
+        this.add(statusComboBox, "grow");
+        this.add(typeLabel);
+        this.add(typeComboBox, "grow, wrap");
+        this.add(startDateLabel);
+        this.add(startDateField, "grow");
+        this.add(endDateLabel);
+        this.add(endDateField, "grow");
+        this.add(filterButton, "skip 1, wrap");
+        this.add(outboxScrollPane, "spanx 6, grow, wrap");
+        this.add(resendButton, "spanx 6, split 2, right");
+        this.add(refreshButton);
 
         bindingGroup.bind();
     }
@@ -267,7 +266,6 @@ public class OutboxPanel extends javax.swing.JPanel {
     private javax.persistence.EntityManager entityManager;
     private javax.swing.JButton filterButton;
     private java.util.List<com.alteregos.sms.campaigner.data.beans.Outbox> outboxList;
-    private javax.swing.JPanel outboxPanel;
     private javax.persistence.Query outboxQuery;
     private javax.swing.JScrollPane outboxScrollPane;
     private javax.swing.JTable outboxTable;

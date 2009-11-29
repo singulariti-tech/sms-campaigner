@@ -130,7 +130,6 @@ public class CallsPanel extends javax.swing.JPanel {
         callsPanel.setName("callsPanel"); // NOI18N
 
         callsScrollPane.setName("callsSrollPane"); // NOI18N
-
         callsTable.setName("callsTable"); // NOI18N
 
         JTableBinding jTableBinding = SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, callsList, callsTable);
@@ -164,7 +163,7 @@ public class CallsPanel extends javax.swing.JPanel {
         refreshButton.setText(resourceMap.getString("refreshButton.text")); // NOI18N
         refreshButton.setName("refreshButton"); // NOI18N
 
-        this.setLayout(new MigLayout("fill, insets 20 20"));
+        this.setLayout(new MigLayout("insets panel", "[min!][grow,push]30[min!][grow,push]30[min!]", "[min!][][]"));
         this.setBorder(javax.swing.BorderFactory.createTitledBorder("Calls Panel"));
 
         callsScrollPane.setViewportView(callsTable);
@@ -172,11 +171,11 @@ public class CallsPanel extends javax.swing.JPanel {
         startDateField.setPreferredSize(dimension);
         endDateField.setPreferredSize(dimension);
 
-        this.add(receiptStartDateLabel, "");
-        this.add(startDateField, "gapright 20");
-        this.add(receiptEndDateLabel, "");
-        this.add(endDateField, "");
-        this.add(filterButton, "gapright 40, push, wrap");
+        this.add(receiptStartDateLabel);
+        this.add(startDateField, "growx, push");
+        this.add(receiptEndDateLabel);
+        this.add(endDateField, "growx, push");
+        this.add(filterButton, "wrap");
         this.add(callsScrollPane, "spanx 5, grow, push, wrap");
         this.add(refreshButton, "skip 4, align right");
 

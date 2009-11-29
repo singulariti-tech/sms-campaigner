@@ -164,7 +164,7 @@ public class DndPanel extends javax.swing.JPanel {
         filterButton.setText(resourceMap.getString("filterButton.text")); // NOI18N
         filterButton.setName("filterButton"); // NOI18N
 
-        this.setLayout(new MigLayout("fill, insets 20 20"));
+        this.setLayout(new MigLayout("insets panel", "[min!][grow,push]30[min!][grow,push]30[min!]", "[min!][][]"));
         this.setBorder(javax.swing.BorderFactory.createTitledBorder("DND Registrations"));
 
         dndScrollPane.setViewportView(dndTable);
@@ -172,13 +172,13 @@ public class DndPanel extends javax.swing.JPanel {
         startDateField.setPreferredSize(dimension);
         endDateField.setPreferredSize(dimension);
 
-        this.add(startDateLabel, "");
-        this.add(startDateField, "gapright 20");
-        this.add(endDateLabel, "");
-        this.add(endDateField, "gapright 40");
-        this.add(filterButton, "push, wrap");
+        this.add(startDateLabel);
+        this.add(startDateField, "grow, push");
+        this.add(endDateLabel);
+        this.add(endDateField, "grow, push");
+        this.add(filterButton, "wrap");
         this.add(dndScrollPane, "spanx 5, grow, push, wrap");
-        this.add(refreshButton, "skip 4, align right");
+        this.add(refreshButton, "spanx 5, right");
 
         bindingGroup.bind();
     }

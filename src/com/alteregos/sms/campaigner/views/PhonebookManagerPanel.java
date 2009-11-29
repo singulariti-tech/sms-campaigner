@@ -5,6 +5,7 @@ import com.alteregos.sms.campaigner.data.beans.Phonebook;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.RollbackException;
+import net.miginfocom.swing.MigLayout;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Task;
 import org.jdesktop.observablecollections.ObservableCollections;
@@ -14,6 +15,8 @@ import org.jdesktop.observablecollections.ObservableCollections;
  * @author  John Emmanuel
  */
 public class PhonebookManagerPanel extends javax.swing.JPanel {
+
+    private static final long serialVersionUID = 1L;
 
     /** Creates new form PhonebookManagerPanel */
     public PhonebookManagerPanel() {
@@ -39,7 +42,7 @@ public class PhonebookManagerPanel extends javax.swing.JPanel {
     //</editor-fold>
 
     /**
-     * 
+     *
      */
     //<editor-fold defaultstate="collapsed" desc="Dependencies">
     private void init() {
@@ -183,7 +186,6 @@ public class PhonebookManagerPanel extends javax.swing.JPanel {
     }
     //</editor-fold>
 
-
     @SuppressWarnings("unchecked")
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
@@ -191,8 +193,7 @@ public class PhonebookManagerPanel extends javax.swing.JPanel {
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("absolute-smsPU").createEntityManager();
         phonebookQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT p FROM Phonebook p");
         phonebookList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(phonebookQuery.getResultList());
-        phoneBookManagerContainer = new javax.swing.JPanel();
-        masterScrollPane = new javax.swing.JScrollPane();
+        phoneBookScrollPane = new javax.swing.JScrollPane();
         phoneBookTable = new javax.swing.JTable();
         nameLabel = new javax.swing.JLabel();
         nameTextField = new javax.swing.JTextField();
@@ -210,10 +211,10 @@ public class PhonebookManagerPanel extends javax.swing.JPanel {
         setName("Form"); // NOI18N
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(com.alteregos.sms.campaigner.Main.class).getContext().getResourceMap(PhonebookManagerPanel.class);
-        phoneBookManagerContainer.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("phoneBookManagerContainer.border.title"))); // NOI18N
-        phoneBookManagerContainer.setName("phoneBookManagerContainer"); // NOI18N
+        this.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("phoneBookManagerContainer.border.title"))); // NOI18N
+        this.setName("phoneBookManagerContainer"); // NOI18N
 
-        masterScrollPane.setName("masterScrollPane"); // NOI18N
+        phoneBookScrollPane.setName("masterScrollPane"); // NOI18N
 
         phoneBookTable.setName("phoneBookTable"); // NOI18N
 
@@ -232,7 +233,7 @@ public class PhonebookManagerPanel extends javax.swing.JPanel {
         columnBinding.setColumnClass(String.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
-        masterScrollPane.setViewportView(phoneBookTable);
+        phoneBookScrollPane.setViewportView(phoneBookTable);
         phoneBookTable.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("phoneBookTable.columnModel.title0")); // NOI18N
         phoneBookTable.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("phoneBookTable.columnModel.title1")); // NOI18N
         phoneBookTable.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("phoneBookTable.columnModel.title2")); // NOI18N
@@ -308,23 +309,22 @@ public class PhonebookManagerPanel extends javax.swing.JPanel {
 
         addressScrollPane.setViewportView(addressTextArea);
 
-        javax.swing.GroupLayout phoneBookManagerContainerLayout = new javax.swing.GroupLayout(phoneBookManagerContainer);
-        phoneBookManagerContainer.setLayout(phoneBookManagerContainerLayout);
-        phoneBookManagerContainerLayout.setHorizontalGroup(
-                phoneBookManagerContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(phoneBookManagerContainerLayout.createSequentialGroup().addContainerGap().addGroup(phoneBookManagerContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE).addGroup(phoneBookManagerContainerLayout.createSequentialGroup().addGroup(phoneBookManagerContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(mobileNoLabel).addComponent(emailLabel).addComponent(nameLabel)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(phoneBookManagerContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(nameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE).addComponent(emailTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE).addComponent(mobileNoTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE))).addGroup(phoneBookManagerContainerLayout.createSequentialGroup().addComponent(addressLabel).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(phoneBookManagerContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, phoneBookManagerContainerLayout.createSequentialGroup().addComponent(saveButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(deleteButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(refreshButton)).addComponent(addressScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)))).addContainerGap()));
-        phoneBookManagerContainerLayout.setVerticalGroup(
-                phoneBookManagerContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(phoneBookManagerContainerLayout.createSequentialGroup().addComponent(masterScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(phoneBookManagerContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(nameLabel).addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(phoneBookManagerContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(mobileNoLabel).addComponent(mobileNoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(phoneBookManagerContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(emailLabel).addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(phoneBookManagerContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(addressLabel).addComponent(addressScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(phoneBookManagerContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(saveButton).addComponent(refreshButton).addComponent(deleteButton)).addGap(11, 11, 11)));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(phoneBookManagerContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(phoneBookManagerContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
+        this.setLayout(new MigLayout("fill, insets panel", "[min!][grow][]", "[grow][min!][min!][min!][][min!]"));
+        this.add(phoneBookScrollPane, "spanx 3, grow, push, wrap");
+        this.add(nameLabel);
+        this.add(nameTextField, "spanx 2, grow, wrap");
+        this.add(mobileNoLabel);
+        this.add(mobileNoTextField, "spanx 2, grow, wrap");
+        this.add(emailLabel);
+        this.add(emailTextField, "spanx 2, grow, wrap");
+        this.add(addressLabel, "top");
+        this.add(addressScrollPane, "spanx 2, grow, height 100!, wrap");
+        this.add(saveButton, "spanx 3, split 3, right");
+        this.add(deleteButton);
+        this.add(refreshButton);
 
         bindingGroup.bind();
     }
-    
     private javax.swing.JLabel addressLabel;
     private javax.swing.JScrollPane addressScrollPane;
     private javax.swing.JTextArea addressTextArea;
@@ -332,12 +332,11 @@ public class PhonebookManagerPanel extends javax.swing.JPanel {
     private javax.swing.JLabel emailLabel;
     private javax.swing.JTextField emailTextField;
     private javax.persistence.EntityManager entityManager;
-    private javax.swing.JScrollPane masterScrollPane;
+    private javax.swing.JScrollPane phoneBookScrollPane;
     private javax.swing.JLabel mobileNoLabel;
     private javax.swing.JTextField mobileNoTextField;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField nameTextField;
-    private javax.swing.JPanel phoneBookManagerContainer;
     private javax.swing.JTable phoneBookTable;
     private java.util.List<com.alteregos.sms.campaigner.data.beans.Phonebook> phonebookList;
     private javax.persistence.Query phonebookQuery;

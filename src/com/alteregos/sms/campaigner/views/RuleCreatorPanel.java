@@ -15,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
 import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
+import net.miginfocom.swing.MigLayout;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.Task;
@@ -24,6 +25,8 @@ import org.jdesktop.application.Task;
  * @author  John Emmanuel
  */
 public class RuleCreatorPanel extends javax.swing.JPanel {
+
+    private static final long serialVersionUID = 1L;
 
     /** Creates new form RuleCreatorPanel */
     public RuleCreatorPanel() {
@@ -66,9 +69,9 @@ public class RuleCreatorPanel extends javax.swing.JPanel {
 
     //</editor-fold>
     /**
-     * 
+     *
      */
-    //<editor-fold defaultstate="collapsed" desc="Dependencies"> 
+    //<editor-fold defaultstate="collapsed" desc="Dependencies">
     private class SaveRuleActionTask extends Task<Object, Void> {
 
         public SaveRuleActionTask(Application arg0) {
@@ -116,8 +119,6 @@ public class RuleCreatorPanel extends javax.swing.JPanel {
 
     @SuppressWarnings("unchecked")
     private void initComponents() {
-
-        rulesCreatorPanel = new javax.swing.JPanel();
         primaryKeywordLabel = new javax.swing.JLabel();
         primaryKeywordTextField = new javax.swing.JTextField();
         secondaryKeywordLabel = new javax.swing.JLabel();
@@ -133,8 +134,8 @@ public class RuleCreatorPanel extends javax.swing.JPanel {
         setName("Form"); // NOI18N
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(com.alteregos.sms.campaigner.Main.class).getContext().getResourceMap(RuleCreatorPanel.class);
-        rulesCreatorPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("rulesCreatorPanel.border.title"))); // NOI18N
-        rulesCreatorPanel.setName("rulesCreatorPanel"); // NOI18N
+        this.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("rulesCreatorPanel.border.title"))); // NOI18N
+        this.setName("rulesCreatorPanel"); // NOI18N
 
         primaryKeywordLabel.setText(resourceMap.getString("primaryKeywordLabel.text")); // NOI18N
         primaryKeywordLabel.setName("primaryKeywordLabel"); // NOI18N
@@ -179,21 +180,18 @@ public class RuleCreatorPanel extends javax.swing.JPanel {
         saveButton.setText(resourceMap.getString("saveButton.text")); // NOI18N
         saveButton.setName("saveButton"); // NOI18N
 
-        javax.swing.GroupLayout rulesCreatorPanelLayout = new javax.swing.GroupLayout(rulesCreatorPanel);
-        rulesCreatorPanel.setLayout(rulesCreatorPanelLayout);
-        rulesCreatorPanelLayout.setHorizontalGroup(
-                rulesCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(rulesCreatorPanelLayout.createSequentialGroup().addContainerGap().addGroup(rulesCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(messageScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE).addGroup(rulesCreatorPanelLayout.createSequentialGroup().addGroup(rulesCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(primaryKeywordLabel).addComponent(secondaryKeywordLabel)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(rulesCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(secondaryKeywordTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE).addComponent(primaryKeywordTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE))).addComponent(messageLabel).addGroup(rulesCreatorPanelLayout.createSequentialGroup().addComponent(messageLengthTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE).addComponent(enableRuleCheckbox).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(saveButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(clearButton))).addContainerGap()));
-        rulesCreatorPanelLayout.setVerticalGroup(
-                rulesCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(rulesCreatorPanelLayout.createSequentialGroup().addContainerGap().addGroup(rulesCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(primaryKeywordLabel).addComponent(primaryKeywordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(rulesCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(secondaryKeywordLabel).addComponent(secondaryKeywordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(messageLabel).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(messageScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(rulesCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(messageLengthTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(clearButton).addComponent(saveButton).addComponent(enableRuleCheckbox)).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(rulesCreatorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(rulesCreatorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
+        this.setLayout(new MigLayout("fill, insets panel", "[min!][grow]", "[min!][min!][min!][grow][min!]"));
+        this.add(primaryKeywordLabel);
+        this.add(primaryKeywordTextField, "grow, wrap");
+        this.add(secondaryKeywordLabel);
+        this.add(secondaryKeywordTextField, "grow, wrap");
+        this.add(messageLabel, "wrap");
+        this.add(messageScrollPane, "spanx 2, grow, wrap");
+        this.add(messageLengthTextField, "push");
+        this.add(enableRuleCheckbox, "split 3, right");
+        this.add(saveButton);
+        this.add(clearButton);
     }
-    
     private javax.swing.JButton clearButton;
     private javax.swing.JCheckBox enableRuleCheckbox;
     private javax.swing.JLabel messageLabel;
@@ -202,11 +200,9 @@ public class RuleCreatorPanel extends javax.swing.JPanel {
     private javax.swing.JTextArea messageTextArea;
     private javax.swing.JLabel primaryKeywordLabel;
     private javax.swing.JTextField primaryKeywordTextField;
-    private javax.swing.JPanel rulesCreatorPanel;
     private javax.swing.JButton saveButton;
     private javax.swing.JLabel secondaryKeywordLabel;
     private javax.swing.JTextField secondaryKeywordTextField;
-
     private EntityManager entityManager;
     private Rule rule;
     private RuleValidator validator;

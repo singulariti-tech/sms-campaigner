@@ -12,12 +12,15 @@ import org.jdesktop.application.TaskMonitor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
 import javax.swing.ButtonGroup;
 import javax.swing.Timer;
 import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import net.miginfocom.swing.MigLayout;
 import org.apache.log4j.Logger;
+import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
 
 /**
@@ -404,7 +407,6 @@ public class MainView extends FrameView {
     }
 
     public void showManageGroups() {
-        //Added by V.Amar on 09-05-2008
         ManageGroupPanel manageGroupPanel = new ManageGroupPanel();
         setComponent(manageGroupPanel);
         getApplication().show(this);
@@ -414,7 +416,7 @@ public class MainView extends FrameView {
     @SuppressWarnings("unchecked")
     private void initComponents() {
 
-        mainPanel = new javax.swing.JPanel();
+
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         newMenu = new javax.swing.JMenu();
@@ -474,19 +476,9 @@ public class MainView extends FrameView {
         toolbarSeparator6 = new javax.swing.JToolBar.Separator();
         productLogoLabel = new javax.swing.JLabel();
 
-        mainPanel.setName("mainPanel"); // NOI18N
-        mainPanel.setPreferredSize(new java.awt.Dimension(800, 550));
-
-        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
-        mainPanel.setLayout(mainPanelLayout);
-        mainPanelLayout.setHorizontalGroup(
-                mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 800, Short.MAX_VALUE));
-        mainPanelLayout.setVerticalGroup(
-                mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 523, Short.MAX_VALUE));
-
         menuBar.setName("menuBar"); // NOI18N
 
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(com.alteregos.sms.campaigner.Main.class).getContext().getResourceMap(MainView.class);
+        ResourceMap resourceMap = Application.getInstance(com.alteregos.sms.campaigner.Main.class).getContext().getResourceMap(MainView.class);
         fileMenu.setText(resourceMap.getString("fileMenu.text")); // NOI18N
         fileMenu.setName("fileMenu"); // NOI18N
 
@@ -494,7 +486,7 @@ public class MainView extends FrameView {
         newMenu.setText(resourceMap.getString("newMenu.text")); // NOI18N
         newMenu.setName("newMenu"); // NOI18N
 
-        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(com.alteregos.sms.campaigner.Main.class).getContext().getActionMap(MainView.class, this);
+        ActionMap actionMap = Application.getInstance(com.alteregos.sms.campaigner.Main.class).getContext().getActionMap(MainView.class, this);
         newSmsMenuItem.setAction(actionMap.get("showNewSmsView")); // NOI18N
         newSmsMenuItem.setName("newSmsMenuItem"); // NOI18N
         newMenu.add(newSmsMenuItem);
@@ -616,19 +608,15 @@ public class MainView extends FrameView {
 
         statusPanelSeparator.setName("statusPanelSeparator"); // NOI18N
 
-        statusMessageLabel.setName("statusMessageLabel"); // NOI18N
-
+        statusMessageLabel.setName("statusMessageLabel"); // NOI18N        
         statusAnimationLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        statusAnimationLabel.setName("statusAnimationLabel"); // NOI18N
-
+        statusAnimationLabel.setName("statusAnimationLabel"); // NOI18N        
         progressBar.setName("progressBar"); // NOI18N
-
-        javax.swing.GroupLayout statusPanelLayout = new javax.swing.GroupLayout(statusPanel);
-        statusPanel.setLayout(statusPanelLayout);
-        statusPanelLayout.setHorizontalGroup(
-                statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(statusPanelSeparator, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE).addGroup(statusPanelLayout.createSequentialGroup().addContainerGap().addComponent(statusMessageLabel).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 626, Short.MAX_VALUE).addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(statusAnimationLabel).addContainerGap()));
-        statusPanelLayout.setVerticalGroup(
-                statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(statusPanelLayout.createSequentialGroup().addComponent(statusPanelSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(statusMessageLabel).addComponent(statusAnimationLabel).addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addGap(3, 3, 3)));
+        
+        statusPanel.setLayout(new MigLayout("fill, insets 0 6 5 6", "[][]10[]", "[]"));
+        statusPanel.add(statusMessageLabel, "push");
+        statusPanel.add(progressBar);
+        statusPanel.add(statusAnimationLabel);
 
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
@@ -781,7 +769,6 @@ public class MainView extends FrameView {
         productLogoLabel.setName("productLogoLabel"); // NOI18N
         toolBar.add(productLogoLabel);
 
-        setComponent(mainPanel);
         setMenuBar(menuBar);
         setStatusBar(statusPanel);
         setToolBar(toolBar);
@@ -797,7 +784,6 @@ public class MainView extends FrameView {
     private javax.swing.JMenuItem inboxMenuItem;
     private javax.swing.JButton inboxToolBarButton;
     private javax.swing.JMenu lookMenuItem;
-    private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuItem manageAutoReplyRulesMenuItem;
     private javax.swing.JMenuItem manageGroupsMenuItem;
     private javax.swing.JMenu manageMenu;

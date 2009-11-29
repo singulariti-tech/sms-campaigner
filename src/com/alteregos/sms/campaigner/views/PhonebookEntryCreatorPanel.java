@@ -8,6 +8,7 @@ import com.alteregos.sms.campaigner.exceptions.SuccessfulTaskResult;
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
 import javax.swing.JOptionPane;
+import net.miginfocom.swing.MigLayout;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.Task;
@@ -17,6 +18,8 @@ import org.jdesktop.application.Task;
  * @author  John Emmanuel
  */
 public class PhonebookEntryCreatorPanel extends javax.swing.JPanel {
+
+    private static final long serialVersionUID = 1L;
 
     /** Creates new form PhonebookEntryCreatorPanel */
     public PhonebookEntryCreatorPanel() {
@@ -84,13 +87,11 @@ public class PhonebookEntryCreatorPanel extends javax.swing.JPanel {
         emailAddressTextField.setText("");
 
     }
-    //</editor-fold>   
-
+    //</editor-fold>
 
     @SuppressWarnings("unchecked")
     private void initComponents() {
 
-        phoneBookEntryCreatorPanel = new javax.swing.JPanel();
         nameLabel = new javax.swing.JLabel();
         mobileNoLabel = new javax.swing.JLabel();
         emailAddressLabel = new javax.swing.JLabel();
@@ -106,8 +107,8 @@ public class PhonebookEntryCreatorPanel extends javax.swing.JPanel {
         setName("Form"); // NOI18N
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(com.alteregos.sms.campaigner.Main.class).getContext().getResourceMap(PhonebookEntryCreatorPanel.class);
-        phoneBookEntryCreatorPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("phoneBookEntryCreatorPanel.border.title"))); // NOI18N
-        phoneBookEntryCreatorPanel.setName("phoneBookEntryCreatorPanel"); // NOI18N
+        this.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("phoneBookEntryCreatorPanel.border.title"))); // NOI18N
+        this.setName("phoneBookEntryCreatorPanel"); // NOI18N
 
         nameLabel.setText(resourceMap.getString("nameLabel.text")); // NOI18N
         nameLabel.setName("nameLabel"); // NOI18N
@@ -148,21 +149,18 @@ public class PhonebookEntryCreatorPanel extends javax.swing.JPanel {
         saveButton.setText(resourceMap.getString("saveButton.text")); // NOI18N
         saveButton.setName("saveButton"); // NOI18N
 
-        javax.swing.GroupLayout phoneBookEntryCreatorPanelLayout = new javax.swing.GroupLayout(phoneBookEntryCreatorPanel);
-        phoneBookEntryCreatorPanel.setLayout(phoneBookEntryCreatorPanelLayout);
-        phoneBookEntryCreatorPanelLayout.setHorizontalGroup(
-                phoneBookEntryCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(phoneBookEntryCreatorPanelLayout.createSequentialGroup().addContainerGap().addGroup(phoneBookEntryCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(postalAddressScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE).addComponent(postalAddressLabel).addGroup(phoneBookEntryCreatorPanelLayout.createSequentialGroup().addGroup(phoneBookEntryCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(nameLabel).addComponent(mobileNoLabel).addComponent(emailAddressLabel)).addGap(41, 41, 41).addGroup(phoneBookEntryCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(emailAddressTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE).addComponent(mobileNoTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE).addGroup(phoneBookEntryCreatorPanelLayout.createSequentialGroup().addComponent(nameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, phoneBookEntryCreatorPanelLayout.createSequentialGroup().addComponent(saveButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(clearButton))).addContainerGap()));
-        phoneBookEntryCreatorPanelLayout.setVerticalGroup(
-                phoneBookEntryCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(phoneBookEntryCreatorPanelLayout.createSequentialGroup().addContainerGap().addGroup(phoneBookEntryCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(nameLabel).addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(phoneBookEntryCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(mobileNoLabel).addComponent(mobileNoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(phoneBookEntryCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(emailAddressLabel).addComponent(emailAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(postalAddressLabel).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(postalAddressScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(phoneBookEntryCreatorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(clearButton).addComponent(saveButton)).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(phoneBookEntryCreatorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(phoneBookEntryCreatorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
+        this.setLayout(new MigLayout("fill, insets panel", "[min!][grow]", "[min!][min!][min!][min!][grow][min!]"));
+        this.add(nameLabel);
+        this.add(nameTextField, "grow, wrap");
+        this.add(mobileNoLabel);
+        this.add(mobileNoTextField, "grow, wrap");
+        this.add(emailAddressLabel);
+        this.add(emailAddressTextField, "grow, wrap");
+        this.add(postalAddressLabel, "wrap");
+        this.add(postalAddressScrollPane, "spanx 2, grow, top, left, wrap");
+        this.add(saveButton, "spanx 2, split 2, right");
+        this.add(clearButton);
     }
-    
     private javax.swing.JButton clearButton;
     private javax.swing.JLabel emailAddressLabel;
     private javax.swing.JTextField emailAddressTextField;
@@ -170,12 +168,10 @@ public class PhonebookEntryCreatorPanel extends javax.swing.JPanel {
     private javax.swing.JTextField mobileNoTextField;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField nameTextField;
-    private javax.swing.JPanel phoneBookEntryCreatorPanel;
     private javax.swing.JLabel postalAddressLabel;
     private javax.swing.JScrollPane postalAddressScrollPane;
     private javax.swing.JTextArea postalAddressTextArea;
     private javax.swing.JButton saveButton;
-
     private EntityManager entityManager;
     private Phonebook phoneBook;
     private PhonebookEntryValidator validator;
