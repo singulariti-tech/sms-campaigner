@@ -8,6 +8,7 @@ package com.alteregos.sms.campaigner.data.dao;
  */
 public interface DatabaseCreator {
     boolean tableExists(String tableName);
+    boolean allTablesExist();
     void createTables();
     void createIndices();
 }

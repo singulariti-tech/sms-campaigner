@@ -5,3 +5,4 @@ lib/*
 nbproject/*
 manifest.mf
 build.xml
+campaigner.db

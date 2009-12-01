@@ -631,7 +631,7 @@ public class SettingsDialog extends javax.swing.JDialog {
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE).addContainerGap()));
 
 
-        portContainer.setLayout(new MigLayout("debug, fill, insets panel", "[min!][]", "[min!][min!][min!][min!][min!][min!][min!]"));
+        portContainer.setLayout(new MigLayout("fill, insets panel", "[min!][]", "[min!][min!][min!][min!][min!][min!][min!]"));
         portContainer.add(comPortLabel);
         portContainer.add(comPortComboBox, "growx, wrap");
         portContainer.add(flowControlLabel);
@@ -646,7 +646,7 @@ public class SettingsDialog extends javax.swing.JDialog {
         portContainer.add(parityBitsTextField, "growx, wrap");
         portContainer.add(saveButton, "spanx 2, right");
 
-        this.portPanel.setLayout(new MigLayout("debug, fill, insets panel"));
+        this.portPanel.setLayout(new MigLayout("fill, insets panel"));
         this.portPanel.add(portContainer, "grow, push");
 
 

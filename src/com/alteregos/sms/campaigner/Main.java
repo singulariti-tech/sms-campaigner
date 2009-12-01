@@ -10,6 +10,7 @@ import com.alteregos.sms.campaigner.services.probe.ProbeTask;
 import com.alteregos.sms.campaigner.util.LoggerHelper;
 import com.alteregos.sms.campaigner.views.MainView;
 import com.alteregos.sms.campaigner.conf.Configuration;
+import com.alteregos.sms.campaigner.data.dao.DatabaseCreator;
 import java.awt.Component;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,6 +27,8 @@ import org.jdesktop.application.Application;
 import org.jdesktop.application.LocalStorage;
 import org.jdesktop.application.SingleFrameApplication;
 import org.jdesktop.application.Task;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * The main class of the application.
@@ -38,6 +41,7 @@ public class Main extends SingleFrameApplication {
     private Engine engine;
     private ProbeResults probeResults;
     private List<ProbeListener> probeListeners;
+    private ApplicationContext springContext;
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Lifecycle Methods">
@@ -48,6 +52,14 @@ public class Main extends SingleFrameApplication {
     protected void startup() {
         log.debug("Application startup");
         log.debug("Library path: " + System.getProperty("java.library.path"));
+        springContext = new ClassPathXmlApplicationContext("classpath:campaignerContext-core.xml");
+        //Check if db exists. If not create it
+        DatabaseCreator databaseCreator = getBean("sqliteDatabaseInitializer");
+        if (!databaseCreator.allTablesExist()) {
+            log.debug("Tables not found. Initializing sqlite db");
+            databaseCreator.createTables();
+            databaseCreator.createIndices();
+        }
         show(new MainView(this));
     }
 
@@ -106,6 +118,11 @@ public class Main extends SingleFrameApplication {
 
     public Engine getEngine() {
         return this.engine;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T getBean(String beanId) {
+        return (T) springContext.getBean(beanId);
     }
 
     public void setProbeResults(ProbeResults results) {
