@@ -5,6 +5,7 @@ import com.alteregos.sms.campaigner.data.dto.IncomingCall;
 import com.alteregos.sms.campaigner.data.dto.IncomingCallPk;
 import com.alteregos.sms.campaigner.data.exceptions.DaoException;
 import com.alteregos.sms.campaigner.data.mappers.IncomingCallRowMapper;
+import java.util.ArrayList;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
@@ -21,7 +22,7 @@ import java.util.List;
 @Repository("sqliteIncomingCallDao")
 public class SqliteIncomingCallDao extends BaseSqliteDao implements IncomingCallDao {
 
-    private final String TABLE_NAME = "call";
+    private final String TABLE_NAME = "incoming_call";
     private final String DEFAULT_SELECTORS = " call_id, receipt_date, gateway_id, caller_no, process ";
 
     private String findByIdQuery;
@@ -37,6 +38,7 @@ public class SqliteIncomingCallDao extends BaseSqliteDao implements IncomingCall
                 "process = ? WHERE call_id = ?";
     }
 
+    @Override
     public IncomingCall findById (int incomingCallId) {
         IncomingCall call;
         try {
@@ -47,16 +49,18 @@ public class SqliteIncomingCallDao extends BaseSqliteDao implements IncomingCall
         return call;
     }
 
+    @Override
     public List<IncomingCall> findAll () {
         List<IncomingCall> calls;
         try {
-            calls = jdbcTemplate.query (findAllQuery, new IncomingCallRowMapper ());
+            calls = jdbcTemplate.query (findAllQuery, new IncomingCallRowMapper ());            
         } catch (DataAccessException e) {
             throw new DaoException (e);
         }
         return calls;
     }
 
+    @Override
     public IncomingCallPk insert (IncomingCall call) {
         int lastId;
         try {
@@ -69,6 +73,7 @@ public class SqliteIncomingCallDao extends BaseSqliteDao implements IncomingCall
         return new IncomingCallPk (lastId);
     }
 
+    @Override
     public void update (IncomingCallPk pk, IncomingCall call) {
         try {
             jdbcTemplate.update (updateStmt, call.getReceiptDate (), call.getGatewayId (), call.getCallerNo (),
