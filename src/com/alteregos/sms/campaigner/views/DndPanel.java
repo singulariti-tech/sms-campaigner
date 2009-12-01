@@ -1,13 +1,14 @@
 package com.alteregos.sms.campaigner.views;
 
-import com.alteregos.sms.campaigner.data.beans.Dnd;
+import com.alteregos.sms.campaigner.Main;
+import com.alteregos.sms.campaigner.data.dto.Dnd;
+import com.alteregos.sms.campaigner.services.DndService;
 import com.alteregos.sms.campaigner.util.DateUtils;
 import com.alteregos.sms.campaigner.util.LoggerHelper;
 import com.alteregos.sms.campaigner.views.helpers.DateColumnCellRenderer;
 import java.awt.Dimension;
-import java.beans.Beans;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.swing.ActionMap;
@@ -41,7 +42,7 @@ public class DndPanel extends javax.swing.JPanel {
 
     //<editor-fold defaultstate="collapsed" desc="Actions">
     @Action
-    public Task refreshListAction() {
+    public Task<Boolean,Void> refreshListAction() {
         return new RefreshListTask(Application.getInstance(com.alteregos.sms.campaigner.Main.class));
     }
 
@@ -69,7 +70,6 @@ public class DndPanel extends javax.swing.JPanel {
     }
 
     //</editor-fold>
-    
     //<editor-fold defaultstate="collapsed" desc="Dependencies">
     private void initialize() {
         TableColumn registeredDateColumn = dndTable.getColumnModel().getColumn(1);
@@ -77,29 +77,25 @@ public class DndPanel extends javax.swing.JPanel {
         filteredDndList = new ArrayList<Dnd>();
     }
 
-    private class RefreshListTask extends Task {
+    private class RefreshListTask extends Task<Boolean, Void> {
 
         public RefreshListTask(Application app) {
             super(app);
         }
 
         @Override
-        public Object doInBackground() {
-            java.util.Collection data = dndQuery.getResultList();
-            for (Object entity : data) {
-                entityManager.refresh(entity);
-            }
-            if (dndList != null) {
-                dndList.clear();
-            } else {
+        public Boolean doInBackground() {
+            Collection<Dnd> data = dndService.findAll();
+            if (dndList == null) {
                 dndList = new ArrayList<Dnd>();
             }
+            dndList.clear();
             dndList.addAll(data);
             return true;
         }
 
         @Override
-        public void succeeded(Object response) {
+        public void succeeded(Boolean response) {
             dndTable.getSelectionModel().clearSelection();
         }
     }
@@ -108,10 +104,9 @@ public class DndPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
+        dndService = Main.getApplication().getBean("dndService");
 
-        entityManager = Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("absolute-smsPU").createEntityManager();
-        dndQuery = Beans.isDesignTime() ? null : entityManager.createQuery("SELECT d FROM Dnd d");
-        dndList = Beans.isDesignTime() ? Collections.emptyList() : ObservableCollections.observableList(dndQuery.getResultList());
+        dndList = ObservableCollections.observableList(dndService.findAll());
         dndPanel = new javax.swing.JPanel();
         dndScrollPane = new javax.swing.JScrollPane();
         dndTable = new javax.swing.JTable();
@@ -124,7 +119,7 @@ public class DndPanel extends javax.swing.JPanel {
 
         setName("Form"); // NOI18N
 
-        Application application = org.jdesktop.application.Application.getInstance(com.alteregos.sms.campaigner.Main.class);
+        Application application = Application.getInstance(Main.class);
         ResourceMap resourceMap = application.getContext().getResourceMap(DndPanel.class);
         dndPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("dndPanel.border.title"))); // NOI18N
         dndPanel.setName("dndPanel"); // NOI18N
@@ -182,19 +177,23 @@ public class DndPanel extends javax.swing.JPanel {
 
         bindingGroup.bind();
     }
-    private java.util.List<com.alteregos.sms.campaigner.data.beans.Dnd> dndList;
+    //Binding
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    //Service
+    private DndService dndService;
+    //Components
     private javax.swing.JPanel dndPanel;
-    private javax.persistence.Query dndQuery;
     private javax.swing.JScrollPane dndScrollPane;
     private javax.swing.JTable dndTable;
-    private JXDatePicker endDateField;
+    private javax.swing.JLabel startDateLabel;
     private javax.swing.JLabel endDateLabel;
-    private javax.persistence.EntityManager entityManager;
+    private JXDatePicker endDateField;
+    private JXDatePicker startDateField;
     private javax.swing.JButton filterButton;
     private javax.swing.JButton refreshButton;
-    private JXDatePicker startDateField;
-    private javax.swing.JLabel startDateLabel;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    //Helper lists
+    private List<Dnd> dndList;
     private List<Dnd> filteredDndList;
+    //Logger
     private static Logger log = LoggerHelper.getLogger();
 }
