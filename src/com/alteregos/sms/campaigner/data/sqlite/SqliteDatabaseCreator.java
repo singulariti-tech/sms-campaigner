@@ -73,19 +73,12 @@ public class SqliteDatabaseCreator extends BaseSqliteDao implements DatabaseCrea
     public void createTables() {
         createIncomingCallTable();
         createIncomingMessageTable();
-
         createOutgoingMessageTable();
-
         createAutoReplyRuleTable();
-
         createContactTable();
-
         createDndTable();
-
         createGroupTable();
-
         createContactGroupJoinTable();
-
         createIndices();
 
     }
@@ -93,7 +86,7 @@ public class SqliteDatabaseCreator extends BaseSqliteDao implements DatabaseCrea
     @Override
     public void createIndices() {
         System.out.println("Creating indices");
-        jdbcTemplate.update("CREATE INDEX IF NOT EXISTS [idx_incoming_call_recepit_date] ON [incoming_call] ([recepit_date])");
+        jdbcTemplate.update("CREATE INDEX IF NOT EXISTS [idx_incoming_call_receipt_date] ON [incoming_call] ([receipt_date])");
         jdbcTemplate.update("CREATE INDEX IF NOT EXISTS [idx_incoming_call_caller_n0] ON [incoming_call] ([caller_no])");
         jdbcTemplate.update("CREATE INDEX IF NOT EXISTS [idx_incoming_call_process] ON [incoming_call] ([process])");
         jdbcTemplate.update("CREATE INDEX IF NOT EXISTS [idx_dnd_registered_date] ON [dnd] ([registered_date])");
@@ -114,7 +107,7 @@ public class SqliteDatabaseCreator extends BaseSqliteDao implements DatabaseCrea
 
     public void createIncomingCallTable() {
         System.out.println("Creating incoming call table");
-        String sql = "CREATE TABLE IF NOT EXISTS [incoming_call] (" + "	[call_id] INTEGER PRIMARY KEY ASC ON CONFLICT FAIL AUTOINCREMENT UNIQUE ON CONFLICT FAIL, " + "	[recepit_date] DATETIME NOT NULL ON CONFLICT FAIL, " + "	[gateway_id] VARCHAR(64) NOT NULL ON CONFLICT FAIL, " + "	[caller_no] VARCHAR(16) NOT NULL ON CONFLICT FAIL, " + "	[process] BOOLEAN NOT NULL DEFAULT 'false'" + ")";
+        String sql = "CREATE TABLE IF NOT EXISTS [incoming_call] (" + "	[call_id] INTEGER PRIMARY KEY ASC ON CONFLICT FAIL AUTOINCREMENT UNIQUE ON CONFLICT FAIL, " + "	[receipt_date] DATETIME NOT NULL ON CONFLICT FAIL, " + "	[gateway_id] VARCHAR(64) NOT NULL ON CONFLICT FAIL, " + "	[caller_no] VARCHAR(16) NOT NULL ON CONFLICT FAIL, " + "	[process] BOOLEAN NOT NULL DEFAULT 'false'" + ")";
         jdbcTemplate.update(sql);
     }
 
