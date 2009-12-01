@@ -10,38 +10,45 @@ package com.alteregos.sms.campaigner.data.dto;
  */
 public class IncomingCallPk {
 
-    private int incomingCallPk;
+    private int incomingCallId;
 
-    public IncomingCallPk(int incomingCallPk) {
-        this.incomingCallPk = incomingCallPk;
+    public IncomingCallPk(int incomingCallId) {
+        this.incomingCallId = incomingCallId;
     }
 
-    public int getIncomingCallPk() {
-        return incomingCallPk;
+    public int getIncomingCallId() {
+        return incomingCallId;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         IncomingCallPk that = (IncomingCallPk) o;
 
-        if (incomingCallPk != that.incomingCallPk) return false;
+        if (incomingCallId != that.incomingCallId) {
+            return false;
+        }
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return incomingCallPk;
+        return incomingCallId;
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
-        sb.append("IncomingCallPk");
-        sb.append("{incomingCallPk=").append(incomingCallPk);
+        sb.append("IncomingCallId");
+        sb.append("{incomingCallId=").append(incomingCallId);
         sb.append('}');
         return sb.toString();
     }
