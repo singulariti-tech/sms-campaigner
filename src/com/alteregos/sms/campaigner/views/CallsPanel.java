@@ -1,12 +1,14 @@
 package com.alteregos.sms.campaigner.views;
 
 import com.alteregos.sms.campaigner.Main;
-import com.alteregos.sms.campaigner.data.beans.Calls;
+import com.alteregos.sms.campaigner.data.dto.IncomingCall;
+import com.alteregos.sms.campaigner.services.IncomingCallService;
 import com.alteregos.sms.campaigner.util.DateUtils;
 import com.alteregos.sms.campaigner.util.LoggerHelper;
 import com.alteregos.sms.campaigner.views.helpers.DateColumnCellRenderer;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.swing.ActionMap;
@@ -17,6 +19,9 @@ import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.Task;
+import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
+import org.jdesktop.beansbinding.ELProperty;
+import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 import org.jdesktop.swingx.JXDatePicker;
@@ -48,7 +53,7 @@ public class CallsPanel extends javax.swing.JPanel {
         callsList.addAll(filteredCalls);
         filteredCalls.clear();
         for (int i = 0; i < callsList.size(); i++) {
-            Calls call = callsList.get(i);
+            IncomingCall call = callsList.get(i);
             Date receiptDate = call.getReceiptDate();
             boolean isReceiptDateBeforeStartDate = receiptDate.before(startDate);
             boolean isReceiptDateAfterEndDate = receiptDate.after(endDate);
@@ -61,7 +66,7 @@ public class CallsPanel extends javax.swing.JPanel {
     }
 
     @Action
-    public Task refreshAction() {
+    public Task<Boolean, Void> refreshAction() {
         return new RefreshListTask(Main.getApplication());
     }
     //</editor-fold>
@@ -73,32 +78,28 @@ public class CallsPanel extends javax.swing.JPanel {
     private void initialize() {
         TableColumn recepitDateColumn = callsTable.getColumnModel().getColumn(1);
         recepitDateColumn.setCellRenderer(new DateColumnCellRenderer());
-        filteredCalls = new ArrayList<Calls>();
+        filteredCalls = new ArrayList<IncomingCall>();
     }
 
-    private class RefreshListTask extends Task<Object, Void> {
+    private class RefreshListTask extends Task<Boolean, Void> {
 
         public RefreshListTask(Application arg0) {
             super(arg0);
         }
 
         @Override
-        protected Object doInBackground() throws Exception {
-            java.util.Collection data = callsQuery.getResultList();
-            for (Object entity : data) {
-                entityManager.refresh(entity);
+        protected Boolean doInBackground() throws Exception {
+            Collection<IncomingCall> data = callService.findAll();
+            if (callsList == null) {
+                callsList = new ArrayList<IncomingCall>();
             }
-            if (callsList != null) {
-                callsList.clear();
-            } else {
-                callsList = new ArrayList<Calls>();
-            }
+            callsList.clear();
             callsList.addAll(data);
             return true;
         }
 
         @Override
-        protected void succeeded(Object arg0) {
+        protected void succeeded(Boolean arg0) {
             super.succeeded(arg0);
             filteredCalls.clear();
         }
@@ -107,11 +108,10 @@ public class CallsPanel extends javax.swing.JPanel {
 
     @SuppressWarnings("unchecked")
     private void initComponents() {
+        callService = Main.getApplication().getBean("incomingCallService");
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
-
-        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("absolute-smsPU").createEntityManager();
-        callsQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT c FROM Calls c");
-        callsList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(callsQuery.getResultList());
+        System.out.println("CallService: " + callService);
+        callsList = ObservableCollections.observableList(callService.findAll());
         callsPanel = new javax.swing.JPanel();
         callsScrollPane = new javax.swing.JScrollPane();
         callsTable = new javax.swing.JTable();
@@ -132,8 +132,8 @@ public class CallsPanel extends javax.swing.JPanel {
         callsScrollPane.setName("callsSrollPane"); // NOI18N
         callsTable.setName("callsTable"); // NOI18N
 
-        JTableBinding jTableBinding = SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, callsList, callsTable);
-        JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${caller}"));
+        JTableBinding jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, callsList, callsTable);
+        JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(ELProperty.create("${caller}"));
         columnBinding.setColumnName("Caller");
         columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${receiptDate}"));
@@ -181,19 +181,23 @@ public class CallsPanel extends javax.swing.JPanel {
 
         bindingGroup.bind();
     }
-    private java.util.List<com.alteregos.sms.campaigner.data.beans.Calls> callsList;
+    //Data Service    
+    private IncomingCallService callService;
+    //Components
     private javax.swing.JPanel callsPanel;
-    private javax.persistence.Query callsQuery;
-    private javax.swing.JScrollPane callsScrollPane;
     private javax.swing.JTable callsTable;
-    private JXDatePicker endDateField;
-    private javax.persistence.EntityManager entityManager;
-    private javax.swing.JButton filterButton;
+    private javax.swing.JScrollPane callsScrollPane;
     private javax.swing.JLabel receiptEndDateLabel;
     private javax.swing.JLabel receiptStartDateLabel;
-    private javax.swing.JButton refreshButton;
     private JXDatePicker startDateField;
+    private JXDatePicker endDateField;
+    private javax.swing.JButton filterButton;
+    private javax.swing.JButton refreshButton;
+    //Binding
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    private List<Calls> filteredCalls;
+    //Helper lists
+    private List<IncomingCall> filteredCalls;
+    private java.util.List<IncomingCall> callsList;
+    //Logger
     private static Logger log = LoggerHelper.getLogger();
 }
