@@ -1,8 +1,8 @@
-build/*
-dist/*
-logs/*
-lib/*
-nbproject/*
+^build/
+^database/
+^dist/
+^logs/
+^lib/
+^nbproject/
 manifest.mf
 build.xml
-campaigner.db
