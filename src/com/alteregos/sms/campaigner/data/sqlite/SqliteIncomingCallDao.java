@@ -5,9 +5,7 @@ import com.alteregos.sms.campaigner.data.dto.IncomingCall;
 import com.alteregos.sms.campaigner.data.dto.IncomingCallPk;
 import com.alteregos.sms.campaigner.data.exceptions.DaoException;
 import com.alteregos.sms.campaigner.data.mappers.IncomingCallRowMapper;
-import java.util.ArrayList;
 import org.springframework.dao.DataAccessException;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -19,7 +17,6 @@ import java.util.List;
  * @version 0.1
  * @since 0.1
  */
-@Repository("sqliteIncomingCallDao")
 public class SqliteIncomingCallDao extends BaseSqliteDao implements IncomingCallDao {
 
     private final String TABLE_NAME = "incoming_call";

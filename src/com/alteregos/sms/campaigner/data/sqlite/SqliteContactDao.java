@@ -17,7 +17,6 @@ import java.util.List;
  * @version 0.1
  * @since 0.1
  */
-@Repository("sqliteContactDao")
 public class SqliteContactDao extends BaseSqliteDao implements com.alteregos.sms.campaigner.data.dao.ContactDao {
 
     private final String TABLE_NAME = "contact";

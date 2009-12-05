@@ -18,60 +18,62 @@ import java.util.List;
  * @version 0.1
  * @since 0.1
  */
-@Repository("sqliteDndDao")
 public class SqliteDndDao extends BaseSqliteDao implements DndDao {
 
     private final String TABLE_NAME = "dnd";
     private final String DEFAULT_SELECTORS = " dnd_id, mobile_no, registered_date ";
-
     private String findByIdQuery;
     private String findAllQuery;
     private String insertStmt;
     private String updateStmt;
 
-    public SqliteDndDao () {
+    public SqliteDndDao() {
         findByIdQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " WHERE dnd_id = ? ORDER BY dnd_id ASC";
         findAllQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " ORDER BY dnd_id ASC";
         insertStmt = "INSERT INTO " + TABLE_NAME + "(" + DEFAULT_SELECTORS + ") VALUES(?, ?, ?)";
         updateStmt = "UPDATE " + TABLE_NAME + " SET mobile_no = ?, registered_date = ? WHERE dnd_id = ?";
     }
 
-    public Dnd findById (int dndId) {
+    @Override
+    public Dnd findById(int dndId) {
         Dnd dnd;
         try {
-            dnd = jdbcTemplate.queryForObject (findByIdQuery, new DndRowMapper (), dndId);
+            dnd = jdbcTemplate.queryForObject(findByIdQuery, new DndRowMapper(), dndId);
         } catch (DataAccessException e) {
-            throw new DaoException (e);
+            throw new DaoException(e);
         }
         return dnd;
     }
 
-    public List<Dnd> findAll () {
+    @Override
+    public List<Dnd> findAll() {
         List<Dnd> dnds;
         try {
-            dnds = jdbcTemplate.query (findAllQuery, new DndRowMapper ());
+            dnds = jdbcTemplate.query(findAllQuery, new DndRowMapper());
         } catch (DataAccessException e) {
-            throw new DaoException (e);
+            throw new DaoException(e);
         }
         return dnds;
     }
 
-    public DndPk insert (Dnd dnd) {
+    @Override
+    public DndPk insert(Dnd dnd) {
         int lastId;
         try {
-            jdbcTemplate.update (insertStmt, null, dnd.getMobileNo (), dnd.getRegisteredDate ());
-            lastId = getLastInsertedId ();
+            jdbcTemplate.update(insertStmt, null, dnd.getMobileNo(), dnd.getRegisteredDate());
+            lastId = getLastInsertedId();
         } catch (DataAccessException e) {
             throw new DaoException(e);
         }
-        return new DndPk (lastId);
+        return new DndPk(lastId);
     }
 
-    public void update (DndPk pk, Dnd dnd) {
+    @Override
+    public void update(DndPk pk, Dnd dnd) {
         try {
-            jdbcTemplate.update (updateStmt, dnd.getMobileNo (), dnd.getRegisteredDate (), dnd.getDndId ());
+            jdbcTemplate.update(updateStmt, dnd.getMobileNo(), dnd.getRegisteredDate(), dnd.getDndId());
         } catch (DataAccessException e) {
-            throw new DaoException (e);
+            throw new DaoException(e);
         }
     }
 }

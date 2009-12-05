@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
-import org.springframework.stereotype.Component;
 
 /**
  *
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Component;
  * @since 0.1
  *
  */
-@Component(value = "sqliteDatabaseInitializer")
 public class SqliteDatabaseCreator extends BaseSqliteDao implements DatabaseCreator {
 
     public SqliteDatabaseCreator() {

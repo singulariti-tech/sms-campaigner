@@ -18,60 +18,62 @@ import java.util.List;
  * @version 0.1
  * @since 0.1
  */
-@Repository("sqliteGroupDao")
 public class SqliteGroupDao extends BaseSqliteDao implements GroupDao {
 
     private final String TABLE_NAME = "group";
     private final String DEFAULT_SELECTORS = " group_id, name ";
-
     private String findByIdQuery;
     private String findAllQuery;
     private String insertStmt;
     private String updateStmt;
 
-    public SqliteGroupDao () {
+    public SqliteGroupDao() {
         findByIdQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " WHERE group_id = ?";
         findAllQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " ORDER BY group_id ASC";
         insertStmt = "INSERT INTO " + TABLE_NAME + " (" + DEFAULT_SELECTORS + ") VALUES(?, ?)";
         updateStmt = "UPDATE " + TABLE_NAME + "SET  name = ? WHERE group_id = ?";
     }
 
-    public Group findById (int contactGroupId) {
+    @Override
+    public Group findById(int contactGroupId) {
         Group group;
         try {
-            group = jdbcTemplate.queryForObject (findByIdQuery, new GroupRowMapper (), contactGroupId);
+            group = jdbcTemplate.queryForObject(findByIdQuery, new GroupRowMapper(), contactGroupId);
         } catch (DataAccessException e) {
-            throw new DaoException (e);
+            throw new DaoException(e);
         }
         return group;
     }
 
-    public List<Group> findAll () {
+    @Override
+    public List<Group> findAll() {
         List<Group> groups;
         try {
-            groups = jdbcTemplate.query (findAllQuery, new GroupRowMapper ());
+            groups = jdbcTemplate.query(findAllQuery, new GroupRowMapper());
         } catch (DataAccessException e) {
-            throw new DaoException (e);
+            throw new DaoException(e);
         }
         return groups;
     }
 
-    public GroupPk insert (Group group) {
+    @Override
+    public GroupPk insert(Group group) {
         int lastId;
         try {
-            jdbcTemplate.update (insertStmt, null, group.getName ());
-            lastId = getLastInsertedId ();
+            jdbcTemplate.update(insertStmt, null, group.getName());
+            lastId = getLastInsertedId();
         } catch (DataAccessException e) {
-            throw new DaoException (e);
+            throw new DaoException(e);
         }
-        return new GroupPk (lastId);
+        return new GroupPk(lastId);
     }
 
-    public void update (GroupPk pk, Group group) {
+    @Override
+    public void update(GroupPk pk, Group group) {
         try {
-            jdbcTemplate.update (updateStmt, group.getName (), group.getGroupId ());
+            jdbcTemplate.update(updateStmt, group.getName(), group.getGroupId());
         } catch (DataAccessException e) {
-            throw new DaoException (e);
+            throw new DaoException(e);
         }
     }
 }

@@ -18,12 +18,10 @@ import java.util.List;
  * @version 0.1
  * @since 0.1
  */
-@Repository("sqliteContactGroupJoinDao")
 public class SqliteContactGroupJoinDao extends BaseSqliteDao implements ContactGroupJoinDao {
 
     private final String TABLE_NAME = "contact_group_join";
     private final String DEFAULT_SELECTORS = " contact_id, group_id ";
-
     private String findAllQuery;
     private String findJoinQuery;
     private String findByGroupQuery;
@@ -31,15 +29,16 @@ public class SqliteContactGroupJoinDao extends BaseSqliteDao implements ContactG
     private String updateStmt;
 
     public SqliteContactGroupJoinDao() {
-        findJoinQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " WHERE contact_id = ? " +
-                "AND group_id = ? ORDER BY group_id ASC, contact_id ASC";
-        findAllQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " ORDER BY group_id ASC, " +
-                "contact_id ASC";
-        findByGroupQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " WHERE group_id = ? " +
-                "ORDER BY contact_id ASC";
+        findJoinQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " WHERE contact_id = ? "
+                + "AND group_id = ? ORDER BY group_id ASC, contact_id ASC";
+        findAllQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " ORDER BY group_id ASC, "
+                + "contact_id ASC";
+        findByGroupQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " WHERE group_id = ? "
+                + "ORDER BY contact_id ASC";
         insertStmt = "INSERT INTO " + TABLE_NAME + "(" + DEFAULT_SELECTORS + ") VALUES(?,?)";
     }
 
+    @Override
     public ContactGroupJoin findJoin(int contactId, int groupId) {
         ContactGroupJoin join;
         try {
@@ -50,6 +49,7 @@ public class SqliteContactGroupJoinDao extends BaseSqliteDao implements ContactG
         return join;
     }
 
+    @Override
     public List<ContactGroupJoin> findAll() {
         List<ContactGroupJoin> joins;
         try {
@@ -71,6 +71,7 @@ public class SqliteContactGroupJoinDao extends BaseSqliteDao implements ContactG
         return joins;
     }
 
+    @Override
     public ContactGroupJoinPk insert(ContactGroupJoin join) {
         try {
             jdbcTemplate.update(insertStmt, join.getContactId(), join.getGroupId());
