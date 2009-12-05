@@ -40,7 +40,7 @@ public class CommTest {
                             OutputStream outStream;
                             int c;
                             String response;
-                            serialPort = (SerialPort) portId.open("SMSLibCommTester", 1971);
+                            serialPort = portId.open("SMSLibCommTester", 1971);
                             serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN);
                             serialPort.setSerialPortParams(bauds[i], SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
                             inStream = serialPort.getInputStream();
