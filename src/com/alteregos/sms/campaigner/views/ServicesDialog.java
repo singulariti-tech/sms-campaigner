@@ -3,10 +3,12 @@ package com.alteregos.sms.campaigner.views;
 import com.alteregos.sms.campaigner.Main;
 import com.alteregos.sms.campaigner.conf.Configuration;
 import com.alteregos.sms.campaigner.engine.Engine;
+import java.awt.Container;
 import java.util.Enumeration;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
+import net.miginfocom.swing.MigLayout;
 import org.jdesktop.application.Action;
 
 /**
@@ -15,7 +17,12 @@ import org.jdesktop.application.Action;
  */
 public class ServicesDialog extends javax.swing.JDialog {
 
-    /** Creates new form ServicesDialog */
+    private static final long serialVersionUID = 1L;
+
+    /** Creates new form ServicesDialog
+     * @param parent
+     * @param modal
+     */
     public ServicesDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -117,10 +124,7 @@ public class ServicesDialog extends javax.swing.JDialog {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         gatewayServiceAutoStartRbg = new javax.swing.ButtonGroup();
-        autoReplyAutoStartRbg = new javax.swing.ButtonGroup();
-        tabbedPane = new javax.swing.JTabbedPane();
-        gatewayServiceTab = new javax.swing.JPanel();
-        gatewayGenericPanel = new javax.swing.JPanel();
+        gatewayDetailsPanel = new javax.swing.JPanel();
         gatewayPortNoLabel = new javax.swing.JLabel();
         gatewayPortNoTextField = new javax.swing.JTextField();
         gatewayServiceAutoStartEnable = new javax.swing.JRadioButton();
@@ -138,12 +142,8 @@ public class ServicesDialog extends javax.swing.JDialog {
         setTitle(resourceMap.getString("Form.title")); // NOI18N
         setName("Form"); // NOI18N
 
-        tabbedPane.setName("tabbedPane"); // NOI18N
-
-        gatewayServiceTab.setName("gatewayServiceTab"); // NOI18N
-
-        gatewayGenericPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("gatewayGenericPanel.border.title"))); // NOI18N
-        gatewayGenericPanel.setName("gatewayGenericPanel"); // NOI18N
+        gatewayDetailsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("gatewayGenericPanel.border.title"))); // NOI18N
+        gatewayDetailsPanel.setName("gatewayGenericPanel"); // NOI18N
 
         gatewayPortNoLabel.setText(resourceMap.getString("gatewayPortNoLabel.text")); // NOI18N
         gatewayPortNoLabel.setName("gatewayPortNoLabel"); // NOI18N
@@ -166,13 +166,6 @@ public class ServicesDialog extends javax.swing.JDialog {
         gatewayServiceDetailsSaveButton.setAction(actionMap.get("saveGatewayServiceSettings")); // NOI18N
         gatewayServiceDetailsSaveButton.setText(resourceMap.getString("gatewayServiceDetailsSaveButton.text")); // NOI18N
         gatewayServiceDetailsSaveButton.setName("gatewayServiceDetailsSaveButton"); // NOI18N
-
-        javax.swing.GroupLayout gatewayGenericPanelLayout = new javax.swing.GroupLayout(gatewayGenericPanel);
-        gatewayGenericPanel.setLayout(gatewayGenericPanelLayout);
-        gatewayGenericPanelLayout.setHorizontalGroup(
-                gatewayGenericPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(gatewayGenericPanelLayout.createSequentialGroup().addContainerGap().addGroup(gatewayGenericPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(gatewayGenericPanelLayout.createSequentialGroup().addComponent(gatewayServiceAutoStartLabel).addGap(23, 23, 23).addComponent(gatewayServiceAutoStartEnable).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(gatewayServiceAutoStartDisable)).addGroup(gatewayGenericPanelLayout.createSequentialGroup().addComponent(gatewayPortNoLabel).addGap(33, 33, 33).addGroup(gatewayGenericPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(gatewayPortNoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(gatewayServiceDetailsSaveButton)))).addContainerGap(32, Short.MAX_VALUE)));
-        gatewayGenericPanelLayout.setVerticalGroup(
-                gatewayGenericPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(gatewayGenericPanelLayout.createSequentialGroup().addGroup(gatewayGenericPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(gatewayServiceAutoStartLabel).addComponent(gatewayServiceAutoStartEnable).addComponent(gatewayServiceAutoStartDisable)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(gatewayGenericPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(gatewayPortNoLabel).addComponent(gatewayPortNoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(gatewayServiceDetailsSaveButton).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
         gatewayServiceStatusPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Current Status"));
         gatewayServiceStatusPanel.setName("gatewayServiceStatusPanel"); // NOI18N
@@ -198,49 +191,44 @@ public class ServicesDialog extends javax.swing.JDialog {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, gatewayStatusTextField, org.jdesktop.beansbinding.ELProperty.create("${text != STARTED}"), startGatewayServiceButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
-        javax.swing.GroupLayout gatewayServiceStatusPanelLayout = new javax.swing.GroupLayout(gatewayServiceStatusPanel);
-        gatewayServiceStatusPanel.setLayout(gatewayServiceStatusPanelLayout);
-        gatewayServiceStatusPanelLayout.setHorizontalGroup(
-                gatewayServiceStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gatewayServiceStatusPanelLayout.createSequentialGroup().addContainerGap().addComponent(gatewayStatusLabel).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(gatewayServiceStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(gatewayServiceStatusPanelLayout.createSequentialGroup().addComponent(startGatewayServiceButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(stopGatewayServiceButton)).addComponent(gatewayStatusTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)).addContainerGap(32, Short.MAX_VALUE)));
-        gatewayServiceStatusPanelLayout.setVerticalGroup(
-                gatewayServiceStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(gatewayServiceStatusPanelLayout.createSequentialGroup().addGroup(gatewayServiceStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(gatewayStatusLabel).addComponent(gatewayStatusTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(gatewayServiceStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(stopGatewayServiceButton).addComponent(startGatewayServiceButton)).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+        Container contentPane = this.getContentPane();
+        contentPane.setLayout(new MigLayout("fill, insets dialog, wrap 1"));
+        contentPane.add(gatewayDetailsPanel, "top, left, growx");
+        contentPane.add(gatewayServiceStatusPanel, "top, left, grow, push");
 
-        javax.swing.GroupLayout gatewayServiceTabLayout = new javax.swing.GroupLayout(gatewayServiceTab);
-        gatewayServiceTab.setLayout(gatewayServiceTabLayout);
-        gatewayServiceTabLayout.setHorizontalGroup(
-                gatewayServiceTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gatewayServiceTabLayout.createSequentialGroup().addContainerGap().addGroup(gatewayServiceTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(gatewayServiceStatusPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(gatewayGenericPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)).addContainerGap()));
-        gatewayServiceTabLayout.setVerticalGroup(
-                gatewayServiceTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(gatewayServiceTabLayout.createSequentialGroup().addContainerGap().addComponent(gatewayGenericPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(gatewayServiceStatusPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+        gatewayDetailsPanel.setLayout(new MigLayout("fill, insets panel", "[70!][min!][min!]", "min!"));
+        gatewayServiceStatusPanel.setLayout(new MigLayout("fill, insets panel", "[70!][min!]", "min!"));
 
-        tabbedPane.addTab(resourceMap.getString("gatewayServiceTab.TabConstraints.tabTitle"), gatewayServiceTab); // NOI18N
+        gatewayDetailsPanel.add(gatewayServiceAutoStartLabel);
+        gatewayDetailsPanel.add(gatewayServiceAutoStartEnable);
+        gatewayDetailsPanel.add(gatewayServiceAutoStartDisable, "push, wrap");
+        gatewayDetailsPanel.add(gatewayPortNoLabel);
+        gatewayDetailsPanel.add(gatewayPortNoTextField, "width 70, span, wrap");
+        gatewayDetailsPanel.add(gatewayServiceDetailsSaveButton, "skip 1");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 328, Short.MAX_VALUE).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE).addContainerGap())));
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 280, Short.MAX_VALUE).addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE).addContainerGap())));
+        gatewayServiceStatusPanel.add(gatewayStatusLabel);
+        gatewayServiceStatusPanel.add(gatewayStatusTextField, "width 70, span, wrap");
+        gatewayServiceStatusPanel.add(startGatewayServiceButton, "skip 1, split 2, top, left");
+        gatewayServiceStatusPanel.add(stopGatewayServiceButton, "push");
 
         bindingGroup.bind();
 
         pack();
     }
-
-    private javax.swing.ButtonGroup autoReplyAutoStartRbg;
-    private javax.swing.JPanel gatewayGenericPanel;
-    private javax.swing.JLabel gatewayPortNoLabel;
-    private javax.swing.JTextField gatewayPortNoTextField;
-    private javax.swing.JRadioButton gatewayServiceAutoStartDisable;
-    private javax.swing.JRadioButton gatewayServiceAutoStartEnable;
+    private javax.swing.JPanel gatewayDetailsPanel;
+    private javax.swing.JPanel gatewayServiceStatusPanel;
+    //
     private javax.swing.JLabel gatewayServiceAutoStartLabel;
     private javax.swing.ButtonGroup gatewayServiceAutoStartRbg;
+    private javax.swing.JRadioButton gatewayServiceAutoStartDisable;
+    private javax.swing.JRadioButton gatewayServiceAutoStartEnable;
+    private javax.swing.JLabel gatewayPortNoLabel;
+    private javax.swing.JTextField gatewayPortNoTextField;
     private javax.swing.JButton gatewayServiceDetailsSaveButton;
-    private javax.swing.JPanel gatewayServiceStatusPanel;
-    private javax.swing.JPanel gatewayServiceTab;
+    //
     private javax.swing.JLabel gatewayStatusLabel;
     private javax.swing.JTextField gatewayStatusTextField;
     private javax.swing.JButton startGatewayServiceButton;
     private javax.swing.JButton stopGatewayServiceButton;
-    private javax.swing.JTabbedPane tabbedPane;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
 }
