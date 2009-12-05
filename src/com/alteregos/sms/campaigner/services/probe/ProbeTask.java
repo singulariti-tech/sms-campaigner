@@ -14,7 +14,7 @@ import org.jdesktop.application.TaskListener;
  *
  * @author John Emmanuel
  */
-public class ProbeTask extends Task {
+public class ProbeTask extends Task<Object, Void> {
 
     private ProbeTool probeTool;
     private Configuration configuration;
@@ -32,7 +32,7 @@ public class ProbeTask extends Task {
     }
 
     @Override
-    public void addTaskListener(TaskListener taskListener) {
+    public void addTaskListener(TaskListener<Object, Void> taskListener) {
         super.addTaskListener(taskListener);
     }
 
