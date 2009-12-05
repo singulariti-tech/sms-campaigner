@@ -1,10 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.alteregos.sms.campaigner.views.helpers;
 
-import com.alteregos.sms.campaigner.util.*;
+import com.alteregos.sms.campaigner.util.DateUtils;
 import java.awt.Component;
 import java.text.DateFormat;
 import java.util.Date;
@@ -16,6 +12,8 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @author John Emmanuel
  */
 public class DateColumnCellRenderer extends DefaultTableCellRenderer {
+
+    private static final long serialVersionUID = 1L;
 
     public DateColumnCellRenderer() {
     }

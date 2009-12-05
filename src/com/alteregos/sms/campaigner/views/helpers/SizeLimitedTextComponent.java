@@ -1,11 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.alteregos.sms.campaigner.views.helpers;
 
 import com.alteregos.sms.campaigner.util.LoggerHelper;
-import java.util.logging.Level;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.AbstractDocument.DefaultDocumentEvent;
@@ -20,6 +15,7 @@ import org.apache.log4j.Logger;
  */
 public class SizeLimitedTextComponent extends PlainDocument {
 
+    private static final long serialVersionUID = 1L;
     private Logger log = LoggerHelper.getLogger();
     private int maxLength = 160;
     private JTextField counter;

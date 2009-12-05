@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.alteregos.sms.campaigner.views.helpers;
 
 import com.alteregos.sms.campaigner.business.OutboundSmsType;
@@ -14,6 +10,8 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @author John Emmanuel
  */
 public class MessageTypeColumnCellRenderer extends DefaultTableCellRenderer {
+
+    private static final long serialVersionUID = 1L;
 
     public MessageTypeColumnCellRenderer() {
     }
