@@ -54,7 +54,7 @@ public class Main extends SingleFrameApplication {
         log.debug("Library path: " + System.getProperty("java.library.path"));
         springContext = new ClassPathXmlApplicationContext("classpath:campaignerContext-core.xml");
         //Check if db exists. If not create it
-        DatabaseCreator databaseCreator = getBean("sqliteDatabaseInitializer");
+        DatabaseCreator databaseCreator = getBean("databaseInitializer");
         if (!databaseCreator.allTablesExist()) {
             log.debug("Tables not found. Initializing sqlite db");
             databaseCreator.createTables();
