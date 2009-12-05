@@ -6,7 +6,6 @@ import com.alteregos.sms.campaigner.data.dto.GroupPk;
 import com.alteregos.sms.campaigner.data.exceptions.DaoException;
 import com.alteregos.sms.campaigner.data.mappers.GroupRowMapper;
 import org.springframework.dao.DataAccessException;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ import java.util.List;
  */
 public class SqliteGroupDao extends BaseSqliteDao implements GroupDao {
 
-    private final String TABLE_NAME = "group";
+    private final String TABLE_NAME = "contact_group";
     private final String DEFAULT_SELECTORS = " group_id, name ";
     private String findByIdQuery;
     private String findAllQuery;

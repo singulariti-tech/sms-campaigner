@@ -30,7 +30,7 @@ public class SqliteDatabaseCreator extends BaseSqliteDao implements DatabaseCrea
                     "auto_reply_rule",
                     "contact",
                     "dnd",
-                    "group",
+                    "contact_group",
                     "contact_group_join"
                 });
         for (String tableName : tableNames) {
@@ -141,7 +141,7 @@ public class SqliteDatabaseCreator extends BaseSqliteDao implements DatabaseCrea
 
     public void createGroupTable() {
         System.out.println("Creating group table");
-        String sql = "CREATE TABLE IF NOT EXISTS [group] (" + "	[group_id] INTEGER PRIMARY KEY ASC ON CONFLICT FAIL AUTOINCREMENT UNIQUE ON CONFLICT FAIL, " + "	[name] VARCHAR(128) NOT NULL ON CONFLICT FAIL, " + "	CONSTRAINT \"UNIQUE_NAME\" UNIQUE ([name]) ON CONFLICT FAIL" + ")";
+        String sql = "CREATE TABLE IF NOT EXISTS [contact_group] (" + "	[group_id] INTEGER PRIMARY KEY ASC ON CONFLICT FAIL AUTOINCREMENT UNIQUE ON CONFLICT FAIL, " + "	[name] VARCHAR(128) NOT NULL ON CONFLICT FAIL, " + "	CONSTRAINT \"UNIQUE_NAME\" UNIQUE ([name]) ON CONFLICT FAIL" + ")";
         jdbcTemplate.update(sql);
     }
 
