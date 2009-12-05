@@ -18,6 +18,7 @@ import java.sql.SQLException;
  */
 public class IncomingMessageRowMapper implements ParameterizedRowMapper<IncomingMessage> {
 
+    @Override
     public IncomingMessage mapRow (ResultSet rs, int rowNum) throws SQLException {
         IncomingMessage message = new IncomingMessage ();
         message.setIncomingMessageId (rs.getInt ("incoming_message_id"));

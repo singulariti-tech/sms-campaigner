@@ -16,6 +16,7 @@ import java.sql.SQLException;
  */
 public class DndRowMapper implements ParameterizedRowMapper<Dnd> {
 
+    @Override
     public Dnd mapRow (ResultSet rs, int rowNum) throws SQLException {
         Dnd dnd = new Dnd ();
         dnd.setDndId (rs.getInt ("dnd_id"));

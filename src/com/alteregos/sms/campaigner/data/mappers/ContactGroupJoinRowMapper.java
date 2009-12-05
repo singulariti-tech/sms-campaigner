@@ -16,6 +16,7 @@ import java.sql.SQLException;
  */
 public class ContactGroupJoinRowMapper implements ParameterizedRowMapper<ContactGroupJoin> {
 
+    @Override
     public ContactGroupJoin mapRow (ResultSet rs, int rowNum) throws SQLException {
         ContactGroupJoin join = new ContactGroupJoin ();
         join.setContactId (rs.getInt ("contact_id"));

@@ -16,6 +16,7 @@ import java.sql.SQLException;
  */
 public class IncomingCallRowMapper implements ParameterizedRowMapper<IncomingCall> {
 
+    @Override
     public IncomingCall mapRow (ResultSet rs, int rowNum) throws SQLException {
         IncomingCall call = new IncomingCall ();
         call.setIncomingCallId (rs.getInt ("call_id"));

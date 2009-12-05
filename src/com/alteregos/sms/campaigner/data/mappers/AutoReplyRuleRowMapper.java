@@ -16,6 +16,7 @@ import java.sql.SQLException;
  */
 public class AutoReplyRuleRowMapper implements ParameterizedRowMapper<AutoReplyRule> {
 
+    @Override
     public AutoReplyRule mapRow (ResultSet rs, int rowNum) throws SQLException {
         AutoReplyRule rule = new AutoReplyRule ();
         rule.setAutoReplyRuleId (rs.getInt ("auto_reply_rule_id"));

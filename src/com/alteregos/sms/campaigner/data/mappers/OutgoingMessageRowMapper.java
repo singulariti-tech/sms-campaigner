@@ -20,6 +20,7 @@ import java.sql.SQLException;
  */
 public class OutgoingMessageRowMapper implements ParameterizedRowMapper<OutgoingMessage> {
 
+    @Override
     public OutgoingMessage mapRow (ResultSet rs, int rowNum) throws SQLException {
         OutgoingMessage message = new OutgoingMessage ();
         message.setOutgoingMessageId (rs.getInt ("outgoing_message_id"));

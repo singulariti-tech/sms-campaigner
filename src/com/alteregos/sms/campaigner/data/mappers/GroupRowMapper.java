@@ -16,6 +16,7 @@ import java.sql.SQLException;
  */
 public class GroupRowMapper implements ParameterizedRowMapper<Group> {
 
+    @Override
     public Group mapRow (ResultSet rs, int rowNum) throws SQLException {
         Group group = new Group ();
         group.setGroupId (rs.getInt ("group_id"));
