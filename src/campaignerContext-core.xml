@@ -10,12 +10,57 @@
             http://www.springframework.org/schema/context
             http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
+    <!-- Datasource -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="org.sqlite.JDBC" />
         <property name="url" value="jdbc:sqlite:./database/campaigner.db" />
         <property name="maxActive" value="25" />
         <property name="defaultAutoCommit" value="true"/>
     </bean>
-    <context:component-scan base-package="com.alteregos.sms.campaigner"/>
+    <!-- Transaction Manager -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!-- DAOs -->
+    <bean id="databaseInitializer" class="com.alteregos.sms.campaigner.data.sqlite.SqliteDatabaseCreator">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <bean id="autoReplyRuleDao" class="com.alteregos.sms.campaigner.data.sqlite.SqliteAutoReplyRuleDao" >
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <bean id="contactDao" class="com.alteregos.sms.campaigner.data.sqlite.SqliteContactDao" >
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <bean id="contactGroupJoinDao" class="com.alteregos.sms.campaigner.data.sqlite.SqliteContactGroupJoinDao" >
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <bean id="dndDao" class="com.alteregos.sms.campaigner.data.sqlite.SqliteDndDao" >
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <bean id="groupDao" class="com.alteregos.sms.campaigner.data.sqlite.SqliteGroupDao">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <bean id="incomingCallDao" class="com.alteregos.sms.campaigner.data.sqlite.SqliteIncomingCallDao" >
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <bean id="incomingMessageDao" class="com.alteregos.sms.campaigner.data.sqlite.SqliteIncomingMessageDao" >
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <bean id="outgoingMessageDao" class="com.alteregos.sms.campaigner.data.sqlite.SqliteOutgoingMessageDao" >
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <!-- SERVICEs -->
+    <bean id="contactService" class="com.alteregos.sms.campaigner.services.ContactService">
+        <property name="contactDao" ref="contactDao" />
+        <property name="groupDao" ref="groupDao" />
+    </bean>
+    <bean id="dndService" class="com.alteregos.sms.campaigner.services.DndService">
+        <property name="dndDao" ref="dndDao" />
+    </bean>
+    <bean id="incomingCallService" class="com.alteregos.sms.campaigner.services.IncomingCallService">
+        <property name="incomingCallDao" ref="incomingCallDao" />
+    </bean>
+
+   
 
 </beans>
