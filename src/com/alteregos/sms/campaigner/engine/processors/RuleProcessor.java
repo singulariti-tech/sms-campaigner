@@ -1,19 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.alteregos.sms.campaigner.engine.processors;
 
-import com.alteregos.sms.campaigner.data.beans.DndRule;
-import com.alteregos.sms.campaigner.data.beans.IRule;
-import com.alteregos.sms.campaigner.data.beans.Rule;
+import com.alteregos.sms.campaigner.Main;
 import com.alteregos.sms.campaigner.engine.processors.helpers.RuleProcessResult;
+import com.alteregos.sms.campaigner.rules.DndRule;
+import com.alteregos.sms.campaigner.rules.IRule;
+import com.alteregos.sms.campaigner.services.RuleService;
 import com.alteregos.sms.campaigner.util.LoggerHelper;
 import com.alteregos.sms.campaigner.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import org.apache.log4j.Logger;
 
 /**
@@ -24,13 +19,11 @@ public class RuleProcessor {
 
     private static Logger log = LoggerHelper.getLogger();
     private IRule dndRule;
-    private EntityManager entityManager;
-    private Query ruleQuery;
+    private RuleService ruleService;
 
     public RuleProcessor() {
         dndRule = new DndRule();
-        entityManager = javax.persistence.Persistence.createEntityManagerFactory("absolute-smsPU").createEntityManager();
-        ruleQuery = entityManager.createQuery("SELECT r FROM Rule r");
+        ruleService = Main.getApplication().getBean("ruleService");
     }
 
     public RuleProcessResult process(String content) {
@@ -58,7 +51,7 @@ public class RuleProcessor {
 
     //TODO Verify if ruleSecondary is null anytime
     private MatchedRule matchRule(RuleParseResult parseResult) {
-        for (Rule rule : getRules()) {
+        for (IRule rule : getRules()) {
             String rulePrimary = rule.getPrimaryKeyword().toLowerCase();
             String ruleSecondary = rule.getSecondaryKeyword().toLowerCase();
             String resultPrimary = parseResult.getPrimary().toLowerCase();
@@ -83,8 +76,8 @@ public class RuleProcessor {
         boolean matches = false;
         String resultPrimary = parseResult.getPrimary().toLowerCase();
         String resultSecondary = parseResult.getSecondary().toLowerCase();
-        if (resultPrimary.equals(dndRule.getPrimaryKeyword().toLowerCase()) &&
-                resultSecondary.equals(dndRule.getSecondaryKeyword().toLowerCase())) {
+        if (resultPrimary.equals(dndRule.getPrimaryKeyword().toLowerCase())
+                && resultSecondary.equals(dndRule.getSecondaryKeyword().toLowerCase())) {
             return true;
         }
         return matches;
@@ -115,14 +108,14 @@ public class RuleProcessor {
         return result;
     }
 
-    private List<Rule> getRules() {
-        return filter((List<Rule>) ruleQuery.getResultList());
+    private List<IRule> getRules() {
+        return filter(ruleService.getRules());
     }
 
-    private List<Rule> filter(List<Rule> inputList) {
-        List<Rule> outputList = new ArrayList<Rule>();
-        for (Rule rule : inputList) {
-            if (rule.getEnabled()) {
+    private List<IRule> filter(List<IRule> inputList) {
+        List<IRule> outputList = new ArrayList<IRule>();
+        for (IRule rule : inputList) {
+            if (rule.isEnabled()) {
                 outputList.add(rule);
             }
         }
