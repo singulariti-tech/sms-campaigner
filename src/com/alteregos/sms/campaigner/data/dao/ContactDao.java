@@ -13,5 +13,5 @@ public interface ContactDao {
     List<Contact> findAll ();
     List<Contact> findByMobileNo (String mobileNo);
     ContactPk insert(Contact contact);
-    void update(ContactPk pk, Contact contact);
+    void update(ContactPk pk, Contact contact);    
 }
