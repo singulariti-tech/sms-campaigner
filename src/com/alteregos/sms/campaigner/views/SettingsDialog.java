@@ -89,7 +89,7 @@ public class SettingsDialog extends javax.swing.JDialog {
             comPortComboBox.addItem(configuration.getComPort());
             comPortComboBox.setSelectedIndex(0);
         }
-        //Message Settings        
+        //Message Settings
         messageFooterTextArea.setText(configuration.getMessageFooter());
         enableCallNotificationCheckbox.setSelected(configuration.isCallNotificationEnabled());
         callNotificationLongMessageCheckBox.setSelected(configuration.isLongCallNotificationEnabled());
@@ -166,18 +166,18 @@ public class SettingsDialog extends javax.swing.JDialog {
 
                 String message = "";
                 if (callNotificationLonger && defaultMessageLonger) {
-                    message = "Message footer saved. However since call notification and\n" +
-                            "default message lengths are greater than standard lengths, footers" +
-                            "have been disabled for these messages. Restart application for\n" +
-                            "changes to take effect";
+                    message = "Message footer saved. However since call notification and\n"
+                            + "default message lengths are greater than standard lengths, footers"
+                            + "have been disabled for these messages. Restart application for\n"
+                            + "changes to take effect";
                 } else if (callNotificationLonger) {
-                    message = "Message footer saved. However since call notification length\n" +
-                            "is now greater than standard length, footer has been disabled for " +
-                            "this message. Restart application for changes to take effect";
+                    message = "Message footer saved. However since call notification length\n"
+                            + "is now greater than standard length, footer has been disabled for "
+                            + "this message. Restart application for changes to take effect";
                 } else if (defaultMessageLonger) {
-                    message = "Message footer saved. However since call default message length\n" +
-                            "is now greater than standard length, footer has been disabled for " +
-                            "this message. Restart application for changes to take effect.";
+                    message = "Message footer saved. However since call default message length\n"
+                            + "is now greater than standard length, footer has been disabled for "
+                            + "this message. Restart application for changes to take effect.";
                 } else if (!callNotificationLonger && !defaultMessageLonger) {
                     message = "Message footer saved. Restart application\n for changes to take effect";
                 }
@@ -529,6 +529,8 @@ public class SettingsDialog extends javax.swing.JDialog {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, enableDefaultMessageCheckbox, org.jdesktop.beansbinding.ELProperty.create("${selected}"), defaultMessageTextArea, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
+        tabbedPane.addTab(resourceMap.getString("defaultMessagePanel.TabConstraints.tabTitle"), defaultMessagePanel); // NOI18N
+
         defaultMessageScrollPane.setViewportView(defaultMessageTextArea);
 
         defaultMessageLengthTextField.setColumns(3);
@@ -562,76 +564,7 @@ public class SettingsDialog extends javax.swing.JDialog {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, enableDefaultMessageCheckbox, org.jdesktop.beansbinding.ELProperty.create("${selected}"), enableMessageFooterForDefaultMessageCheckbox, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
-      /*
-        javax.swing.GroupLayout portContainerLayout = new javax.swing.GroupLayout(portContainer);
-        portContainer.setLayout(portContainerLayout);
-        portContainerLayout.setHorizontalGroup(
-                portContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(portContainerLayout.createSequentialGroup().addContainerGap().addGroup(portContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(portSettingsStatusLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE).addComponent(saveButton).addComponent(dataBitsLabel, javax.swing.GroupLayout.Alignment.LEADING).addComponent(stopBitsLabel, javax.swing.GroupLayout.Alignment.LEADING).addComponent(parityBitsLabel, javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.LEADING, portContainerLayout.createSequentialGroup().addGroup(portContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(comPortLabel).addComponent(flowControlLabel).addComponent(baudRateLabel)).addGap(29, 29, 29).addGroup(portContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(comPortComboBox, 0, 247, Short.MAX_VALUE).addComponent(flowControlComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, 247, Short.MAX_VALUE).addComponent(baudRateTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE).addComponent(dataBitsTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE).addComponent(stopBitsTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE).addComponent(parityBitsTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)))).addContainerGap()));
-        portContainerLayout.setVerticalGroup(
-                portContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(portContainerLayout.createSequentialGroup().addContainerGap().addGroup(portContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(comPortLabel).addComponent(comPortComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(portContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(flowControlLabel).addComponent(flowControlComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(portContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(baudRateLabel).addComponent(baudRateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(portContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(dataBitsLabel).addComponent(dataBitsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(portContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(stopBitsLabel).addComponent(stopBitsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(portContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(parityBitsLabel).addComponent(parityBitsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(saveButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE).addComponent(portSettingsStatusLabel)));
-
-        javax.swing.GroupLayout portPanelLayout = new javax.swing.GroupLayout(portPanel);
-        portPanel.setLayout(portPanelLayout);
-        portPanelLayout.setHorizontalGroup(
-                portPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(portPanelLayout.createSequentialGroup().addContainerGap().addComponent(portContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
-        portPanelLayout.setVerticalGroup(
-                portPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(portPanelLayout.createSequentialGroup().addContainerGap().addComponent(portContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
-
-*/
-
-        javax.swing.GroupLayout messageFooterContainerLayout = new javax.swing.GroupLayout(messageFooterContainer);
-        messageFooterContainer.setLayout(messageFooterContainerLayout);
-        messageFooterContainerLayout.setHorizontalGroup(
-                messageFooterContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(messageFooterContainerLayout.createSequentialGroup().addContainerGap().addGroup(messageFooterContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(footerScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE).addGroup(messageFooterContainerLayout.createSequentialGroup().addComponent(messageLengthTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE).addComponent(footerSaveButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(footerClearButton))).addContainerGap()));
-        messageFooterContainerLayout.setVerticalGroup(
-                messageFooterContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, messageFooterContainerLayout.createSequentialGroup().addContainerGap().addComponent(footerScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(messageFooterContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(messageLengthTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(footerClearButton).addComponent(footerSaveButton)).addContainerGap()));
-
-        javax.swing.GroupLayout messageFooterPanelLayout = new javax.swing.GroupLayout(messageFooterPanel);
-        messageFooterPanel.setLayout(messageFooterPanelLayout);
-        messageFooterPanelLayout.setHorizontalGroup(
-                messageFooterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(messageFooterPanelLayout.createSequentialGroup().addContainerGap().addComponent(messageFooterContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
-        messageFooterPanelLayout.setVerticalGroup(
-                messageFooterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(messageFooterPanelLayout.createSequentialGroup().addContainerGap().addComponent(messageFooterContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
-
-        javax.swing.GroupLayout callNotificationContainerLayout = new javax.swing.GroupLayout(callNotificationContainer);
-        callNotificationContainer.setLayout(callNotificationContainerLayout);
-        callNotificationContainerLayout.setHorizontalGroup(
-                callNotificationContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(callNotificationContainerLayout.createSequentialGroup().addContainerGap().addGroup(callNotificationContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(callNotificationScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE).addComponent(enableMessageFooterForCallNotificationCheckbox).addComponent(enableCallNotificationCheckbox).addComponent(callNotificationLongMessageCheckBox).addGroup(callNotificationContainerLayout.createSequentialGroup().addComponent(callNotificationLengthTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE).addComponent(callNotificationSaveButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(callNotificationClearButton))).addContainerGap()));
-        callNotificationContainerLayout.setVerticalGroup(
-                callNotificationContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, callNotificationContainerLayout.createSequentialGroup().addContainerGap().addComponent(enableCallNotificationCheckbox).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(callNotificationLongMessageCheckBox).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(enableMessageFooterForCallNotificationCheckbox).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(callNotificationScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(callNotificationContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(callNotificationClearButton).addComponent(callNotificationSaveButton).addComponent(callNotificationLengthTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addContainerGap()));
-
-        javax.swing.GroupLayout callNotificationPanelLayout = new javax.swing.GroupLayout(callNotificationPanel);
-        callNotificationPanel.setLayout(callNotificationPanelLayout);
-        callNotificationPanelLayout.setHorizontalGroup(
-                callNotificationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(callNotificationPanelLayout.createSequentialGroup().addContainerGap().addComponent(callNotificationContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
-        callNotificationPanelLayout.setVerticalGroup(
-                callNotificationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(callNotificationPanelLayout.createSequentialGroup().addContainerGap().addComponent(callNotificationContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
-
-        javax.swing.GroupLayout defaultMessageContainerLayout = new javax.swing.GroupLayout(defaultMessageContainer);
-        defaultMessageContainer.setLayout(defaultMessageContainerLayout);
-        defaultMessageContainerLayout.setHorizontalGroup(
-                defaultMessageContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING, defaultMessageContainerLayout.createSequentialGroup().addContainerGap().addGroup(defaultMessageContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(defaultMessageScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE).addComponent(enableMessageFooterForDefaultMessageCheckbox, javax.swing.GroupLayout.Alignment.LEADING).addComponent(defaultMessageLongMessageCheckbox, javax.swing.GroupLayout.Alignment.LEADING).addComponent(enableDefaultMessageCheckbox, javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.LEADING, defaultMessageContainerLayout.createSequentialGroup().addComponent(defaultMessageLengthTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE).addComponent(defaultMessageSaveButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(defaultMessageClearButton))).addContainerGap()));
-        defaultMessageContainerLayout.setVerticalGroup(
-                defaultMessageContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(defaultMessageContainerLayout.createSequentialGroup().addContainerGap().addComponent(enableDefaultMessageCheckbox).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(defaultMessageLongMessageCheckbox).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(enableMessageFooterForDefaultMessageCheckbox).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(defaultMessageScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(defaultMessageContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(defaultMessageSaveButton).addComponent(defaultMessageClearButton).addComponent(defaultMessageLengthTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addContainerGap()));
-
-        javax.swing.GroupLayout defaultMessagePanelLayout = new javax.swing.GroupLayout(defaultMessagePanel);
-        defaultMessagePanel.setLayout(defaultMessagePanelLayout);
-        defaultMessagePanelLayout.setHorizontalGroup(
-                defaultMessagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(defaultMessagePanelLayout.createSequentialGroup().addContainerGap().addComponent(defaultMessageContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
-        defaultMessagePanelLayout.setVerticalGroup(
-                defaultMessagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(defaultMessagePanelLayout.createSequentialGroup().addContainerGap().addComponent(defaultMessageContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
-
-        tabbedPane.addTab(resourceMap.getString("defaultMessagePanel.TabConstraints.tabTitle"), defaultMessagePanel); // NOI18N
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE).addContainerGap()));
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE).addContainerGap()));
-
-
-        portContainer.setLayout(new MigLayout("fill, insets panel", "[min!][]", "[min!][min!][min!][min!][min!][min!][min!]"));
+        portContainer.setLayout(new MigLayout("fill, insets panel", "[70!][]", "[min!][min!][min!][min!][min!][min!][min!]"));
         portContainer.add(comPortLabel);
         portContainer.add(comPortComboBox, "growx, wrap");
         portContainer.add(flowControlLabel);
@@ -644,11 +577,45 @@ public class SettingsDialog extends javax.swing.JDialog {
         portContainer.add(stopBitsTextField, "growx, wrap");
         portContainer.add(parityBitsLabel);
         portContainer.add(parityBitsTextField, "growx, wrap");
-        portContainer.add(saveButton, "spanx 2, right");
+        portContainer.add(saveButton, "skip 1, push");
 
         this.portPanel.setLayout(new MigLayout("fill, insets panel"));
         this.portPanel.add(portContainer, "grow, push");
 
+        messageFooterContainer.setLayout(new MigLayout("fill, insets panel", "[]push[][]"));
+        messageFooterContainer.add(footerScrollPane, "span, grow, push, wrap");
+        messageFooterContainer.add(messageLengthTextField, "");
+        messageFooterContainer.add(footerSaveButton);
+        messageFooterContainer.add(footerClearButton);
+
+        this.messageFooterPanel.setLayout(new MigLayout("fill, insets panel"));
+        this.messageFooterPanel.add(messageFooterContainer, "grow, push");
+
+        callNotificationContainer.setLayout(new MigLayout("fill, insets panel", "[]push[][]"));
+        callNotificationContainer.add(enableCallNotificationCheckbox, "wrap");
+        callNotificationContainer.add(callNotificationLongMessageCheckBox, "wrap");
+        callNotificationContainer.add(enableMessageFooterForCallNotificationCheckbox, "wrap");
+        callNotificationContainer.add(callNotificationScrollPane, "span, grow, push, wrap");
+        callNotificationContainer.add(callNotificationLengthTextField);
+        callNotificationContainer.add(callNotificationSaveButton);
+        callNotificationContainer.add(callNotificationClearButton);
+
+        this.callNotificationPanel.setLayout(new MigLayout("fill, insets panel", "[min!]"));
+        this.callNotificationPanel.add(callNotificationContainer, "grow, push");
+
+        defaultMessageContainer.setLayout(new MigLayout("fill, insets panel", "[]push[][]"));
+        defaultMessageContainer.add(enableDefaultMessageCheckbox, "wrap");
+        defaultMessageContainer.add(defaultMessageLongMessageCheckbox, "wrap");
+        defaultMessageContainer.add(enableMessageFooterForDefaultMessageCheckbox, "wrap");
+        defaultMessageContainer.add(defaultMessageScrollPane, "span, grow, push, wrap");
+        defaultMessageContainer.add(defaultMessageLengthTextField);
+        defaultMessageContainer.add(defaultMessageSaveButton);
+        defaultMessageContainer.add(defaultMessageClearButton);
+
+        this.defaultMessagePanel.setLayout(new MigLayout("fill, insets panel", "[min!]"));
+        this.defaultMessagePanel.add(defaultMessageContainer, "grow, push");
+
+        this.getContentPane().add(tabbedPane);
 
         bindingGroup.bind();
 
