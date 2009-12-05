@@ -7,12 +7,14 @@ import com.alteregos.sms.campaigner.exceptions.ITaskResult;
 import com.alteregos.sms.campaigner.exceptions.SuccessfulTaskResult;
 import com.alteregos.sms.campaigner.util.DateUtils;
 import com.alteregos.sms.campaigner.views.helpers.SizeLimitedTextComponent;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.RollbackException;
 import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
+import net.miginfocom.swing.MigLayout;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.Task;
@@ -23,6 +25,8 @@ import org.jdesktop.swingx.JXDatePicker;
  * @author  John Emmanuel
  */
 public class RulesManagerPanel extends javax.swing.JPanel {
+
+    private static final long serialVersionUID = 1L;
 
     /** Creates new form RulesManagerPanel */
     public RulesManagerPanel() {
@@ -73,7 +77,7 @@ public class RulesManagerPanel extends javax.swing.JPanel {
     //</editor-fold>
 
     /**
-     * 
+     *
      */
     //<editor-fold defaultstate="collapsed" desc="Dependencies">
     private class RefreshListActionTask extends Task<Object, Void> {
@@ -346,20 +350,39 @@ public class RulesManagerPanel extends javax.swing.JPanel {
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, rulesTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), saveButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
+        
+        Dimension dateFieldsDimension = new Dimension(70, startDateLabel.getHeight());
+        startDateField.setPreferredSize(dateFieldsDimension);
+        endDateField.setPreferredSize(dateFieldsDimension);
+        Dimension keywordFieldDimension = new Dimension(100, primaryKeywordLabel.getHeight());
+        primaryKeywordLabel.setPreferredSize(keywordFieldDimension);
+        secondaryKeywordLabel.setPreferredSize(keywordFieldDimension);
 
-        javax.swing.GroupLayout borderContainerLayout = new javax.swing.GroupLayout(borderContainer);
-        borderContainer.setLayout(borderContainerLayout);
-        borderContainerLayout.setHorizontalGroup(
-                borderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(borderContainerLayout.createSequentialGroup().addContainerGap().addGroup(borderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(rulesScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 671, Short.MAX_VALUE).addGroup(borderContainerLayout.createSequentialGroup().addComponent(startDateLabel).addGap(6, 6, 6).addComponent(startDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(endDateLabel).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(endDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(filterButton)).addComponent(contentLabel).addComponent(contentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 671, Short.MAX_VALUE).addGroup(borderContainerLayout.createSequentialGroup().addComponent(contentLengthField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(enabledCheckbox).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 303, Short.MAX_VALUE).addComponent(saveButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(deleteButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(refreshButton)).addGroup(borderContainerLayout.createSequentialGroup().addGroup(borderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(secondaryKeywordLabel).addComponent(primaryKeywordLabel)).addGap(12, 12, 12).addGroup(borderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(secondaryKeywordField, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE).addComponent(primaryKeywordField, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)))).addContainerGap()));
-        borderContainerLayout.setVerticalGroup(
-                borderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(borderContainerLayout.createSequentialGroup().addGap(11, 11, 11).addGroup(borderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER).addComponent(startDateLabel).addComponent(startDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(endDateLabel).addComponent(endDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(filterButton)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(rulesScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE).addGap(18, 18, 18).addGroup(borderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(primaryKeywordLabel).addComponent(primaryKeywordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(borderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(secondaryKeywordLabel).addComponent(secondaryKeywordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(contentLabel).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(contentScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(borderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(contentLengthField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(enabledCheckbox).addComponent(refreshButton).addComponent(deleteButton).addComponent(saveButton)).addContainerGap()));
+        this.setLayout(new MigLayout("fill, insets panel"));
+        this.add(borderContainer, "grow");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(borderContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(borderContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
+        borderContainer.setLayout(new MigLayout("fill, insets panel", "", "[][]20[min!][min!][min!][75!][min!]"));
+
+        borderContainer.add(startDateLabel, "span, split 5");
+        borderContainer.add(startDateField, "gapright 20");
+        borderContainer.add(endDateLabel);
+        borderContainer.add(endDateField, "gapright 20");
+        borderContainer.add(filterButton, "wrap");
+        borderContainer.add(rulesScrollPane, "spanx 5, grow, push, wrap");
+
+        borderContainer.add(primaryKeywordLabel, "span, split 2");
+        borderContainer.add(primaryKeywordField, "grow, wrap");
+        borderContainer.add(secondaryKeywordLabel, "span, split 2");
+        borderContainer.add(secondaryKeywordField, "grow, wrap");
+        borderContainer.add(contentLabel, "wrap");
+        borderContainer.add(contentScrollPane, "spanx 5, grow, push, wrap");
+        borderContainer.add(contentLengthField, "spanx 2, split 2");
+        borderContainer.add(enabledCheckbox, "push");
+        borderContainer.add(saveButton, "spanx 3, split 3, right");
+        borderContainer.add(deleteButton);
+        borderContainer.add(refreshButton);
+
+
 
         bindingGroup.bind();
     }
