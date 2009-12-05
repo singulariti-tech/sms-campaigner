@@ -125,7 +125,7 @@ public class Message implements Serializable {
         } else if (this.encoding == MessageEncodings.ENCUCS2) {
             for (int i = 0; i < text.length(); i++) {
                 char c = text.charAt(i);
-                int high = (int) (c / 256);
+                int high = (c / 256);
                 int low = c % 256;
                 encodedText += ((Integer.toHexString(high).length() < 2) ? "0" + Integer.toHexString(high) : Integer.toHexString(high));
                 encodedText += ((Integer.toHexString(low).length() < 2) ? "0" + Integer.toHexString(low) : Integer.toHexString(low));
