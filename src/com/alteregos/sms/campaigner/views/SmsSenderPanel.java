@@ -19,6 +19,7 @@ import javax.persistence.Query;
 import javax.persistence.RollbackException;
 import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
+import net.miginfocom.swing.MigLayout;
 import org.apache.log4j.Logger;
 import org.jdesktop.application.Action;
 
@@ -27,6 +28,8 @@ import org.jdesktop.application.Action;
  * @author  John Emmanuel
  */
 public class SmsSenderPanel extends javax.swing.JPanel {
+
+    private static final long serialVersionUID = 1L;
 
     /** Creates new form SmsSenderPanel */
     public SmsSenderPanel() {
@@ -198,7 +201,6 @@ public class SmsSenderPanel extends javax.swing.JPanel {
     }
     //</editor-fold>
 
-
     @SuppressWarnings("unchecked")
     private void initComponents() {
 
@@ -206,7 +208,6 @@ public class SmsSenderPanel extends javax.swing.JPanel {
         recepientsLabel = new javax.swing.JLabel();
         recepientsScrollPane = new javax.swing.JScrollPane();
         recepientsTextArea = new javax.swing.JTextArea();
-        recepientsNoticeLabel = new javax.swing.JLabel();
         groupsButton = new javax.swing.JButton();
         messageContentLabel = new javax.swing.JLabel();
         messageContentScrollPane = new javax.swing.JScrollPane();
@@ -243,9 +244,6 @@ public class SmsSenderPanel extends javax.swing.JPanel {
         recepientsTextArea.setWrapStyleWord(true);
         recepientsTextArea.setName("recepientsTextArea"); // NOI18N
         recepientsScrollPane.setViewportView(recepientsTextArea);
-
-        recepientsNoticeLabel.setText(resourceMap.getString("recepientsNoticeLabel.text")); // NOI18N
-        recepientsNoticeLabel.setName("recepientsNoticeLabel"); // NOI18N
 
         javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(com.alteregos.sms.campaigner.Main.class).getContext().getActionMap(SmsSenderPanel.class, this);
         groupsButton.setAction(actionMap.get("addGroupsAction")); // NOI18N
@@ -320,24 +318,29 @@ public class SmsSenderPanel extends javax.swing.JPanel {
         enableMessageFooterCheckbox.setToolTipText(resourceMap.getString("enableMessageFooterCheckbox.toolTipText")); // NOI18N
         enableMessageFooterCheckbox.setName("enableMessageFooterCheckbox"); // NOI18N
 
-        javax.swing.GroupLayout smsSenderContainerLayout = new javax.swing.GroupLayout(smsSenderContainer);
-        smsSenderContainer.setLayout(smsSenderContainerLayout);
-        smsSenderContainerLayout.setHorizontalGroup(
-                smsSenderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(smsSenderContainerLayout.createSequentialGroup().addContainerGap().addGroup(smsSenderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(smsSenderContainerLayout.createSequentialGroup().addComponent(recepientsLabel).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(recepientsNoticeLabel)).addGroup(smsSenderContainerLayout.createSequentialGroup().addGroup(smsSenderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(groupsButton).addComponent(phoneBookButton)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(recepientsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)).addComponent(previewScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE).addComponent(messageContentLabel).addComponent(messageContentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE).addGroup(smsSenderContainerLayout.createSequentialGroup().addComponent(messageContentLengthTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE).addComponent(longMessageCheckbox).addGap(18, 18, 18).addComponent(enableMessageFooterCheckbox).addGap(18, 18, 18).addComponent(priorityLabel).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(priorityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).addComponent(previewLabel).addGroup(smsSenderContainerLayout.createSequentialGroup().addComponent(previewLengthTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 395, Short.MAX_VALUE).addComponent(sendButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(clearButton))).addContainerGap()));
+        this.setLayout(new MigLayout("fill, insets panel"));
+        this.add(smsSenderContainer, "grow");
 
-        smsSenderContainerLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[]{groupsButton, phoneBookButton});
+        smsSenderContainer.setLayout(new MigLayout("fill, insets panel", "[min!][push]",
+                "[min!][min!][min!]15[min!][push][min!]15[min!][push][min!]"));
 
-        smsSenderContainerLayout.setVerticalGroup(
-                smsSenderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(smsSenderContainerLayout.createSequentialGroup().addContainerGap().addGroup(smsSenderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(recepientsLabel).addComponent(recepientsNoticeLabel)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(smsSenderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(smsSenderContainerLayout.createSequentialGroup().addComponent(groupsButton).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(phoneBookButton).addGap(0, 0, Short.MAX_VALUE)).addComponent(recepientsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(messageContentLabel).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(messageContentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(smsSenderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(messageContentLengthTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(priorityLabel).addComponent(priorityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(enableMessageFooterCheckbox).addComponent(longMessageCheckbox)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(previewLabel).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(previewScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(smsSenderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(previewLengthTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(clearButton).addComponent(sendButton)).addGap(56, 56, 56)));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(smsSenderContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap().addComponent(smsSenderContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addContainerGap()));
+        smsSenderContainer.add(recepientsLabel, "span, wrap");
+        smsSenderContainer.add(groupsButton, "w 100!");
+        smsSenderContainer.add(recepientsScrollPane, "spany 2, grow, push, wrap");
+        smsSenderContainer.add(phoneBookButton, "w 100!, wrap");
+        smsSenderContainer.add(messageContentLabel, "span, wrap");
+        smsSenderContainer.add(messageContentScrollPane, "span, grow, push, wrap");
+        smsSenderContainer.add(messageContentLengthTextField);
+        smsSenderContainer.add(longMessageCheckbox, "span, split 5, right, push");
+        smsSenderContainer.add(enableMessageFooterCheckbox);
+        smsSenderContainer.add(priorityLabel);
+        smsSenderContainer.add(priorityComboBox, "wrap");
+        smsSenderContainer.add(previewLabel, "span, wrap");
+        smsSenderContainer.add(previewScrollPane, "span, grow, push, wrap");
+        smsSenderContainer.add(previewLengthTextField);
+        smsSenderContainer.add(sendButton, "span, split 3, right, push");
+        smsSenderContainer.add(clearButton);
     }
-    
     private javax.swing.JButton clearButton;
     private javax.swing.JCheckBox enableMessageFooterCheckbox;
     private javax.swing.JButton groupsButton;
@@ -354,12 +357,10 @@ public class SmsSenderPanel extends javax.swing.JPanel {
     private javax.swing.JComboBox priorityComboBox;
     private javax.swing.JLabel priorityLabel;
     private javax.swing.JLabel recepientsLabel;
-    private javax.swing.JLabel recepientsNoticeLabel;
     private javax.swing.JScrollPane recepientsScrollPane;
     private javax.swing.JTextArea recepientsTextArea;
     private javax.swing.JButton sendButton;
     private javax.swing.JPanel smsSenderContainer;
-
     private static Logger log = LoggerHelper.getLogger();
     private EntityManager entityManager;
     private Query dndQuery;
