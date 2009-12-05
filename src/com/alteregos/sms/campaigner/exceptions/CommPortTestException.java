@@ -10,6 +10,8 @@ package com.alteregos.sms.campaigner.exceptions;
  */
 public class CommPortTestException extends Exception {
 
+    private static final long serialVersionUID = 1L;
+
     public CommPortTestException(Throwable cause) {
         super(cause);
     }
