@@ -17,7 +17,7 @@ public class ProbeInputBlocker extends InputBlocker {
 
     private BlockerDialog dialog;
 
-    public ProbeInputBlocker(Task task, BlockerDialog dialog) {
+    public ProbeInputBlocker(Task<Object, Void> task, BlockerDialog dialog) {
         super(task, BlockingScope.APPLICATION, dialog);
         this.dialog = dialog;
         dialog.setVisible(true);
