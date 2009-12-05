@@ -1,14 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.alteregos.sms.campaigner.services.probe;
 
 import com.alteregos.sms.campaigner.exceptions.CommPortTestException;
 import com.alteregos.sms.campaigner.conf.Configuration;
 import com.alteregos.sms.campaigner.util.LoggerHelper;
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 import org.apache.log4j.Logger;
 
 /**
@@ -65,21 +59,20 @@ public class ProbeTool {
     }
 
     private boolean testDatabaseConnectivity() {
-        boolean isDbTestSuccessful = false;
-        EntityManager entityManager = null;
+        boolean isDbTestSuccessful = false;        
         try {
-            entityManager = Persistence.createEntityManagerFactory("absolute-smsPU").createEntityManager();
+            //TODO Test Db connectivity
             isDbTestSuccessful = true;
             log.debug("Database connectivity test successful");
-        } catch (oracle.toplink.essentials.exceptions.DatabaseException de) {
-            if (de.getErrorCode() == 4002) {
+        } catch (Exception de) {
+            //if (de. == 4002) {
                 isDbTestSuccessful = false;
-            }
+            //}
             log.debug("Database connectivity test unsuccessful: " + de.getMessage());
-        } catch (Exception e) {
-            log.debug("Database connectivity test unsuccessful: " + e.getMessage());
-            isDbTestSuccessful = false;
-        }
+        } //catch (Exception e) {
+            //log.debug("Database connectivity test unsuccessful: " + e.getMessage());
+            //isDbTestSuccessful = false;
+        //}
         return isDbTestSuccessful;
     }
 }
