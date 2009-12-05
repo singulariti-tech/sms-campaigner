@@ -5,9 +5,7 @@ import com.alteregos.sms.campaigner.data.dao.GroupDao;
 import com.alteregos.sms.campaigner.data.dto.Contact;
 import com.alteregos.sms.campaigner.data.dto.Group;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
 
 /**
  *
@@ -16,25 +14,25 @@ import org.springframework.stereotype.Service;
  * @since
  *
  */
-@Service("contactService")
 public class ContactService {
 
-    @Autowired(required = true)
-    @Qualifier("sqliteContactDao")
     private ContactDao contactDao;
-    @Autowired(required = true)
-    @Qualifier("sqliteGroupDao")
     private GroupDao groupDao;
+    private PlatformTransactionManager transactionManager;
 
     public ContactService() {
     }
-    
+
     public void setContactDao(ContactDao contactDao) {
         this.contactDao = contactDao;
     }
 
     public void setGroupDao(GroupDao groupDao) {
         this.groupDao = groupDao;
+    }
+
+    public void setTransactionManager(PlatformTransactionManager transactionManager) {
+        this.transactionManager = transactionManager;
     }
 
     public int newContact(Contact contact) {
