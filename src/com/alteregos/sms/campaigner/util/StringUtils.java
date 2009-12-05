@@ -67,16 +67,16 @@ public class StringUtils {
         return toStringArray(tokens);
     }
 
-    public static String[] toStringArray(Collection collection) {
+    public static <T> String[] toStringArray(Collection<T> collection) {
         if (collection == null) {
             return null;
         }
-        return (String[]) collection.toArray(new String[collection.size()]);
+        return collection.toArray(new String[collection.size()]);
     }
 
-    public static String toDelimitedString(Collection collection, String delimiter) {
+    public static <T> String toDelimitedString(Collection<T> collection, String delimiter) {
         StringBuilder builder = new StringBuilder();
-        Iterator iterator = collection.iterator();
+        Iterator<T> iterator = collection.iterator();
         while (iterator.hasNext()) {
             builder.append(iterator.next());
             if (iterator.hasNext()) {
