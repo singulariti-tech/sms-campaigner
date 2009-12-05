@@ -28,13 +28,21 @@ public class ContactGroupJoinPk {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         ContactGroupJoinPk that = (ContactGroupJoinPk) o;
 
-        if (contactId != that.contactId) return false;
-        if (groupId != that.groupId) return false;
+        if (contactId != that.contactId) {
+            return false;
+        }
+        if (groupId != that.groupId) {
+            return false;
+        }
 
         return true;
     }

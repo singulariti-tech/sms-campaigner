@@ -22,12 +22,18 @@ public class ContactPk {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         ContactPk contactPk = (ContactPk) o;
 
-        if (contactId != contactPk.contactId) return false;
+        if (contactId != contactPk.contactId) {
+            return false;
+        }
 
         return true;
     }

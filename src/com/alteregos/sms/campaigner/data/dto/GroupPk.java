@@ -22,12 +22,18 @@ public class GroupPk {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         GroupPk groupPk = (GroupPk) o;
 
-        if (groupId != groupPk.groupId) return false;
+        if (groupId != groupPk.groupId) {
+            return false;
+        }
 
         return true;
     }

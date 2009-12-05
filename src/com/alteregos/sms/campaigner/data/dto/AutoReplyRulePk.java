@@ -22,12 +22,18 @@ public class AutoReplyRulePk {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         AutoReplyRulePk that = (AutoReplyRulePk) o;
 
-        if (autoReplyRuleId != that.autoReplyRuleId) return false;
+        if (autoReplyRuleId != that.autoReplyRuleId) {
+            return false;
+        }
 
         return true;
     }

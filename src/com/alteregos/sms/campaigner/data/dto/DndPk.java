@@ -22,12 +22,18 @@ public class DndPk {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         DndPk dndPk = (DndPk) o;
 
-        if (dndId != dndPk.dndId) return false;
+        if (dndId != dndPk.dndId) {
+            return false;
+        }
 
         return true;
     }
