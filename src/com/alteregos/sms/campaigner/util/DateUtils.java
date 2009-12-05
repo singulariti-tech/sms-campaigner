@@ -24,7 +24,7 @@ public class DateUtils {
         DateFormat dateFormat = new SimpleDateFormat(format);
         Date d = null;
         try {
-            d = (Date) dateFormat.parse(date);
+            d = dateFormat.parse(date);
         } catch (ParseException parseException) {
             parseException.printStackTrace();
         }
