@@ -2,9 +2,9 @@ package com.alteregos.sms.campaigner.data.sqlite;
 
 import com.alteregos.sms.campaigner.data.dao.IncomingMessageDao;
 import com.alteregos.sms.campaigner.data.dto.IncomingMessage;
-import com.alteregos.sms.campaigner.data.dto.IncomingMessagePk;
 import com.alteregos.sms.campaigner.data.exceptions.DaoException;
 import com.alteregos.sms.campaigner.data.mappers.IncomingMessageRowMapper;
+import java.util.ArrayList;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
@@ -20,21 +20,17 @@ import java.util.List;
 public class SqliteIncomingMessageDao extends BaseSqliteDao implements IncomingMessageDao {
 
     private final String TABLE_NAME = "incoming_message";
-    private final String DEFAULT_SELECTORS = " incoming_message_id, content, encoding, gateway_id, message_date, "
-            + "receipt_date, process, sender_no, type ";
+    private final String DEFAULT_SELECTORS = " incoming_message_id, content, encoding, gateway_id, message_date, " + "receipt_date, process, sender_no, message_type ";
     private String findByIdQuery;
     private String findAllQuery;
     private String insertStmt;
     private String updateStmt;
 
     public SqliteIncomingMessageDao() {
-        findByIdQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " WHERE incoming_message_id = ? "
-                + "ORDER BY incoming_message_id ASC";
+        findByIdQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " WHERE incoming_message_id = ? " + "ORDER BY incoming_message_id ASC";
         findAllQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " ORDER BY incoming_message_id ASC";
         insertStmt = "INSERT INTO " + TABLE_NAME + "(" + DEFAULT_SELECTORS + ") VALUES(?,?,?,?,?,?,?,?,?)";
-        updateStmt = "UPDATE " + TABLE_NAME + "SET content = ?, encoding = ?, gateway_id = ?, "
-                + "message_date = ?, receipt_date = ?, process = ?, sender_no = ?, type = ? WHERE "
-                + "incoming_message_id = ?";
+        updateStmt = "UPDATE " + TABLE_NAME + "SET content = ?, encoding = ?, gateway_id = ?, " + "message_date = ?, receipt_date = ?, process = ?, sender_no = ?, message_type = ? WHERE " + "incoming_message_id = ?";
     }
 
     @Override
@@ -60,23 +56,45 @@ public class SqliteIncomingMessageDao extends BaseSqliteDao implements IncomingM
     }
 
     @Override
-    public IncomingMessagePk insert(IncomingMessage m) {
+    public synchronized int insert(IncomingMessage m) {
         int lastId;
         try {
-            jdbcTemplate.update(insertStmt, null, m.getContent(), m.getEncoding(), m.getGatewayId(),
-                    m.getMessageDate(), m.getReceiptDate(), m.isProcess(), m.getSenderNo(), m.getType());
+            jdbcTemplate.update(insertStmt, null, m.getContent(), m.getEncoding().toString(), m.getGatewayId(),
+                    m.getMessageDate(), m.getReceiptDate(), m.isProcess(), m.getSenderNo(), m.getType().toString());
             lastId = getLastInsertedId();
         } catch (DataAccessException e) {
             throw new DaoException(e);
         }
-        return new IncomingMessagePk(lastId);
+        return lastId;
     }
 
     @Override
-    public void update(IncomingMessagePk pk, IncomingMessage m) {
+    public synchronized int[] insert(List<IncomingMessage> messages) {
+        int[] counts = null;
         try {
-            jdbcTemplate.update(updateStmt, m.getContent(), m.getEncoding(), m.getGatewayId(),
-                    m.getMessageDate(), m.getReceiptDate(), m.isProcess(), m.getSenderNo(), m.getType(),
+            List<Object[]> batch = new ArrayList<Object[]>();
+            for (IncomingMessage m : messages) {
+                Object[] oa = new Object[]{
+                    null, m.getContent(), m.getEncoding().toString(), m.getGatewayId(),
+                    m.getMessageDate(), m.getReceiptDate(), m.isProcess(), m.getSenderNo(), m.getType().toString()
+                };
+                batch.add(oa);
+            }
+            counts = jdbcTemplate.batchUpdate(insertStmt, batch);
+        } catch (DataAccessException e) {
+            throw new DaoException(e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DaoException(e);
+        }
+        return counts;
+    }
+
+    @Override
+    public synchronized void update(IncomingMessage m) {
+        try {
+            jdbcTemplate.update(updateStmt, m.getContent(), m.getEncoding().toString(), m.getGatewayId(),
+                    m.getMessageDate(), m.getReceiptDate(), m.isProcess(), m.getSenderNo(), m.getType().toString(),
                     m.getIncomingMessageId());
         } catch (DataAccessException e) {
             throw new DaoException(e);
