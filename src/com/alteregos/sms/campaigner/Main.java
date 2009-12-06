@@ -175,7 +175,7 @@ public class Main extends SingleFrameApplication {
     //<editor-fold defaultstate="collapsed" desc="Private convenience methods">
     private void runProbe() {
         log.debug("Starting probe");
-        Task probeTask = new ProbeTask(getApplication(), getConfiguration());
+        Task<Object, Void> probeTask = new ProbeTask(getApplication(), getConfiguration());
         //probeTask.setInputBlocker(new ProbeInputBlocker(probeTask, new BlockerDialog(getMainFrame(), true)));
         getApplication().getContext().getTaskService().execute(probeTask);
     }
