@@ -1,18 +1,18 @@
 package com.alteregos.sms.campaigner.views;
 
 import com.alteregos.sms.campaigner.Main;
-import com.alteregos.sms.campaigner.data.beans.Phonebook;
-import com.alteregos.sms.campaigner.data.beans.Smsgroup;
+import com.alteregos.sms.campaigner.data.dto.Contact;
+import com.alteregos.sms.campaigner.data.dto.Group;
 import com.alteregos.sms.campaigner.data.validation.GroupValidator;
 import com.alteregos.sms.campaigner.exceptions.ExceptionParser;
 import com.alteregos.sms.campaigner.exceptions.ITaskResult;
 import com.alteregos.sms.campaigner.exceptions.ResultMessage;
 import com.alteregos.sms.campaigner.exceptions.SuccessfulTaskResult;
 import com.alteregos.sms.campaigner.exceptions.UnsuccessfulTaskResult;
+import com.alteregos.sms.campaigner.services.ContactService;
 import com.alteregos.sms.campaigner.util.LoggerHelper;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.RollbackException;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import net.miginfocom.swing.MigLayout;
@@ -44,7 +44,7 @@ public class GroupCreatorPanel extends javax.swing.JPanel {
     }
 
     private void initialize() {
-        groupMembersList = ObservableCollections.observableList(new ArrayList<Phonebook>());
+        groupMembersList = ObservableCollections.observableList(new ArrayList<Contact>());
         JTableBinding groupMemberTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ_WRITE, groupMembersList, groupMembersTable);
         ColumnBinding nameColumnBinding = groupMemberTableBinding.addColumnBinding(ELProperty.create("${name}"));
         nameColumnBinding.setColumnName("Name");
@@ -58,12 +58,12 @@ public class GroupCreatorPanel extends javax.swing.JPanel {
     //<editor-fold defaultstate="collapsed" desc="Actions">
 
     @Action
-    public Task clearDataAction() {
+    public Task<Boolean, Void> clearDataAction() {
         return new ClearDataActionTask(Main.getApplication());
     }
 
     @Action
-    public Task createGroupAction() {
+    public Task<ITaskResult, Void> createGroupAction() {
         if (validator.validate()) {
             return new CreateGroupActionTask(Main.getApplication());
         }
@@ -73,9 +73,9 @@ public class GroupCreatorPanel extends javax.swing.JPanel {
     @Action
     public void addAllAction() {
         int noRows = phoneBookTable.getRowCount();
-        List<com.alteregos.sms.campaigner.data.beans.Phonebook> forMembership = new ArrayList<com.alteregos.sms.campaigner.data.beans.Phonebook>(noRows);
+        List<Contact> forMembership = new ArrayList<Contact>(noRows);
         for (int index = 0; index < noRows; index++) {
-            Phonebook phoneBook = phonebookList.get(phoneBookTable.convertRowIndexToModel(index));
+            Contact phoneBook = phonebookList.get(phoneBookTable.convertRowIndexToModel(index));
             forMembership.add(phoneBook);
         }
         phonebookList.removeAll(forMembership);
@@ -86,10 +86,9 @@ public class GroupCreatorPanel extends javax.swing.JPanel {
     @Action
     public void addSelectedAction() {
         int[] selected = phoneBookTable.getSelectedRows();
-        List<com.alteregos.sms.campaigner.data.beans.Phonebook> forMembership = new ArrayList<com.alteregos.sms.campaigner.data.beans.Phonebook>(selected.length);
+        List<Contact> forMembership = new ArrayList<Contact>(selected.length);
         for (int index = 0; index < selected.length; index++) {
-            Phonebook phoneBook = phonebookList.get(
-                    phoneBookTable.convertRowIndexToModel(selected[index]));
+            Contact phoneBook = phonebookList.get(phoneBookTable.convertRowIndexToModel(selected[index]));
             forMembership.add(phoneBook);
         }
         phonebookList.removeAll(forMembership);
@@ -100,9 +99,9 @@ public class GroupCreatorPanel extends javax.swing.JPanel {
     @Action
     public void removeAllAction() {
         int noRows = groupMembersTable.getRowCount();
-        List<com.alteregos.sms.campaigner.data.beans.Phonebook> toRemove = new ArrayList<com.alteregos.sms.campaigner.data.beans.Phonebook>(noRows);
+        List<Contact> toRemove = new ArrayList<Contact>(noRows);
         for (int index = 0; index < noRows; index++) {
-            Phonebook phoneBook = groupMembersList.get(groupMembersTable.convertRowIndexToModel(index));
+            Contact phoneBook = groupMembersList.get(groupMembersTable.convertRowIndexToModel(index));
             toRemove.add(phoneBook);
         }
         groupMembersList.removeAll(toRemove);
@@ -112,10 +111,9 @@ public class GroupCreatorPanel extends javax.swing.JPanel {
     @Action
     public void removeSelectedAction() {
         int[] selected = groupMembersTable.getSelectedRows();
-        List<com.alteregos.sms.campaigner.data.beans.Phonebook> toRemove = new ArrayList<com.alteregos.sms.campaigner.data.beans.Phonebook>(selected.length);
+        List<Contact> toRemove = new ArrayList<Contact>(selected.length);
         for (int index = 0; index < selected.length; index++) {
-            Phonebook phoneBook = groupMembersList.get(
-                    groupMembersTable.convertRowIndexToModel(selected[index]));
+            Contact phoneBook = groupMembersList.get(groupMembersTable.convertRowIndexToModel(selected[index]));
             toRemove.add(phoneBook);
         }
         groupMembersList.removeAll(toRemove);
@@ -127,61 +125,50 @@ public class GroupCreatorPanel extends javax.swing.JPanel {
      *
      */
     //<editor-fold defaultstate="collapsed" desc="Dependencies">
-    private class ClearDataActionTask extends Task {
+    private class ClearDataActionTask extends Task<Boolean, Void> {
 
         public ClearDataActionTask(Application arg0) {
             super(arg0);
         }
 
         @Override
-        protected Object doInBackground() throws Exception {
-            entityManager.getTransaction().begin();
-            entityManager.getTransaction().rollback();
-            java.util.Collection data = phonebookQuery.getResultList();
-            for (Object entity : data) {
-                entityManager.refresh(entity);
+        protected Boolean doInBackground() throws Exception {
+            java.util.Collection<Contact> data = contactService.getContacts();
+            if (phonebookList == null) {
+                phonebookList = ObservableCollections.observableList(new ArrayList<Contact>());
             }
-            if (phonebookList != null) {
-                phonebookList.clear();
-            } else {
-                phonebookList = ObservableCollections.observableList(new ArrayList<Phonebook>());
-            }
+            phonebookList.clear();
             phonebookList.addAll(data);
-            return null;  // return your result
+            return true;  // return your result
         }
 
         @Override
-        protected void succeeded(Object arg0) {
+        protected void succeeded(Boolean arg0) {
             super.succeeded(arg0);
             groupNameField.setText("");
             groupMembersList.clear();
         }
     }
 
-    private class CreateGroupActionTask
-            extends Task {
+    private class CreateGroupActionTask extends Task<ITaskResult, Void> {
 
         public CreateGroupActionTask(Application arg0) {
             super(arg0);
         }
 
         @Override
-        protected Object doInBackground() throws Exception {
+        protected ITaskResult doInBackground() throws Exception {
             ITaskResult result = null;
             String groupName = groupNameField.getText();
             int rowCount = groupMembersTable.getRowCount();
 
             if (groupName.length() > 0 && rowCount > 0) {
-                Smsgroup group = new Smsgroup();
+                Group group = new Group();
                 group.setName(groupName);
-                group.setPhoneBookCollection(groupMembersList);
-
                 try {
-                    entityManager.getTransaction().begin();
-                    entityManager.persist(group);
-                    entityManager.getTransaction().commit();
+                    contactService.newGroup(group, groupMembersList);
                     result = new SuccessfulTaskResult();
-                } catch (RollbackException rollBackException) {
+                } catch (Exception rollBackException) {
                     log.error("Error when creating group");
                     log.error(rollBackException);
                     result = ExceptionParser.getError(rollBackException);
@@ -193,28 +180,19 @@ public class GroupCreatorPanel extends javax.swing.JPanel {
         }
 
         @Override
-        protected void succeeded(Object arg0) {
+        protected void succeeded(ITaskResult arg0) {
             super.succeeded(arg0);
-            ITaskResult result = (ITaskResult) arg0;
+            ITaskResult result = arg0;
             if (result.isSuccessful()) {
-                entityManager.getTransaction().begin();
-                entityManager.getTransaction().rollback();
-                java.util.Collection data = phonebookQuery.getResultList();
-                for (Object entity : data) {
-                    entityManager.refresh(entity);
+                java.util.Collection<Contact> data = contactService.getContacts();
+                if (phonebookList == null) {
+                    phonebookList = ObservableCollections.observableList(new ArrayList<Contact>());
                 }
-                if (phonebookList != null) {
-                    phonebookList.clear();
-                } else {
-
-                    phonebookList = ObservableCollections.observableList(new ArrayList<Phonebook>());
-                }
+                phonebookList.clear();
                 phonebookList.addAll(data);
                 groupNameField.setText("");
                 groupMembersList.clear();
-                JOptionPane.showMessageDialog(
-                        Main.getApplication().getMainFrame(), result.getResultMessage().getLabel());
-
+                JOptionPane.showMessageDialog(Main.getApplication().getMainFrame(), result.getResultMessage().getLabel());
             } else {
                 log.info("Group could not be created. Reason - " + result.getResultMessage().getLabel());
                 //TODO SHOULD WE SHOW THE MESSAGE DIALOG
@@ -235,9 +213,8 @@ public class GroupCreatorPanel extends javax.swing.JPanel {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("absolute-smsPU").createEntityManager();
-        phonebookQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT p FROM Phonebook p");
-        phonebookList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(phonebookQuery.getResultList());
+        contactService = Main.getApplication().getBean("contactService");
+        phonebookList = ObservableCollections.observableList(contactService.getContacts());
         borderContainer = new javax.swing.JPanel();
         groupNameLabel = new javax.swing.JLabel();
         groupNameField = new javax.swing.JTextField();
@@ -256,7 +233,7 @@ public class GroupCreatorPanel extends javax.swing.JPanel {
 
         setName("Form"); // NOI18N
 
-        Main application = Application.getInstance(com.alteregos.sms.campaigner.Main.class);
+        Main application = Application.getInstance(Main.class);
         ResourceMap resourceMap = application.getContext().getResourceMap(GroupCreatorPanel.class);
         borderContainer.setBorder(BorderFactory.createTitledBorder(resourceMap.getString("borderContainer.border.title"))); // NOI18N
         borderContainer.setName("borderContainer"); // NOI18N
@@ -297,6 +274,7 @@ public class GroupCreatorPanel extends javax.swing.JPanel {
                     "Name", "Mobile No."
                 }) {
 
+            private static final long serialVersionUID = 1L;
             Class[] types = new Class[]{
                 java.lang.String.class, java.lang.String.class
             };
@@ -310,7 +288,7 @@ public class GroupCreatorPanel extends javax.swing.JPanel {
         groupMembersTable.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("groupMembersTable.columnModel.title0")); // NOI18N
         groupMembersTable.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("groupMembersTable.columnModel.title1")); // NOI18N
 
-        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(com.alteregos.sms.campaigner.Main.class).getContext().getActionMap(GroupCreatorPanel.class, this);
+        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(Main.class).getContext().getActionMap(GroupCreatorPanel.class, this);
         addSelectedButton.setAction(actionMap.get("addAllAction")); // NOI18N
         addSelectedButton.setName("addSelectedButton"); // NOI18N
 
@@ -352,7 +330,6 @@ public class GroupCreatorPanel extends javax.swing.JPanel {
     private javax.swing.JPanel borderContainer;
     private javax.swing.JButton clearButton;
     private javax.swing.JButton createButton;
-    private javax.persistence.EntityManager entityManager;
     private javax.swing.JLabel groupMembersLabel;
     private javax.swing.JScrollPane groupMembersScrollPane;
     private javax.swing.JTable groupMembersTable;
@@ -361,12 +338,12 @@ public class GroupCreatorPanel extends javax.swing.JPanel {
     private javax.swing.JLabel phoneBookLabel;
     private javax.swing.JScrollPane phoneBookScrollPane;
     private javax.swing.JTable phoneBookTable;
-    private java.util.List<com.alteregos.sms.campaigner.data.beans.Phonebook> phonebookList;
-    private javax.persistence.Query phonebookQuery;
+    private java.util.List<Contact> phonebookList;
     private javax.swing.JButton removeAllButton;
     private javax.swing.JButton removeSelectedButton;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    private java.util.List<com.alteregos.sms.campaigner.data.beans.Phonebook> groupMembersList;
+    private java.util.List<Contact> groupMembersList;
     private GroupValidator validator;
+    private ContactService contactService;
     private static Logger log = LoggerHelper.getLogger();
 }
