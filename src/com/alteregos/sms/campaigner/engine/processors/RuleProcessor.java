@@ -1,6 +1,7 @@
 package com.alteregos.sms.campaigner.engine.processors;
 
 import com.alteregos.sms.campaigner.Main;
+import com.alteregos.sms.campaigner.data.dto.AutoReplyRule;
 import com.alteregos.sms.campaigner.engine.processors.helpers.RuleProcessResult;
 import com.alteregos.sms.campaigner.rules.DndRule;
 import com.alteregos.sms.campaigner.rules.IRule;
@@ -108,13 +109,13 @@ public class RuleProcessor {
         return result;
     }
 
-    private List<IRule> getRules() {
+    private List<AutoReplyRule> getRules() {
         return filter(ruleService.getRules());
     }
 
-    private List<IRule> filter(List<IRule> inputList) {
-        List<IRule> outputList = new ArrayList<IRule>();
-        for (IRule rule : inputList) {
+    private List<AutoReplyRule> filter(List<AutoReplyRule> inputList) {
+        List<AutoReplyRule> outputList = new ArrayList<AutoReplyRule>();
+        for (AutoReplyRule rule : inputList) {
             if (rule.isEnabled()) {
                 outputList.add(rule);
             }
