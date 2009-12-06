@@ -15,7 +15,7 @@ import org.smslib.Service;
  *
  * @author John Emmanuel
  */
-public class EngineServicesTask extends Task {
+public class EngineServicesTask extends Task<Object, Void> {
 
     private static Logger log = LoggerHelper.getLogger();
     private CallProcessor callProcessor;
