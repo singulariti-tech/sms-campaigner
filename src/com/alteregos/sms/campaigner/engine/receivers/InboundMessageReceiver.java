@@ -1,15 +1,16 @@
 package com.alteregos.sms.campaigner.engine.receivers;
 
-import com.alteregos.sms.campaigner.business.InboundSmsType;
-import com.alteregos.sms.campaigner.data.beans.Inbox;
+import com.alteregos.sms.campaigner.Main;
+import com.alteregos.sms.campaigner.business.Encoding;
+import com.alteregos.sms.campaigner.business.IncomingMessageType;
 import com.alteregos.sms.campaigner.business.MessageEncoding;
+import com.alteregos.sms.campaigner.data.dto.IncomingMessage;
+import com.alteregos.sms.campaigner.services.MessageService;
 import com.alteregos.sms.campaigner.util.LoggerHelper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.RollbackException;
 import org.apache.log4j.Logger;
 import org.smslib.GatewayException;
 import org.smslib.InboundMessage;
@@ -25,14 +26,14 @@ import org.smslib.TimeoutException;
 public class InboundMessageReceiver {
 
     private static Logger log = LoggerHelper.getLogger();
-    private EntityManager entityManager;
+    private MessageService messageService;
 
     public InboundMessageReceiver() {
-        entityManager = javax.persistence.Persistence.createEntityManagerFactory("absolute-smsPU").createEntityManager();
+        messageService = Main.getApplication().getBean("messageService");
     }
 
     public void receive(List<InboundMessage> inboundMessages, Service service) {
-        List<Inbox> inboxList = new ArrayList<Inbox>();
+        List<IncomingMessage> inboxList = new ArrayList<IncomingMessage>();
         for (InboundMessage msg : inboundMessages) {
             String sender = msg.getOriginator();
             String content = msg.getText().replaceAll("'", "''");
@@ -50,16 +51,16 @@ public class InboundMessageReceiver {
             } else if (msg.getEncoding().equals(MessageEncodings.ENCUCS2)) {
                 encoding = MessageEncoding.UNICODE_UCS2.getLabel();
             }
-            String type = null;
+            IncomingMessageType type = null;
             if (msg.getType().equals(MessageTypes.INBOUND)) {
-                type = InboundSmsType.USER_MESSAGE.getLabel();
+                type = IncomingMessageType.USER_MESSAGE;
             } else if (msg.getType().equals(MessageTypes.STATUSREPORT)) {
-                type = InboundSmsType.STATUS_REPORT.getLabel();
+                type = IncomingMessageType.STATUS_REPORT;
             }
-            Inbox sms = new Inbox();
+            IncomingMessage sms = new IncomingMessage();
             sms.setContent(content);
-            sms.setSender(sender);
-            sms.setEncoding(encoding);
+            sms.setSenderNo(sender);
+            sms.setEncoding(Encoding.getEncoding(encoding));
             sms.setMessageDate(messageDate);
             sms.setReceiptDate(receiptDate);
             sms.setType(type);
@@ -70,17 +71,15 @@ public class InboundMessageReceiver {
 
         boolean commited = false;
         try {
-            entityManager.getTransaction().begin();
-            for (Inbox sms : inboxList) {
-                entityManager.persist(sms);
-            }
-            entityManager.getTransaction().commit();
+            int[] counts = messageService.newIncomingMessages(inboxList);
             commited = true;
-        } catch (RollbackException rollbackException) {
+            //TODO Check insert counts
+        } catch (Exception rollbackException) {
             log.error("Error when receiving inbound message");
             log.error(rollbackException);
             commited = false;
         } finally {
+            //TODO Delete only those messages that were successfully commited
             if (commited) {
                 for (InboundMessage message : inboundMessages) {
                     try {
@@ -101,7 +100,5 @@ public class InboundMessageReceiver {
                 }
             }
         }
-
-
     }
 }
