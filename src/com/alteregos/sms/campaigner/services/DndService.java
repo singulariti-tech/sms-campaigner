@@ -2,7 +2,6 @@ package com.alteregos.sms.campaigner.services;
 
 import com.alteregos.sms.campaigner.data.dao.DndDao;
 import com.alteregos.sms.campaigner.data.dto.Dnd;
-import com.alteregos.sms.campaigner.data.dto.DndPk;
 import java.util.List;
 
 /**
@@ -22,7 +21,6 @@ public class DndService {
     }
 
     public int insert(Dnd dnd) {
-        DndPk pk = dndDao.insert(dnd);
-        return (pk != null) ? pk.getDndId() : 0;
+        return dndDao.insert(dnd);
     }
 }
