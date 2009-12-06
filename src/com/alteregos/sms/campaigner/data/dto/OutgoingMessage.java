@@ -23,12 +23,12 @@ public class OutgoingMessage {
     private String recepientNo;
     private String senderNo;
     private String content;
-    private Encoding encoding;
+    private Encoding encoding = Encoding.SEVEN_BIT;
     private boolean statusReport = false;
     private boolean flashMessage = false;
     private int srcPort = -1;
     private int dstPort = -1;
-    private Date createdDate;
+    private Date createdDate = new Date();
     private Date sentDate;
     private String referenceNo;
     private MessagePriority priority = MessagePriority.NORMAL;
