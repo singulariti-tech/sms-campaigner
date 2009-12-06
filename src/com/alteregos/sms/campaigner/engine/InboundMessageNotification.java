@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.alteregos.sms.campaigner.engine;
 
 import com.alteregos.sms.campaigner.engine.receivers.InboundMessageReceiver;
@@ -31,15 +27,16 @@ public class InboundMessageNotification implements IInboundMessageNotification {
         this.service = service;
     }
 
+    @Override
     public void process(String gtwId, MessageTypes msgType, String memLoc, int memIndex) {
         log.debug("Processing incoming SMS");
         List<InboundMessage> inboundMessages = new ArrayList<InboundMessage>();
-        List messageList = new ArrayList();
+        List<InboundMessage> messageList = new ArrayList<InboundMessage>();
         if (msgType.equals(MessageTypes.INBOUND) || msgType.equals(MessageTypes.STATUSREPORT)) {
             try {
                 this.service.readMessages(messageList, MessageClasses.UNREAD, gtwId);
                 for (int i = 0; i < messageList.size(); i++) {
-                    InboundMessage inboundMessage = (InboundMessage) messageList.get(i);
+                    InboundMessage inboundMessage = messageList.get(i);
                     inboundMessages.add(inboundMessage);
                 }
             } catch (Exception e) {
