@@ -29,7 +29,7 @@ public class IncomingMessageRowMapper implements ParameterizedRowMapper<Incoming
         message.setReceiptDate (rs.getTimestamp ("receipt_date"));
         message.setProcess (rs.getBoolean ("process"));
         message.setSenderNo (rs.getString ("sender_no"));
-        message.setType (IncomingMessageType.getType (rs.getString ("type")));
+        message.setType (IncomingMessageType.getType (rs.getString ("message_type")));
 
         return message;
     }

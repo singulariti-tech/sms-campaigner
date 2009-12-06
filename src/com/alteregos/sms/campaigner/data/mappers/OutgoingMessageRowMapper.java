@@ -39,7 +39,7 @@ public class OutgoingMessageRowMapper implements ParameterizedRowMapper<Outgoing
         message.setFlashMessage (rs.getBoolean ("flash_message"));
         message.setPriority (MessagePriority.getPriority (rs.getString ("priority")));
         message.setReferenceNo (rs.getString ("ref_no"));
-        message.setType (OutgoingMessageType.getType (rs.getString ("type")));
+        message.setType (OutgoingMessageType.getType (rs.getString ("message_type")));
 
         return message;
     }
