@@ -1,18 +1,18 @@
 package com.alteregos.sms.campaigner.views;
 
 import com.alteregos.sms.campaigner.Main;
-import com.alteregos.sms.campaigner.data.beans.Rule;
+
+import com.alteregos.sms.campaigner.data.dto.AutoReplyRule;
 import com.alteregos.sms.campaigner.data.validation.RuleValidator;
 import com.alteregos.sms.campaigner.exceptions.ExceptionParser;
 import com.alteregos.sms.campaigner.exceptions.ITaskResult;
 import com.alteregos.sms.campaigner.exceptions.ResultMessage;
 import com.alteregos.sms.campaigner.exceptions.SuccessfulTaskResult;
+import com.alteregos.sms.campaigner.services.RuleService;
 import com.alteregos.sms.campaigner.views.helpers.SizeLimitedTextComponent;
 
 import com.alteregos.sms.campaigner.views.helpers.TextComponentFocusListener;
 import java.util.Date;
-import javax.persistence.EntityManager;
-import javax.persistence.RollbackException;
 import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
 import net.miginfocom.swing.MigLayout;
@@ -36,8 +36,7 @@ public class RuleCreatorPanel extends javax.swing.JPanel {
     }
 
     private void initialize() {
-        this.rule = new Rule();
-        this.entityManager = javax.persistence.Persistence.createEntityManagerFactory("absolute-smsPU").createEntityManager();
+        this.rule = new AutoReplyRule();
         this.validator = new RuleValidator(primaryKeywordTextField, messageTextArea);
     }
 
@@ -51,7 +50,7 @@ public class RuleCreatorPanel extends javax.swing.JPanel {
 
     //<editor-fold defaultstate="collapsed" desc="Actions">
     @Action
-    public Task saveRule() {
+    public Task<ITaskResult, Void> saveRule() {
         if (validator.validate()) {
             return new SaveRuleActionTask(Main.getApplication());
         }
@@ -64,7 +63,7 @@ public class RuleCreatorPanel extends javax.swing.JPanel {
         secondaryKeywordTextField.setText("");
         messageTextArea.setText("");
         enableRuleCheckbox.setSelected(false);
-        rule = new Rule();
+        rule = new AutoReplyRule();
     }
 
     //</editor-fold>
@@ -72,14 +71,14 @@ public class RuleCreatorPanel extends javax.swing.JPanel {
      *
      */
     //<editor-fold defaultstate="collapsed" desc="Dependencies">
-    private class SaveRuleActionTask extends Task<Object, Void> {
+    private class SaveRuleActionTask extends Task<ITaskResult, Void> {
 
         public SaveRuleActionTask(Application arg0) {
             super(arg0);
         }
 
         @Override
-        protected Object doInBackground() throws Exception {
+        protected ITaskResult doInBackground() throws Exception {
             ITaskResult result = null;
             try {
                 Date createdDate = new Date();
@@ -89,20 +88,20 @@ public class RuleCreatorPanel extends javax.swing.JPanel {
                 rule.setPrimaryKeyword(primaryKeywordTextField.getText());
                 rule.setSecondaryKeyword(secondaryKeywordTextField.getText());
                 rule.setEnabled(enableRuleCheckbox.isSelected());
-                entityManager.getTransaction().begin();
-                entityManager.persist(rule);
-                entityManager.getTransaction().commit();
+
+                ruleService.newRule(rule);
+
                 result = new SuccessfulTaskResult();
-            } catch (RollbackException rollbackException) {
+            } catch (Exception rollbackException) {
                 result = ExceptionParser.getError(rollbackException);
             }
             return result;
         }
 
         @Override
-        protected void succeeded(Object arg0) {
+        protected void succeeded(ITaskResult arg0) {
             super.succeeded(arg0);
-            ITaskResult result = (ITaskResult) arg0;
+            ITaskResult result = arg0;
             if (result.isSuccessful()) {
                 clearRule();
             } else {
@@ -119,6 +118,7 @@ public class RuleCreatorPanel extends javax.swing.JPanel {
 
     @SuppressWarnings("unchecked")
     private void initComponents() {
+        ruleService = Main.getApplication().getBean("ruleService");
         primaryKeywordLabel = new javax.swing.JLabel();
         primaryKeywordTextField = new javax.swing.JTextField();
         secondaryKeywordLabel = new javax.swing.JLabel();
@@ -192,6 +192,7 @@ public class RuleCreatorPanel extends javax.swing.JPanel {
         this.add(saveButton);
         this.add(clearButton);
     }
+    private RuleService ruleService;
     private javax.swing.JButton clearButton;
     private javax.swing.JCheckBox enableRuleCheckbox;
     private javax.swing.JLabel messageLabel;
@@ -203,7 +204,6 @@ public class RuleCreatorPanel extends javax.swing.JPanel {
     private javax.swing.JButton saveButton;
     private javax.swing.JLabel secondaryKeywordLabel;
     private javax.swing.JTextField secondaryKeywordTextField;
-    private EntityManager entityManager;
-    private Rule rule;
+    private AutoReplyRule rule;
     private RuleValidator validator;
 }
