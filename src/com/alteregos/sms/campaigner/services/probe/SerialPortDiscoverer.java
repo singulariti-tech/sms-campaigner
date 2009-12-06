@@ -76,7 +76,7 @@ public class SerialPortDiscoverer {
 
         for (int i = 0; i < baudRates.length; i++) {
             try {
-                serialPort = portUnderTest.open("Absolute-SMS-" + portUnderTest.getName(), 1971);
+                serialPort = portUnderTest.open("SmsCampaigner-" + portUnderTest.getName(), 1971);
                 System.out.println("Testing port " + portUnderTest.getName() + " at baud rate " + baudRates[i]);
 
                 serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN);
