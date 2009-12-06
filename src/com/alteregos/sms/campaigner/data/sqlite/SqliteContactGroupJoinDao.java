@@ -3,10 +3,11 @@ package com.alteregos.sms.campaigner.data.sqlite;
 import com.alteregos.sms.campaigner.data.dao.ContactGroupJoinDao;
 import com.alteregos.sms.campaigner.data.dto.ContactGroupJoin;
 import com.alteregos.sms.campaigner.data.dto.ContactGroupJoinPk;
+import com.alteregos.sms.campaigner.data.dto.Group;
 import com.alteregos.sms.campaigner.data.exceptions.DaoException;
 import com.alteregos.sms.campaigner.data.mappers.ContactGroupJoinRowMapper;
+import java.util.ArrayList;
 import org.springframework.dao.DataAccessException;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -27,15 +28,14 @@ public class SqliteContactGroupJoinDao extends BaseSqliteDao implements ContactG
     private String findByGroupQuery;
     private String insertStmt;
     private String updateStmt;
+    private String deleteStmt;
 
     public SqliteContactGroupJoinDao() {
-        findJoinQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " WHERE contact_id = ? "
-                + "AND group_id = ? ORDER BY group_id ASC, contact_id ASC";
-        findAllQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " ORDER BY group_id ASC, "
-                + "contact_id ASC";
-        findByGroupQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " WHERE group_id = ? "
-                + "ORDER BY contact_id ASC";
+        findJoinQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " WHERE contact_id = ? " + "AND group_id = ? ORDER BY group_id ASC, contact_id ASC";
+        findAllQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " ORDER BY group_id ASC, " + "contact_id ASC";
+        findByGroupQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " WHERE group_id = ? " + "ORDER BY contact_id ASC";
         insertStmt = "INSERT INTO " + TABLE_NAME + "(" + DEFAULT_SELECTORS + ") VALUES(?,?)";
+        deleteStmt = "DELETE FROM " + TABLE_NAME + " WHERE contact_id = ? AND group_id = ?";
     }
 
     @Override
@@ -79,5 +79,67 @@ public class SqliteContactGroupJoinDao extends BaseSqliteDao implements ContactG
             throw new DaoException(e);
         }
         return join.createPk();
+    }
+
+    @Override
+    public List<ContactGroupJoinPk> insert(List<ContactGroupJoin> joins) {
+        List<ContactGroupJoinPk> pks = new ArrayList<ContactGroupJoinPk>();
+        try {
+            List<Object[]> batch = new ArrayList<Object[]>();
+            for (ContactGroupJoin join : joins) {
+                Object[] oa = new Object[]{
+                    join.getContactId(), join.getGroupId()
+                };
+                batch.add(oa);
+            }
+            int[] counts = jdbcTemplate.batchUpdate(insertStmt, batch);
+            for (ContactGroupJoin join : joins) {
+                pks.add(join.createPk());
+            }
+            //TODO Verify update counts
+        } catch (DataAccessException e) {
+            throw new DaoException(e);
+        } catch (Exception e) {
+            throw new DaoException(e);
+        }
+        return pks;
+    }
+
+    @Override
+    public void delete(ContactGroupJoin join) {
+        try {
+            jdbcTemplate.update(deleteStmt, join.getContactId(), join.getGroupId());
+        } catch (DataAccessException e) {
+            throw new DaoException(e);
+        }
+    }
+
+    @Override
+    public void delete(List<ContactGroupJoin> joins) {
+        try {
+            int[] counts = null;
+            List<Object[]> batch = new ArrayList<Object[]>();
+            for (ContactGroupJoin join : joins) {
+                Object[] oa = new Object[]{
+                    join.getContactId(), join.getGroupId()
+                };
+                batch.add(oa);
+            }
+            counts = jdbcTemplate.batchUpdate(deleteStmt, batch);
+        } catch (DataAccessException e) {
+            throw new DaoException(e);
+        } catch (Exception e) {
+            throw new DaoException(e);
+        }
+    }
+
+    @Override
+    public void delete(Group group) {
+        try {
+            String deleteGroupStmt = "DELETE FROM " + TABLE_NAME + " WHERE group_id = ?";
+            jdbcTemplate.update(deleteGroupStmt, group.getGroupId());
+        } catch (DataAccessException e) {
+            throw new DaoException(e);
+        }
     }
 }
