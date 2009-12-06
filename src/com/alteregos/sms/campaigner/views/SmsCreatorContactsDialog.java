@@ -1,11 +1,14 @@
 package com.alteregos.sms.campaigner.views;
 
-import com.alteregos.sms.campaigner.data.beans.Phonebook;
+import com.alteregos.sms.campaigner.Main;
+import com.alteregos.sms.campaigner.data.dto.Contact;
+import com.alteregos.sms.campaigner.services.ContactService;
 import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.List;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.application.Action;
+import org.jdesktop.observablecollections.ObservableCollections;
 
 /**
  *
@@ -31,10 +34,10 @@ public class SmsCreatorContactsDialog extends javax.swing.JDialog {
         filterContacts(phonebookList);
     }
 
-    private List<Phonebook> filterContacts(List<Phonebook> contactsList) {
-        List<Phonebook> allContacts = new ArrayList<Phonebook>(phonebookList);
-        List<Phonebook> filteredContacts = new ArrayList<Phonebook>();
-        for (Phonebook contact : contactsList) {
+    private List<Contact> filterContacts(List<Contact> contactsList) {
+        List<Contact> allContacts = new ArrayList<Contact>(phonebookList);
+        List<Contact> filteredContacts = new ArrayList<Contact>();
+        for (Contact contact : contactsList) {
             if (this.recepients.contains(contact.getMobileNo())) {
                 filteredContacts.add(contact);
             }
@@ -55,7 +58,7 @@ public class SmsCreatorContactsDialog extends javax.swing.JDialog {
         int[] selectedRows = contactsTable.getSelectedRows();
         List<String> selectedNumbers = new ArrayList<String>();
         for (int index = 0; index < selectedRows.length; index++) {
-            Phonebook contact = phonebookList.get(contactsTable.convertRowIndexToModel(selectedRows[index]));
+            Contact contact = phonebookList.get(contactsTable.convertRowIndexToModel(selectedRows[index]));
             String number = contact.getMobileNo();
             if (!number.equals("") && !this.recepients.contains(number)) {
                 selectedNumbers.add(number);
@@ -71,9 +74,8 @@ public class SmsCreatorContactsDialog extends javax.swing.JDialog {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("absolute-smsPU").createEntityManager();
-        phonebookQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT p FROM Phonebook p");
-        phonebookList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(phonebookQuery.getResultList());
+        contactService = Main.getApplication().getBean("contactService");
+        phonebookList = ObservableCollections.observableList(contactService.getContacts());
         borderContainer = new javax.swing.JPanel();
         contactsScrollPane = new javax.swing.JScrollPane();
         contactsTable = new javax.swing.JTable();
@@ -125,14 +127,14 @@ public class SmsCreatorContactsDialog extends javax.swing.JDialog {
         bindingGroup.bind();
         pack();
     }
+    //
+    private ContactService contactService;
     private javax.swing.JButton addRecepientsButton;
     private javax.swing.JPanel borderContainer;
     private javax.swing.JButton closeButton;
     private javax.swing.JScrollPane contactsScrollPane;
     private javax.swing.JTable contactsTable;
-    private javax.persistence.EntityManager entityManager;
-    private java.util.List<com.alteregos.sms.campaigner.data.beans.Phonebook> phonebookList;
-    private javax.persistence.Query phonebookQuery;
+    private java.util.List<Contact> phonebookList;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     private SmsSenderPanel panel;
     private List<String> recepients;
