@@ -1,15 +1,13 @@
 package com.alteregos.sms.campaigner.views;
 
 import com.alteregos.sms.campaigner.Main;
-import com.alteregos.sms.campaigner.business.OutboundSmsType;
-import com.alteregos.sms.campaigner.data.beans.Outbox;
 import com.alteregos.sms.campaigner.util.DateUtils;
 import com.alteregos.sms.campaigner.views.helpers.DateColumnCellRenderer;
 import com.alteregos.sms.campaigner.views.helpers.MessageTypeColumnCellRenderer;
 import com.alteregos.sms.campaigner.views.helpers.PriorityColumnCellRenderer;
 import com.alteregos.sms.campaigner.views.helpers.StatusColumnCellRenderer;
-import com.alteregos.sms.campaigner.business.MessagePriority;
-import com.alteregos.sms.campaigner.business.MessageStatus;
+import com.alteregos.sms.campaigner.data.dto.OutgoingMessage;
+import com.alteregos.sms.campaigner.services.MessageService;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +17,7 @@ import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.Task;
+import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingx.JXDatePicker;
 
 /**
@@ -50,10 +49,10 @@ public class OutboxPanel extends javax.swing.JPanel {
         }
         outboxList.addAll(filteredOutboxList);
         filteredOutboxList.clear();
-        for (Outbox sms : outboxList) {
-            String actualPriority = MessagePriority.getPriority(sms.getPriority()).getMessage();
-            String actualStatus = MessageStatus.getStatus(sms.getStatus()).getMessage();
-            String actualType = OutboundSmsType.getType(sms.getType()).getMessage();
+        for (OutgoingMessage sms : outboxList) {
+            String actualPriority = sms.getPriority().getMessage();
+            String actualStatus = sms.getStatus().getMessage();
+            String actualType = sms.getType().getMessage();
             boolean isCreatedDateBeforeStartDate = sms.getCreatedDate().before(startDate);
             boolean isCreatedDateAfterEndDate = sms.getCreatedDate().after(endDate);
             if (!actualPriority.equals(priority) || !actualStatus.endsWith(status) || !actualType.equals(smsType) || isCreatedDateBeforeStartDate || isCreatedDateAfterEndDate) {
@@ -64,12 +63,12 @@ public class OutboxPanel extends javax.swing.JPanel {
     }
 
     @Action
-    public Task resendAction() {
+    public Task<Object, Void> resendAction() {
         return new ResendSelectedRecords(Main.getApplication());
     }
 
     @Action
-    public Task refreshAction() {
+    public Task<Boolean, Void> refreshAction() {
         return new RefreshOutboxActionTask(Main.getApplication());
     }
     //</editor-fold>
@@ -86,33 +85,28 @@ public class OutboxPanel extends javax.swing.JPanel {
         typeColumn.setCellRenderer(new MessageTypeColumnCellRenderer());
         createdDateColumn.setCellRenderer(new DateColumnCellRenderer());
         sentDateColumn.setCellRenderer(new DateColumnCellRenderer());
-        filteredOutboxList = new ArrayList<Outbox>();
+        filteredOutboxList = new ArrayList<OutgoingMessage>();
     }
 
-    private class RefreshOutboxActionTask extends Task<Object, Void> {
+    private class RefreshOutboxActionTask extends Task<Boolean, Void> {
 
         public RefreshOutboxActionTask(Application arg0) {
             super(arg0);
         }
 
         @Override
-        protected Object doInBackground() throws Exception {
-            java.util.Collection data = outboxQuery.getResultList();
-            for (Object entity : data) {
-                entityManager.refresh(entity);
+        protected Boolean doInBackground() throws Exception {
+            java.util.Collection<OutgoingMessage> data = messageService.getOutgoingMessages();
+            if (outboxList == null) {
+                outboxList = ObservableCollections.observableList(new ArrayList<OutgoingMessage>());
             }
-
-            if (outboxList != null) {
-                outboxList.clear();
-            } else {
-                outboxList = org.jdesktop.observablecollections.ObservableCollections.observableList(new ArrayList<Outbox>());
-            }
+            outboxList.clear();
             outboxList.addAll(data);
-            return null;
+            return true;
         }
 
         @Override
-        protected void succeeded(Object arg0) {
+        protected void succeeded(Boolean arg0) {
             super.succeeded(arg0);
             outboxTable.getSelectionModel().clearSelection();
             outboxTable.clearSelection();
@@ -141,9 +135,9 @@ public class OutboxPanel extends javax.swing.JPanel {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("absolute-smsPU").createEntityManager();
-        outboxQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT o FROM Outbox o");
-        outboxList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(outboxQuery.getResultList());
+        messageService = Main.getApplication().getBean("messageService");
+
+        outboxList = ObservableCollections.observableList(messageService.getOutgoingMessages());
         resendButton = new javax.swing.JButton();
         priorityLabel = new javax.swing.JLabel();
         priorityComboBox = new javax.swing.JComboBox();
@@ -261,24 +255,23 @@ public class OutboxPanel extends javax.swing.JPanel {
 
         bindingGroup.bind();
     }
+    private MessageService messageService;
+    private JXDatePicker startDateField;
     private JXDatePicker endDateField;
     private javax.swing.JLabel endDateLabel;
-    private javax.persistence.EntityManager entityManager;
     private javax.swing.JButton filterButton;
-    private java.util.List<com.alteregos.sms.campaigner.data.beans.Outbox> outboxList;
-    private javax.persistence.Query outboxQuery;
+    private java.util.List<OutgoingMessage> outboxList;
     private javax.swing.JScrollPane outboxScrollPane;
     private javax.swing.JTable outboxTable;
     private javax.swing.JComboBox priorityComboBox;
     private javax.swing.JLabel priorityLabel;
     private javax.swing.JButton refreshButton;
     private javax.swing.JButton resendButton;
-    private JXDatePicker startDateField;
     private javax.swing.JLabel startDateLabel;
     private javax.swing.JComboBox statusComboBox;
     private javax.swing.JLabel statusLabel;
     private javax.swing.JComboBox typeComboBox;
     private javax.swing.JLabel typeLabel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    private List<Outbox> filteredOutboxList;
+    private List<OutgoingMessage> filteredOutboxList;
 }
