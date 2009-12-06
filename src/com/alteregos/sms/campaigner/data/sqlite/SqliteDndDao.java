@@ -6,7 +6,6 @@ import com.alteregos.sms.campaigner.data.dto.DndPk;
 import com.alteregos.sms.campaigner.data.exceptions.DaoException;
 import com.alteregos.sms.campaigner.data.mappers.DndRowMapper;
 import org.springframework.dao.DataAccessException;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -57,7 +56,7 @@ public class SqliteDndDao extends BaseSqliteDao implements DndDao {
     }
 
     @Override
-    public DndPk insert(Dnd dnd) {
+    public synchronized int insert(Dnd dnd) {
         int lastId;
         try {
             jdbcTemplate.update(insertStmt, null, dnd.getMobileNo(), dnd.getRegisteredDate());
@@ -65,11 +64,11 @@ public class SqliteDndDao extends BaseSqliteDao implements DndDao {
         } catch (DataAccessException e) {
             throw new DaoException(e);
         }
-        return new DndPk(lastId);
+        return lastId;
     }
 
     @Override
-    public void update(DndPk pk, Dnd dnd) {
+    public synchronized void update(Dnd dnd) {
         try {
             jdbcTemplate.update(updateStmt, dnd.getMobileNo(), dnd.getRegisteredDate(), dnd.getDndId());
         } catch (DataAccessException e) {
