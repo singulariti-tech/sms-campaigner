@@ -6,6 +6,7 @@ import com.alteregos.sms.campaigner.conf.ModemSettings;
 import com.alteregos.sms.campaigner.helpers.ProbeListener;
 import com.alteregos.sms.campaigner.services.probe.ProbeResults;
 import com.alteregos.sms.campaigner.util.LoggerHelper;
+import java.awt.Dimension;
 import java.io.IOException;
 import javax.swing.BorderFactory;
 import net.miginfocom.swing.MigLayout;
@@ -122,7 +123,7 @@ public class HomePanel extends javax.swing.JPanel implements ProbeListener {
         setName("Form"); // NOI18N
 
         Main application = org.jdesktop.application.Application.getInstance(com.alteregos.sms.campaigner.Main.class);
-        ResourceMap resourceMap = application.getContext().getResourceMap(HomePanel.class);        
+        ResourceMap resourceMap = application.getContext().getResourceMap(HomePanel.class);
         servicesSummaryPanel.setName("homePanel"); // NOI18N
 
         gatewayStatusLabel.setText(resourceMap.getString("autoReplyServiceStatusLabel.text")); // NOI18N
@@ -130,7 +131,7 @@ public class HomePanel extends javax.swing.JPanel implements ProbeListener {
 
         databaseConnectivityLabel.setText(resourceMap.getString("databaseConnectivityLabel.text")); // NOI18N
         databaseConnectivityLabel.setName("databaseConnectivityLabel"); // NOI18N
-        
+
         gatewayStatusTextField.setText(resourceMap.getString("gatewayStatusTextField.text")); // NOI18N        
         gatewayStatusTextField.setName("gatewayStatusTextField"); // NOI18N
 
@@ -142,7 +143,7 @@ public class HomePanel extends javax.swing.JPanel implements ProbeListener {
 
         databaseConnectivityCheckButton.setText(resourceMap.getString("databaseConnectivityCheckButton.text")); // NOI18N
         databaseConnectivityCheckButton.setName("databaseConnectivityCheckButton"); // NOI18N
-        
+
         modemSummaryPanel.setName("simCardSummaryPanel"); // NOI18N
 
         imsiNoLabel.setText(resourceMap.getString("imsiNoLabel.text")); // NOI18N
@@ -174,7 +175,7 @@ public class HomePanel extends javax.swing.JPanel implements ProbeListener {
 
         signalLevelProgressBar.setBorder(BorderFactory.createLineBorder(resourceMap.getColor("signalLevelProgressBar.border.lineColor"))); // NOI18N
         signalLevelProgressBar.setName("signalLevelProgressBar"); // NOI18N
-        
+
         signalLevelTextField.setHorizontalAlignment(javax.swing.JLabel.RIGHT);
         signalLevelTextField.setText(resourceMap.getString("signalLevelTextField.text")); // NOI18N
         signalLevelTextField.setName("signalLevelTextField"); // NOI18N
@@ -197,6 +198,7 @@ public class HomePanel extends javax.swing.JPanel implements ProbeListener {
         servicesSummaryPanel.setBorder(BorderFactory.createTitledBorder(resourceMap.getString("homePanel.border.title")));
         modemSummaryPanel.setBorder(BorderFactory.createTitledBorder(resourceMap.getString("simCardSummaryPanel.border.title")));
 
+        this.setPreferredSize(new Dimension(640, 480));
         this.setLayout(new MigLayout("insets panel, wrap 1"));
 
         this.add(servicesSummaryPanel, "top, left, grow");
