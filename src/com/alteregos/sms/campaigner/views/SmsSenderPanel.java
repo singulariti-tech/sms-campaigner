@@ -2,8 +2,6 @@ package com.alteregos.sms.campaigner.views;
 
 import com.alteregos.sms.campaigner.Main;
 import com.alteregos.sms.campaigner.conf.Configuration;
-import com.alteregos.sms.campaigner.data.beans.Dnd;
-import com.alteregos.sms.campaigner.data.beans.Outbox;
 import com.alteregos.sms.campaigner.data.validation.SmsValidator;
 import com.alteregos.sms.campaigner.exceptions.ExceptionParser;
 import com.alteregos.sms.campaigner.exceptions.ITaskResult;
@@ -12,11 +10,12 @@ import com.alteregos.sms.campaigner.util.LoggerHelper;
 import com.alteregos.sms.campaigner.util.StringUtils;
 import com.alteregos.sms.campaigner.views.helpers.SizeLimitedTextComponent;
 import com.alteregos.sms.campaigner.business.MessagePriority;
+import com.alteregos.sms.campaigner.data.dto.Dnd;
+import com.alteregos.sms.campaigner.data.dto.OutgoingMessage;
+import com.alteregos.sms.campaigner.services.DndService;
+import com.alteregos.sms.campaigner.services.MessageService;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.RollbackException;
 import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
 import net.miginfocom.swing.MigLayout;
@@ -61,28 +60,26 @@ public class SmsSenderPanel extends javax.swing.JPanel {
             recepientsList.removeAll(filteredRecepientsList);
             List<String> dndFreeList = filterDndNumbers(recepientsList);
             System.out.println("No. recepients after dnd filteration: " + dndFreeList.size());
-            List<Outbox> outboxList = new ArrayList<Outbox>();
+            List<OutgoingMessage> outboxList = new ArrayList<OutgoingMessage>();
             String message = previewTextArea.getText();
             String priority = (String) priorityComboBox.getSelectedItem();
             for (String number : dndFreeList) {
                 System.out.println("Recepient: " + number);
-                Outbox outbox = new Outbox();
+                OutgoingMessage outbox = new OutgoingMessage();
                 outbox.setContent(message);
-                outbox.setPriority(MessagePriority.getPriorityForMessage(priority).toString());
-                outbox.setRecepient(number);
+                outbox.setPriority(MessagePriority.getPriorityForMessage(priority));
+                outbox.setRecepientNo(number);
                 outboxList.add(outbox);
             }
 
             try {
-                entityManager.getTransaction().begin();
-                for (Outbox outbox : outboxList) {
-                    entityManager.persist(outbox);
-                }
-                entityManager.getTransaction().commit();
+                //DO BULK INSERT
+                messageService.newOutgoingMessages(outboxList);
                 result = new SuccessfulTaskResult();
-            } catch (RollbackException rollbackException) {
-                result = ExceptionParser.getError(rollbackException);
-                JOptionPane.showMessageDialog(Main.getApplication().getMainFrame(), result.getResultMessage().getLabel());
+            } catch (Exception rollbackException) {
+                rollbackException.printStackTrace();
+                //result = ExceptionParser.getError(rollbackException);
+                //JOptionPane.showMessageDialog(Main.getApplication().getMainFrame(), result.getResultMessage().getLabel());
             }
 
             if (result.isSuccessful()) {
@@ -128,8 +125,7 @@ public class SmsSenderPanel extends javax.swing.JPanel {
 
     //<editor-fold defaultstate="collapsed" desc="State Initialization">
     private void initState() {
-        entityManager = javax.persistence.Persistence.createEntityManagerFactory("absolute-smsPU").createEntityManager();
-        dndQuery = entityManager.createQuery("SELECT d FROM Dnd d");
+        dndService = Main.getApplication().getBean("dndService");
         Configuration configuration = Main.getApplication().getConfiguration();
         this.footer = configuration.getMessageFooter();
         initListeners();
@@ -138,7 +134,7 @@ public class SmsSenderPanel extends javax.swing.JPanel {
 
     private List<String> filterDndNumbers(List<String> inputList) {
         List<String> cleanNumbers = new ArrayList<String>();
-        dndList = dndQuery.getResultList();
+        dndList = dndService.findAll();
         List<String> dndNumbers = new ArrayList<String>();
         for (Dnd dnd : dndList) {
             dndNumbers.add(dnd.getMobileNo());
@@ -203,6 +199,8 @@ public class SmsSenderPanel extends javax.swing.JPanel {
 
     @SuppressWarnings("unchecked")
     private void initComponents() {
+
+        messageService = Main.getApplication().getBean("messageService");
 
         smsSenderContainer = new javax.swing.JPanel();
         recepientsLabel = new javax.swing.JLabel();
@@ -341,6 +339,8 @@ public class SmsSenderPanel extends javax.swing.JPanel {
         smsSenderContainer.add(sendButton, "span, split 3, right, push");
         smsSenderContainer.add(clearButton);
     }
+    private MessageService messageService;
+    private DndService dndService;
     private javax.swing.JButton clearButton;
     private javax.swing.JCheckBox enableMessageFooterCheckbox;
     private javax.swing.JButton groupsButton;
@@ -361,10 +361,8 @@ public class SmsSenderPanel extends javax.swing.JPanel {
     private javax.swing.JTextArea recepientsTextArea;
     private javax.swing.JButton sendButton;
     private javax.swing.JPanel smsSenderContainer;
-    private static Logger log = LoggerHelper.getLogger();
-    private EntityManager entityManager;
-    private Query dndQuery;
     private List<Dnd> dndList;
     private String footer;
     private SmsValidator validator;
+    private static Logger log = LoggerHelper.getLogger();
 }
