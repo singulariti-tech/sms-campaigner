@@ -8,7 +8,6 @@ import com.alteregos.sms.campaigner.services.IncomingCallService;
 import com.alteregos.sms.campaigner.util.LoggerHelper;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.RollbackException;
 import org.apache.log4j.Logger;
 
 /**
@@ -40,7 +39,7 @@ public class CallProcessor implements IProcessor {
 
         try {
             //TODO Insert or update calls appropriately
-        } catch (RollbackException rollbackException) {
+        } catch (Exception rollbackException) {
             log.error("Exception when processing Calls");
             log.error(rollbackException);
         }
