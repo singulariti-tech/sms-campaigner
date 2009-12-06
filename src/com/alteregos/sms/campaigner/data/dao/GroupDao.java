@@ -12,4 +12,6 @@ public interface GroupDao {
     List<Group> findAll ();
     int insert(Group group);
     void update(Group group);
+    void delete(Group group);
+    void delete(List<Group> groups);
 }

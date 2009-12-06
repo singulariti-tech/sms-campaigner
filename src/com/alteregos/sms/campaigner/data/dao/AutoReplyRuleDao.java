@@ -13,5 +13,7 @@ public interface AutoReplyRuleDao {
     List<AutoReplyRule> findEnabled ();
     int insert(AutoReplyRule rule);
     void update(AutoReplyRule rule);
-    void update(List<AutoReplyRule> rules);
+    int[] update(List<AutoReplyRule> rules);
+    void delete(AutoReplyRule rule);
+    void delete(List<AutoReplyRule> rules);
 }
