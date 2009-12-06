@@ -1,16 +1,17 @@
 package com.alteregos.sms.campaigner.views;
 
-import com.alteregos.sms.campaigner.data.beans.Phonebook;
+import com.alteregos.sms.campaigner.Main;
+import com.alteregos.sms.campaigner.data.dto.Contact;
 import com.alteregos.sms.campaigner.data.validation.PhonebookEntryValidator;
 import com.alteregos.sms.campaigner.exceptions.ExceptionParser;
 import com.alteregos.sms.campaigner.exceptions.ITaskResult;
 import com.alteregos.sms.campaigner.exceptions.SuccessfulTaskResult;
-import javax.persistence.EntityManager;
-import javax.persistence.RollbackException;
+import com.alteregos.sms.campaigner.services.ContactService;
 import javax.swing.JOptionPane;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
+import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.Task;
 
 /**
@@ -24,48 +25,45 @@ public class PhonebookEntryCreatorPanel extends javax.swing.JPanel {
     /** Creates new form PhonebookEntryCreatorPanel */
     public PhonebookEntryCreatorPanel() {
         initComponents();
-        entityManager = javax.persistence.Persistence.createEntityManagerFactory("absolute-smsPU").createEntityManager();
-        phoneBook = new Phonebook();
+        phoneBook = new Contact();
         this.validator = new PhonebookEntryValidator(nameTextField, mobileNoTextField);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Actions">
     @Action
-    public Task saveEntry() {
+    public Task<ITaskResult, Void> saveEntry() {
         if (validator.validate()) {
             return new SaveEntryTask(org.jdesktop.application.Application.getInstance(com.alteregos.sms.campaigner.Main.class));
         }
         return null;
     }
 
-    private class SaveEntryTask extends Task<Object, Void> {
+    private class SaveEntryTask extends Task<ITaskResult, Void> {
 
         public SaveEntryTask(Application app) {
             super(app);
         }
 
         @Override
-        protected Object doInBackground() {
+        protected ITaskResult doInBackground() {
             ITaskResult result = null;
             phoneBook.setAddress(postalAddressTextArea.getText().trim());
             phoneBook.setMobileNo(mobileNoTextField.getText().trim());
             phoneBook.setEmail(emailAddressTextField.getText().trim());
             phoneBook.setName(nameTextField.getText().trim());
-            try {
-                entityManager.getTransaction().begin();
-                entityManager.persist(phoneBook);
-                entityManager.getTransaction().commit();
+            try {                
+                contactService.newContact(phoneBook);
                 result = new SuccessfulTaskResult();
-            } catch (RollbackException rex) {
+            } catch (Exception rex) {
                 result = ExceptionParser.getError(rex);
             }
             return result;
         }
 
         @Override
-        protected void succeeded(Object object) {
+        protected void succeeded(ITaskResult object) {
             super.succeeded(object);
-            ITaskResult result = (ITaskResult) object;
+            ITaskResult result = object;
             if (result.isSuccessful()) {
                 nameTextField.setText("");
                 emailAddressTextField.setText("");
@@ -74,13 +72,13 @@ public class PhonebookEntryCreatorPanel extends javax.swing.JPanel {
             } else {
                 JOptionPane.showMessageDialog(null, result.getResultMessage().getLabel());
             }
-            phoneBook = new Phonebook();
+            phoneBook = new Contact();
         }
     }
 
     @Action
     public void clearEntry() {
-        phoneBook = new Phonebook();
+        phoneBook = new Contact();
         nameTextField.setText("");
         postalAddressTextArea.setText("");
         mobileNoTextField.setText("");
@@ -92,6 +90,7 @@ public class PhonebookEntryCreatorPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     private void initComponents() {
 
+        contactService = Main.getApplication().getBean("contactService");
         nameLabel = new javax.swing.JLabel();
         mobileNoLabel = new javax.swing.JLabel();
         emailAddressLabel = new javax.swing.JLabel();
@@ -106,7 +105,7 @@ public class PhonebookEntryCreatorPanel extends javax.swing.JPanel {
 
         setName("Form"); // NOI18N
 
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(com.alteregos.sms.campaigner.Main.class).getContext().getResourceMap(PhonebookEntryCreatorPanel.class);
+        ResourceMap resourceMap = Application.getInstance(Main.class).getContext().getResourceMap(PhonebookEntryCreatorPanel.class);
         this.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("phoneBookEntryCreatorPanel.border.title"))); // NOI18N
         this.setName("phoneBookEntryCreatorPanel"); // NOI18N
 
@@ -140,7 +139,7 @@ public class PhonebookEntryCreatorPanel extends javax.swing.JPanel {
         postalAddressTextArea.setName("postalAddressTextArea"); // NOI18N
         postalAddressScrollPane.setViewportView(postalAddressTextArea);
 
-        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(com.alteregos.sms.campaigner.Main.class).getContext().getActionMap(PhonebookEntryCreatorPanel.class, this);
+        javax.swing.ActionMap actionMap = Application.getInstance(Main.class).getContext().getActionMap(PhonebookEntryCreatorPanel.class, this);
         clearButton.setAction(actionMap.get("clearEntry")); // NOI18N
         clearButton.setText(resourceMap.getString("clearButton.text")); // NOI18N
         clearButton.setName("clearButton"); // NOI18N
@@ -160,7 +159,8 @@ public class PhonebookEntryCreatorPanel extends javax.swing.JPanel {
         this.add(postalAddressScrollPane, "spanx 2, grow, top, left, wrap");
         this.add(saveButton, "spanx 2, split 2, right");
         this.add(clearButton);
-    }
+    }    
+    private ContactService contactService;
     private javax.swing.JButton clearButton;
     private javax.swing.JLabel emailAddressLabel;
     private javax.swing.JTextField emailAddressTextField;
@@ -172,7 +172,6 @@ public class PhonebookEntryCreatorPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane postalAddressScrollPane;
     private javax.swing.JTextArea postalAddressTextArea;
     private javax.swing.JButton saveButton;
-    private EntityManager entityManager;
-    private Phonebook phoneBook;
+    private Contact phoneBook;
     private PhonebookEntryValidator validator;
 }
