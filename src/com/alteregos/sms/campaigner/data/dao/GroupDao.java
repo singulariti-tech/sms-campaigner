@@ -1,7 +1,6 @@
 package com.alteregos.sms.campaigner.data.dao;
 
 import com.alteregos.sms.campaigner.data.dto.Group;
-import com.alteregos.sms.campaigner.data.dto.GroupPk;
 
 import java.util.List;
 
@@ -11,6 +10,6 @@ import java.util.List;
 public interface GroupDao {
     Group findById (int contactGroupId);
     List<Group> findAll ();
-    GroupPk insert(Group group);
-    void update(GroupPk pk ,Group group);
+    int insert(Group group);
+    void update(Group group);
 }

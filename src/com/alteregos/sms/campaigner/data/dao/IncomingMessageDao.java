@@ -1,7 +1,6 @@
 package com.alteregos.sms.campaigner.data.dao;
 
 import com.alteregos.sms.campaigner.data.dto.IncomingMessage;
-import com.alteregos.sms.campaigner.data.dto.IncomingMessagePk;
 
 import java.util.List;
 
@@ -10,7 +9,8 @@ import java.util.List;
  */
 public interface IncomingMessageDao {
     IncomingMessage findById (int incomingMessageId);
-    List<IncomingMessage> findAll ();
-    IncomingMessagePk insert(IncomingMessage message);
-    void update(IncomingMessagePk pk, IncomingMessage message);
+    List<IncomingMessage> findAll ();    
+    int insert(IncomingMessage message);
+    int[] insert(List<IncomingMessage> messages);
+    void update(IncomingMessage message);
 }

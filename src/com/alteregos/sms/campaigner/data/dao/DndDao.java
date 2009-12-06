@@ -1,7 +1,6 @@
 package com.alteregos.sms.campaigner.data.dao;
 
 import com.alteregos.sms.campaigner.data.dto.Dnd;
-import com.alteregos.sms.campaigner.data.dto.DndPk;
 
 import java.util.List;
 
@@ -11,6 +10,6 @@ import java.util.List;
 public interface DndDao {
     Dnd findById (int dndId);
     List<Dnd> findAll ();
-    DndPk insert(Dnd dnd);
-    void update(DndPk pk, Dnd dnd);
+    int insert(Dnd dnd);
+    void update(Dnd dnd);
 }
