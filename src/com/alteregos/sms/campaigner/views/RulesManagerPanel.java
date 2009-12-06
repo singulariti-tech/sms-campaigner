@@ -1,23 +1,24 @@
 package com.alteregos.sms.campaigner.views;
 
 import com.alteregos.sms.campaigner.Main;
-import com.alteregos.sms.campaigner.data.beans.Rule;
+import com.alteregos.sms.campaigner.data.dto.AutoReplyRule;
 import com.alteregos.sms.campaigner.exceptions.ExceptionParser;
 import com.alteregos.sms.campaigner.exceptions.ITaskResult;
 import com.alteregos.sms.campaigner.exceptions.SuccessfulTaskResult;
+import com.alteregos.sms.campaigner.services.RuleService;
 import com.alteregos.sms.campaigner.util.DateUtils;
 import com.alteregos.sms.campaigner.views.helpers.SizeLimitedTextComponent;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.RollbackException;
 import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.Task;
+import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingx.JXDatePicker;
 
 /**
@@ -48,7 +49,7 @@ public class RulesManagerPanel extends javax.swing.JPanel {
 
         ruleList.addAll(filteredRuleList);
         filteredRuleList.clear();
-        for (Rule rule : ruleList) {
+        for (AutoReplyRule rule : ruleList) {
             Date createdDate = rule.getCreatedDate();
             boolean isRegisteredDateBeforeStartDate = createdDate.before(startDate);
             boolean isRegisteredDateAfterEndDate = createdDate.after(endDate);
@@ -61,17 +62,17 @@ public class RulesManagerPanel extends javax.swing.JPanel {
     }
 
     @Action
-    public Task refreshListAction() {
+    public Task<Boolean, Void> refreshListAction() {
         return new RefreshListActionTask(Main.getApplication());
     }
 
     @Action
-    public Task saveAction() {
+    public Task<ITaskResult, Void> saveAction() {
         return new SaveActionTask(org.jdesktop.application.Application.getInstance(com.alteregos.sms.campaigner.Main.class));
     }
 
     @Action
-    public Task deleteAction() {
+    public Task<ITaskResult, Void> deleteAction() {
         return new DeleteActionTask(org.jdesktop.application.Application.getInstance(com.alteregos.sms.campaigner.Main.class));
     }
     //</editor-fold>
@@ -80,36 +81,30 @@ public class RulesManagerPanel extends javax.swing.JPanel {
      *
      */
     //<editor-fold defaultstate="collapsed" desc="Dependencies">
-    private class RefreshListActionTask extends Task<Object, Void> {
+    private class RefreshListActionTask extends Task<Boolean, Void> {
 
         public RefreshListActionTask(Application arg0) {
             super(arg0);
         }
 
         @Override
-        protected Object doInBackground() throws Exception {
-            entityManager.getTransaction().begin();
-            entityManager.getTransaction().rollback();
-            java.util.Collection data = ruleQuery.getResultList();
-            for (Object entity : data) {
-                entityManager.refresh(entity);
+        protected Boolean doInBackground() throws Exception {
+            java.util.Collection<AutoReplyRule> data = ruleService.getRules();
+            if (ruleList == null) {
+                ruleList = ObservableCollections.observableList(new ArrayList<AutoReplyRule>());
             }
-            if (ruleList != null) {
-                ruleList.clear();
-            } else {
-                ruleList = new ArrayList<Rule>();
-            }
+            ruleList.clear();
             ruleList.addAll(data);
             return true;
         }
 
         @Override
-        protected void succeeded(Object arg0) {
+        protected void succeeded(Boolean arg0) {
             super.succeeded(arg0);
         }
     }
 
-    private class SaveActionTask extends org.jdesktop.application.Task<Object, Void> {
+    private class SaveActionTask extends org.jdesktop.application.Task<ITaskResult, Void> {
 
         SaveActionTask(org.jdesktop.application.Application app) {
             // Runs on the EDT.  Copy GUI state that
@@ -119,34 +114,36 @@ public class RulesManagerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        protected Object doInBackground() {
+        protected ITaskResult doInBackground() {
             ITaskResult result = null;
             try {
-                entityManager.getTransaction().begin();
                 int[] selected = rulesTable.getSelectedRows();
+                List<AutoReplyRule> rules = new ArrayList<AutoReplyRule>();
                 for (int i = 0; i < selected.length; i++) {
-                    Rule rule = ruleList.get(rulesTable.convertRowIndexToModel(selected[i]));
+                    AutoReplyRule rule = ruleList.get(rulesTable.convertRowIndexToModel(selected[i]));
                     rule.setModifiedDate(new Date());
+                    rules.add(rule);
                 }
-                entityManager.getTransaction().commit();
+                int[] counts = ruleService.update(rules);
+                //TODO Verify update counts
                 result = new SuccessfulTaskResult();
-            } catch (RollbackException rollbackException) {
+            } catch (Exception rollbackException) {
                 result = ExceptionParser.getError(rollbackException);
             }
             return result;
         }
 
         @Override
-        protected void succeeded(Object taskResult) {
+        protected void succeeded(ITaskResult taskResult) {
             super.succeeded(taskResult);
-            ITaskResult result = (ITaskResult) taskResult;
+            ITaskResult result = taskResult;
             if (!result.isSuccessful()) {
                 JOptionPane.showMessageDialog(Main.getApplication().getMainFrame(), "SET ERROR MESSAGE HERE");
             }
         }
     }
 
-    private class DeleteActionTask extends org.jdesktop.application.Task<Object, Void> {
+    private class DeleteActionTask extends org.jdesktop.application.Task<ITaskResult, Void> {
 
         DeleteActionTask(org.jdesktop.application.Application app) {
             // Runs on the EDT.  Copy GUI state that
@@ -156,24 +153,22 @@ public class RulesManagerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        protected Object doInBackground() {
+        protected ITaskResult doInBackground() {
             ITaskResult result = null;
             int[] selected = rulesTable.getSelectedRows();
-            List<Rule> toRemove = new ArrayList<Rule>();
+            List<AutoReplyRule> toRemove = new ArrayList<AutoReplyRule>();
             for (int i = 0; i < selected.length; i++) {
-                Rule rule = ruleList.get(rulesTable.convertRowIndexToModel(selected[i]));
+                AutoReplyRule rule = ruleList.get(rulesTable.convertRowIndexToModel(selected[i]));
                 toRemove.add(rule);
-                entityManager.remove(rule);
             }
 
             try {
-                entityManager.getTransaction().begin();
-                entityManager.getTransaction().commit();
+                ruleService.delete(ruleList);
                 result = new SuccessfulTaskResult();
-            } catch (RollbackException rollbackException) {
-                List<Rule> toMerge = new ArrayList<Rule>();
-                for (Rule rule : ruleList) {
-                    toMerge.add(entityManager.merge(rule));
+            } catch (Exception rollbackException) {
+                List<AutoReplyRule> toMerge = new ArrayList<AutoReplyRule>();
+                for (AutoReplyRule rule : ruleList) {
+                    //TODO rollback if delete fails
                 }
                 ruleList.clear();
                 ruleList.addAll(toMerge);
@@ -184,9 +179,9 @@ public class RulesManagerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        protected void succeeded(Object taskResult) {
+        protected void succeeded(ITaskResult taskResult) {
             super.succeeded(taskResult);
-            ITaskResult result = (ITaskResult) taskResult;
+            ITaskResult result = taskResult;
             if (!result.isSuccessful()) {
                 JOptionPane.showMessageDialog(Main.getApplication().getMainFrame(), result.getResultMessage().getLabel());
             } else {
@@ -203,16 +198,15 @@ public class RulesManagerPanel extends javax.swing.JPanel {
     }
 
     private void initialize() {
-        filteredRuleList = new ArrayList<Rule>();
+        filteredRuleList = new ArrayList<AutoReplyRule>();
     }
 
     @SuppressWarnings("unchecked")
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
+        ruleService = Main.getApplication().getBean("ruleService");
 
-        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("absolute-smsPU").createEntityManager();
-        ruleQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT r FROM Rule r");
-        ruleList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(ruleQuery.getResultList());
+        ruleList = ObservableCollections.observableList(ruleService.getRules());
         borderContainer = new javax.swing.JPanel();
         startDateLabel = new javax.swing.JLabel();
         startDateField = new JXDatePicker();
@@ -350,7 +344,7 @@ public class RulesManagerPanel extends javax.swing.JPanel {
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, rulesTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), saveButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
-        
+
         Dimension dateFieldsDimension = new Dimension(70, startDateLabel.getHeight());
         startDateField.setPreferredSize(dateFieldsDimension);
         endDateField.setPreferredSize(dateFieldsDimension);
@@ -386,6 +380,7 @@ public class RulesManagerPanel extends javax.swing.JPanel {
 
         bindingGroup.bind();
     }
+    private RuleService ruleService;
     private javax.swing.JPanel borderContainer;
     private javax.swing.JLabel contentLabel;
     private javax.swing.JTextField contentLengthField;
@@ -394,21 +389,19 @@ public class RulesManagerPanel extends javax.swing.JPanel {
     private javax.swing.JButton deleteButton;
     private javax.swing.JCheckBox enabledCheckbox;
     private JXDatePicker endDateField;
+    private JXDatePicker startDateField;
+    private javax.swing.JLabel startDateLabel;
     private javax.swing.JLabel endDateLabel;
-    private javax.persistence.EntityManager entityManager;
     private javax.swing.JButton filterButton;
     private javax.swing.JTextField primaryKeywordField;
     private javax.swing.JLabel primaryKeywordLabel;
     private javax.swing.JButton refreshButton;
-    private java.util.List<com.alteregos.sms.campaigner.data.beans.Rule> ruleList;
-    private javax.persistence.Query ruleQuery;
     private javax.swing.JScrollPane rulesScrollPane;
     private javax.swing.JTable rulesTable;
     private javax.swing.JButton saveButton;
     private javax.swing.JTextField secondaryKeywordField;
     private javax.swing.JLabel secondaryKeywordLabel;
-    private JXDatePicker startDateField;
-    private javax.swing.JLabel startDateLabel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    private List<Rule> filteredRuleList;
+    private List<AutoReplyRule> ruleList;
+    private List<AutoReplyRule> filteredRuleList;
 }
