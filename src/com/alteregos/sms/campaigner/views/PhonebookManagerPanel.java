@@ -1,10 +1,10 @@
 package com.alteregos.sms.campaigner.views;
 
 import com.alteregos.sms.campaigner.Main;
-import com.alteregos.sms.campaigner.data.beans.Phonebook;
+import com.alteregos.sms.campaigner.data.dto.Contact;
+import com.alteregos.sms.campaigner.services.ContactService;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.RollbackException;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Task;
@@ -26,17 +26,17 @@ public class PhonebookManagerPanel extends javax.swing.JPanel {
 
     //<editor-fold defaultstate="collapsed" desc="Actions">
     @Action
-    public Task saveEntryAction() {
+    public Task<Boolean, Void> saveEntryAction() {
         return new SaveEntryActionTask(Main.getApplication());
     }
 
     @Action
-    public Task deleteEntryAction() {
+    public Task<Boolean, Void> deleteEntryAction() {
         return new DeleteEntryActionTask(Main.getApplication());
     }
 
     @Action
-    public Task refreshEntriesAction() {
+    public Task<Boolean, Void> refreshEntriesAction() {
         return new RefreshEntriesActionTask(Main.getApplication());
     }
     //</editor-fold>
@@ -51,7 +51,7 @@ public class PhonebookManagerPanel extends javax.swing.JPanel {
         }
     }
 
-    private class SaveEntryActionTask extends org.jdesktop.application.Task<Object, Void> {
+    private class SaveEntryActionTask extends org.jdesktop.application.Task<Boolean, Void> {
 
         SaveEntryActionTask(org.jdesktop.application.Application app) {
             // Runs on the EDT.  Copy GUI state that
@@ -61,45 +61,43 @@ public class PhonebookManagerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        protected Object doInBackground() {
+        protected Boolean doInBackground() {
             boolean saved = false;
             // Your Task's code here.  This method runs
             // on a background thread, so don't reference
             // the Swing GUI from here.
+            int[] selected = phoneBookTable.getSelectedRows();
+            List<Contact> toSave = new ArrayList<Contact>(selected.length);
+            for (int index = 0; index < selected.length; index++) {
+                Contact p = phonebookList.get(phoneBookTable.convertRowIndexToModel(selected[index]));
+                toSave.add(p);
+            }
+
             try {
-                entityManager.getTransaction().begin();
-                entityManager.getTransaction().commit();
+                contactService.updateContacts(toSave);
                 saved = true;
-            } catch (RollbackException rex) {
-                //TODO DOES THIS ROllBACK WORK WELL?
+            } catch (Exception rex) {
                 rex.printStackTrace();
-                entityManager.getTransaction().begin();
-                List<com.alteregos.sms.campaigner.data.beans.Phonebook> merged = new ArrayList<com.alteregos.sms.campaigner.data.beans.Phonebook>(phonebookList.size());
-                for (com.alteregos.sms.campaigner.data.beans.Phonebook p : phonebookList) {
-                    merged.add(entityManager.merge(p));
-                }
-                phonebookList.clear();
-                phonebookList.addAll(merged);
                 saved = false;
             }
             return saved;  // return your result
-
         }
 
         @Override
-        protected void succeeded(Object result) {
+        protected void succeeded(Boolean result) {
             // Runs on the EDT.  Update the GUI based on
             // the result computed by doInBackground().
-            boolean saved = (Boolean) result;
+            boolean saved = result;
             if (saved) {
                 phoneBookTable.getSelectionModel().clearSelection();
             } else {
-                //Show dialog or error message
+                //TODO Let the user know that the entries were not saved
+                refreshEntriesAction();
             }
         }
     }
 
-    private class DeleteEntryActionTask extends org.jdesktop.application.Task<Object, Void> {
+    private class DeleteEntryActionTask extends org.jdesktop.application.Task<Boolean, Void> {
 
         DeleteEntryActionTask(org.jdesktop.application.Application app) {
             // Runs on the EDT.  Copy GUI state that
@@ -109,78 +107,62 @@ public class PhonebookManagerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        protected Object doInBackground() {
+        protected Boolean doInBackground() {
             Boolean deleted = false;
             // Your Task's code here.  This method runs
             // on a background thread, so don't reference
             // the Swing GUI from here.
             int[] selected = phoneBookTable.getSelectedRows();
-            List<com.alteregos.sms.campaigner.data.beans.Phonebook> toRemove = new ArrayList<com.alteregos.sms.campaigner.data.beans.Phonebook>(selected.length);
+            List<Contact> toRemove = new ArrayList<Contact>(selected.length);
             for (int index = 0; index < selected.length; index++) {
-                com.alteregos.sms.campaigner.data.beans.Phonebook p = phonebookList.get(phoneBookTable.convertRowIndexToModel(selected[index]));
+                Contact p = phonebookList.get(phoneBookTable.convertRowIndexToModel(selected[index]));
                 toRemove.add(p);
-                entityManager.remove(p);
             }
 
             try {
-                entityManager.getTransaction().begin();
-                entityManager.getTransaction().commit();
+                contactService.deleteContacts(toRemove);
                 deleted = phonebookList.removeAll(toRemove);
-            } catch (RollbackException rex) {
-                //TODO VERIFY IF MERGING IS DONE CORRECTLY
+            } catch (Exception rex) {
                 rex.printStackTrace();
-                List<com.alteregos.sms.campaigner.data.beans.Phonebook> merged = new ArrayList<com.alteregos.sms.campaigner.data.beans.Phonebook>(phonebookList.size());
-                for (com.alteregos.sms.campaigner.data.beans.Phonebook p : phonebookList) {
-                    merged.add(entityManager.merge(p));
-                }
-                phonebookList.clear();
-                phonebookList.addAll(merged);
                 deleted = false;
             }
             return deleted;  // return your result
-
         }
 
         @Override
-        protected void succeeded(Object result) {
+        protected void succeeded(Boolean result) {
             // Runs on the EDT.  Update the GUI based on
             // the result computed by doInBackground().
-            boolean deleted = (Boolean) result;
+            boolean deleted = result;
             if (deleted) {
                 phoneBookTable.getSelectionModel().clearSelection();
                 phoneBookTable.clearSelection();
             } else {
+                //TODO Show error message to user
+                refreshEntriesAction();
             }
         }
     }
 
-    private class RefreshEntriesActionTask extends org.jdesktop.application.Task<Object, Void> {
+    private class RefreshEntriesActionTask extends org.jdesktop.application.Task<Boolean, Void> {
 
         RefreshEntriesActionTask(org.jdesktop.application.Application app) {
             super(app);
         }
 
         @Override
-        protected Object doInBackground() {
-            entityManager.getTransaction().begin();
-            entityManager.getTransaction().rollback();
-            java.util.Collection data = phonebookQuery.getResultList();
-            for (Object entity : data) {
-                entityManager.refresh(entity);
+        protected Boolean doInBackground() {
+            java.util.Collection<Contact> data = contactService.getContacts();
+            if (phonebookList == null) {
+                phonebookList = ObservableCollections.observableList(new ArrayList<Contact>());
             }
-            if (phonebookList != null) {
-                phonebookList.clear();
-            } else {
-                phonebookList = ObservableCollections.observableList(new ArrayList<Phonebook>());
-            }
+            phonebookList.clear();
             phonebookList.addAll(data);
-
-            return null;  // return your result
-
+            return true;  // return your result
         }
 
         @Override
-        protected void succeeded(Object result) {
+        protected void succeeded(Boolean result) {
             phoneBookTable.getSelectionModel().clearSelection();
         }
     }
@@ -190,9 +172,9 @@ public class PhonebookManagerPanel extends javax.swing.JPanel {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("absolute-smsPU").createEntityManager();
-        phonebookQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT p FROM Phonebook p");
-        phonebookList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(phonebookQuery.getResultList());
+        contactService = Main.getApplication().getBean("contactService");
+
+        phonebookList = ObservableCollections.observableList(contactService.getContacts());
         phoneBookScrollPane = new javax.swing.JScrollPane();
         phoneBookTable = new javax.swing.JTable();
         nameLabel = new javax.swing.JLabel();
@@ -325,21 +307,20 @@ public class PhonebookManagerPanel extends javax.swing.JPanel {
 
         bindingGroup.bind();
     }
+    private ContactService contactService;
     private javax.swing.JLabel addressLabel;
     private javax.swing.JScrollPane addressScrollPane;
     private javax.swing.JTextArea addressTextArea;
     private javax.swing.JButton deleteButton;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JTextField emailTextField;
-    private javax.persistence.EntityManager entityManager;
     private javax.swing.JScrollPane phoneBookScrollPane;
     private javax.swing.JLabel mobileNoLabel;
     private javax.swing.JTextField mobileNoTextField;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JTable phoneBookTable;
-    private java.util.List<com.alteregos.sms.campaigner.data.beans.Phonebook> phonebookList;
-    private javax.persistence.Query phonebookQuery;
+    private java.util.List<Contact> phonebookList;
     private javax.swing.JButton refreshButton;
     private javax.swing.JButton saveButton;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
