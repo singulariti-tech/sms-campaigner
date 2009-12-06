@@ -2,7 +2,6 @@ package com.alteregos.sms.campaigner.data.sqlite;
 
 import com.alteregos.sms.campaigner.data.dao.GroupDao;
 import com.alteregos.sms.campaigner.data.dto.Group;
-import com.alteregos.sms.campaigner.data.dto.GroupPk;
 import com.alteregos.sms.campaigner.data.exceptions.DaoException;
 import com.alteregos.sms.campaigner.data.mappers.GroupRowMapper;
 import org.springframework.dao.DataAccessException;
@@ -25,12 +24,14 @@ public class SqliteGroupDao extends BaseSqliteDao implements GroupDao {
     private String findAllQuery;
     private String insertStmt;
     private String updateStmt;
+    private String deleteStmt;
 
     public SqliteGroupDao() {
         findByIdQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " WHERE group_id = ?";
         findAllQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " ORDER BY group_id ASC";
         insertStmt = "INSERT INTO " + TABLE_NAME + " (" + DEFAULT_SELECTORS + ") VALUES(?, ?)";
         updateStmt = "UPDATE " + TABLE_NAME + "SET  name = ? WHERE group_id = ?";
+        deleteStmt = "DELETE FROM " + TABLE_NAME + " WHERE group_id = ?";
     }
 
     @Override
@@ -56,7 +57,7 @@ public class SqliteGroupDao extends BaseSqliteDao implements GroupDao {
     }
 
     @Override
-    public GroupPk insert(Group group) {
+    public synchronized int insert(Group group) {
         int lastId;
         try {
             jdbcTemplate.update(insertStmt, null, group.getName());
@@ -64,14 +65,45 @@ public class SqliteGroupDao extends BaseSqliteDao implements GroupDao {
         } catch (DataAccessException e) {
             throw new DaoException(e);
         }
-        return new GroupPk(lastId);
+        return lastId;
     }
 
     @Override
-    public void update(GroupPk pk, Group group) {
+    public synchronized void update(Group group) {
         try {
             jdbcTemplate.update(updateStmt, group.getName(), group.getGroupId());
         } catch (DataAccessException e) {
+            throw new DaoException(e);
+        }
+    }
+
+    @Override
+    public void delete(Group group) {
+        try {
+            jdbcTemplate.update(deleteStmt, group.getGroupId());
+        } catch (DataAccessException e) {
+            throw new DaoException(e);
+        }
+    }
+
+    @Override
+    public void delete(List<Group> groups) {
+        try {
+            StringBuffer deleteBulkStmt = new StringBuffer("DELETE FROM " + TABLE_NAME + " WHERE group_id in (");
+            int size = groups.size();
+            int lessOne = size - 1;
+            for (int i = 0; i < size; i++) {
+                Group r = groups.get(i);
+                deleteBulkStmt.append(r.getGroupId());
+                if (i < lessOne) {
+                    deleteBulkStmt.append(", ");
+                }
+            }
+            deleteBulkStmt.append(")");
+            jdbcTemplate.update(deleteBulkStmt.toString());
+        } catch (DataAccessException e) {
+            throw new DaoException(e);
+        } catch (Exception e) {
             throw new DaoException(e);
         }
     }
