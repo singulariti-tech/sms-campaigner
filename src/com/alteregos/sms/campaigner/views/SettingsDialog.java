@@ -600,7 +600,7 @@ public class SettingsDialog extends javax.swing.JDialog {
         callNotificationContainer.add(callNotificationSaveButton);
         callNotificationContainer.add(callNotificationClearButton);
 
-        this.callNotificationPanel.setLayout(new MigLayout("fill, insets panel", "[min!]"));
+        this.callNotificationPanel.setLayout(new MigLayout("fill, insets panel"));
         this.callNotificationPanel.add(callNotificationContainer, "grow, push");
 
         defaultMessageContainer.setLayout(new MigLayout("fill, insets panel", "[]push[][]"));
@@ -612,7 +612,7 @@ public class SettingsDialog extends javax.swing.JDialog {
         defaultMessageContainer.add(defaultMessageSaveButton);
         defaultMessageContainer.add(defaultMessageClearButton);
 
-        this.defaultMessagePanel.setLayout(new MigLayout("fill, insets panel", "[min!]"));
+        this.defaultMessagePanel.setLayout(new MigLayout("fill, insets panel"));
         this.defaultMessagePanel.add(defaultMessageContainer, "grow, push");
 
         this.getContentPane().add(tabbedPane);
