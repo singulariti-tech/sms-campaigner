@@ -1,15 +1,15 @@
 package com.alteregos.sms.campaigner.views;
 
 import com.alteregos.sms.campaigner.Main;
-import com.alteregos.sms.campaigner.data.beans.Phonebook;
-import com.alteregos.sms.campaigner.data.beans.Smsgroup;
+import com.alteregos.sms.campaigner.data.dto.Contact;
+import com.alteregos.sms.campaigner.data.dto.Group;
+import com.alteregos.sms.campaigner.services.ContactService;
 import com.alteregos.sms.campaigner.util.LoggerHelper;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import javax.persistence.RollbackException;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 import javax.swing.table.DefaultTableModel;
@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.Task;
+import org.jdesktop.observablecollections.ObservableCollections;
 
 /**
  *
@@ -35,20 +36,20 @@ public class ManageGroupPanel extends javax.swing.JPanel {
 
     //<editor-fold defaultstate="collapsed" desc="Actions">
     @Action
-    public Task deleteGroupAction() {
+    public Task<Boolean, Void> deleteGroupAction() {
         return new RemoveGroupActionTask(Main.getApplication());
     }
 
     @Action
     public void addContactsAction() {
         if (groupsComboBox.getSelectedIndex() != -1) {
-            Smsgroup group = (Smsgroup) groupsComboBox.getSelectedItem();
+            Group group = (Group) groupsComboBox.getSelectedItem();
             new GroupsManagerContactsDialog(Main.getApplication().getMainFrame(), true, group, this).setVisible(true);
         }
     }
 
     @Action
-    public Task removeContactsAction() {
+    public Task<Boolean, Void> removeContactsAction() {
         return new RemoveContactsActionTask(Main.getApplication());
     }
 
@@ -65,11 +66,13 @@ public class ManageGroupPanel extends javax.swing.JPanel {
     private void initialize() {
         defaultListCellRenderer = new DefaultListCellRenderer() {
 
+            private static final long serialVersionUID = 1L;
+
             @Override
             public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if (value instanceof Smsgroup) {
-                    Smsgroup group = (Smsgroup) value;
+                if (value instanceof Group) {
+                    Group group = (Group) value;
                     setText(group.getName());
                 }
                 return this;
@@ -84,49 +87,49 @@ public class ManageGroupPanel extends javax.swing.JPanel {
 
     private void refreshContactsTable() {
         if (groupsComboBox.getSelectedIndex() != -1) {
-            Smsgroup group = (Smsgroup) groupsComboBox.getSelectedItem();
-            Collection<Phonebook> phoneBookCollection = group.getPhoneBookCollection();
-            Iterator<Phonebook> phoneBookIterator = phoneBookCollection.iterator();
-            DefaultTableModel tableModel = (DefaultTableModel) contactsTable.getModel();
-            tableModel.setRowCount(phoneBookCollection.size());
-            int row = 0;
-            while (phoneBookIterator.hasNext()) {
-                Phonebook contact = phoneBookIterator.next();
-                contactsTable.setValueAt(contact.getName(), row, 0);
-                contactsTable.setValueAt(contact.getMobileNo(), row, 1);
-                row++;
+            Group group = (Group) groupsComboBox.getSelectedItem();
+            Collection<Contact> phoneBookCollection = contactService.getContacts(group);
+            if (phoneBookCollection != null) {
+                Iterator<Contact> phoneBookIterator = phoneBookCollection.iterator();
+                DefaultTableModel tableModel = (DefaultTableModel) contactsTable.getModel();
+                tableModel.setRowCount(phoneBookCollection.size());
+                int row = 0;
+                while (phoneBookIterator.hasNext()) {
+                    Contact contact = phoneBookIterator.next();
+                    contactsTable.setValueAt(contact.getName(), row, 0);
+                    contactsTable.setValueAt(contact.getMobileNo(), row, 1);
+                    row++;
+                }
             }
         }
     }
 
-    private class RemoveContactsActionTask extends org.jdesktop.application.Task<Object, Void> {
+    private class RemoveContactsActionTask extends org.jdesktop.application.Task<Boolean, Void> {
 
         RemoveContactsActionTask(org.jdesktop.application.Application app) {
             super(app);
         }
 
         @Override
-        protected Object doInBackground() {
+        protected Boolean doInBackground() {
             boolean deleted = false;
-            Smsgroup group = (Smsgroup) groupsComboBox.getSelectedItem();
-            List<Phonebook> contactsInGroup = (List) group.getPhoneBookCollection();
+            Group group = (Group) groupsComboBox.getSelectedItem();
+            List<Contact> contactsInGroup = contactService.getContacts(group);
             int[] selected = contactsTable.getSelectedRows();
-            List<com.alteregos.sms.campaigner.data.beans.Phonebook> toRemove = new ArrayList<com.alteregos.sms.campaigner.data.beans.Phonebook>(selected.length);
+            List<Contact> toRemove = new ArrayList<Contact>(selected.length);
             for (int index = 0; index < selected.length; index++) {
                 int listIndex = contactsTable.convertRowIndexToModel(selected[index]);
-                com.alteregos.sms.campaigner.data.beans.Phonebook phoneBook = contactsInGroup.get(listIndex);
+                Contact phoneBook = contactsInGroup.get(listIndex);
                 toRemove.add(phoneBook);
             }
 
             try {
-                entityManager.getTransaction().begin();
+                contactService.deleteContacts(group, toRemove);
                 deleted = contactsInGroup.removeAll(toRemove);
-                entityManager.merge(group);
-                entityManager.getTransaction().commit();
-            } catch (RollbackException rex) {
+            } catch (Exception rex) {
                 log.error("Error when removing contacts from group");
                 log.error(rex);
-                List<com.alteregos.sms.campaigner.data.beans.Phonebook> merged = new ArrayList<com.alteregos.sms.campaigner.data.beans.Phonebook>(contactsInGroup.size());
+                List<Contact> merged = new ArrayList<Contact>(contactsInGroup.size());
                 merged.addAll(toRemove);
                 merged.addAll(contactsInGroup);
                 contactsInGroup.clear();
@@ -138,8 +141,8 @@ public class ManageGroupPanel extends javax.swing.JPanel {
         }
 
         @Override
-        protected void succeeded(Object result) {
-            boolean deleted = (Boolean) result;
+        protected void succeeded(Boolean result) {
+            boolean deleted = result;
             System.out.println("Deleted: " + deleted);
             if (deleted) {
                 refreshContactsTable();
@@ -149,23 +152,21 @@ public class ManageGroupPanel extends javax.swing.JPanel {
         }
     }
 
-    private class RemoveGroupActionTask extends org.jdesktop.application.Task<Object, Void> {
+    private class RemoveGroupActionTask extends org.jdesktop.application.Task<Boolean, Void> {
 
         public RemoveGroupActionTask(Application arg0) {
             super(arg0);
         }
 
         @Override
-        protected Object doInBackground() throws Exception {
+        protected Boolean doInBackground() throws Exception {
             boolean deleted = false;
-            Smsgroup group = (Smsgroup) groupsComboBox.getSelectedItem();
+            Group group = (Group) groupsComboBox.getSelectedItem();
             try {
-                entityManager.getTransaction().begin();
+                contactService.deleteGroup(group);
                 smsgroupList.remove(group);
-                entityManager.remove(group);
-                entityManager.getTransaction().commit();
                 deleted = true;
-            } catch (RollbackException rollBackException) {
+            } catch (Exception rollBackException) {
                 //TODO VERIFY IF ROLLBACK ADDS GROUP BACK CORRECTLY TO COMBOBOX
                 log.error(rollBackException);
                 smsgroupList.add(group);
@@ -176,9 +177,9 @@ public class ManageGroupPanel extends javax.swing.JPanel {
         }
 
         @Override
-        protected void succeeded(Object arg0) {
+        protected void succeeded(Boolean arg0) {
             super.succeeded(arg0);
-            boolean deleted = (Boolean) arg0;
+            boolean deleted = arg0;
             if (deleted) {
                 //TODO Should an message dialog be shown here
             }
@@ -189,10 +190,9 @@ public class ManageGroupPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
+        contactService = Main.getApplication().getBean("contactService");
 
-        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("absolute-smsPU").createEntityManager();
-        smsgroupQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT s FROM Smsgroup s");
-        smsgroupList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(smsgroupQuery.getResultList());
+        smsgroupList = ObservableCollections.observableList(contactService.getGroups());
         groupLabel = new javax.swing.JLabel();
         contactsScrollPane = new javax.swing.JScrollPane();
         contactsTable = new javax.swing.JTable();
@@ -223,10 +223,12 @@ public class ManageGroupPanel extends javax.swing.JPanel {
                     "Contact", "Mobile No."
                 }) {
 
+            private static final long serialVersionUID = 1L;
             Class[] types = new Class[]{
                 java.lang.String.class, java.lang.String.class
             };
 
+            @Override
             public Class getColumnClass(int columnIndex) {
                 return types[columnIndex];
             }
@@ -243,6 +245,7 @@ public class ManageGroupPanel extends javax.swing.JPanel {
 
         groupsComboBox.addActionListener(new java.awt.event.ActionListener() {
 
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 groupsComboBoxActionPerformed(evt);
             }
@@ -268,16 +271,15 @@ public class ManageGroupPanel extends javax.swing.JPanel {
 
         bindingGroup.bind();
     }
+    private ContactService contactService;
     private javax.swing.JButton addContactsButton;
     private javax.swing.JScrollPane contactsScrollPane;
     private javax.swing.JTable contactsTable;
     private javax.swing.JButton deleteContactsButton;
     private javax.swing.JButton deleteGroupsButton;
-    private javax.persistence.EntityManager entityManager;
     private javax.swing.JLabel groupLabel;
     private javax.swing.JComboBox groupsComboBox;
-    private java.util.List<com.alteregos.sms.campaigner.data.beans.Smsgroup> smsgroupList;
-    private javax.persistence.Query smsgroupQuery;
+    private java.util.List<Group> smsgroupList;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     private static Logger log = LoggerHelper.getLogger();
     private DefaultListCellRenderer defaultListCellRenderer;

@@ -1,14 +1,13 @@
 package com.alteregos.sms.campaigner.views;
 
 import com.alteregos.sms.campaigner.Main;
-import com.alteregos.sms.campaigner.data.beans.Phonebook;
-import com.alteregos.sms.campaigner.data.beans.Smsgroup;
+import com.alteregos.sms.campaigner.data.dto.Contact;
+import com.alteregos.sms.campaigner.data.dto.Group;
+import com.alteregos.sms.campaigner.services.ContactService;
 import java.awt.Container;
-import java.beans.Beans;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import javax.persistence.RollbackException;
 import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
@@ -20,6 +19,7 @@ import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.Task;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.ELProperty;
+import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 
@@ -37,7 +37,7 @@ public class GroupsManagerContactsDialog extends javax.swing.JDialog {
      * @param group
      * @param panel 
      */
-    public GroupsManagerContactsDialog(java.awt.Frame parent, boolean modal, Smsgroup group, ManageGroupPanel panel) {
+    public GroupsManagerContactsDialog(java.awt.Frame parent, boolean modal, Group group, ManageGroupPanel panel) {
         super(parent, modal);
         this.group = group;
         this.panel = panel;
@@ -54,9 +54,9 @@ public class GroupsManagerContactsDialog extends javax.swing.JDialog {
     }
 
     private void cleanUpEntries() {
-        Collection<Phonebook> phoneBookCollection = group.getPhoneBookCollection();
-        List<Phonebook> toRemove = new ArrayList<Phonebook>();
-        for (Phonebook phoneBook : phonebookList) {
+        Collection<Contact> phoneBookCollection = contactService.getContacts(group);
+        List<Contact> toRemove = new ArrayList<Contact>();
+        for (Contact phoneBook : phonebookList) {
             if (phoneBookCollection.contains(phoneBook)) {
                 toRemove.add(phoneBook);
             }
@@ -66,7 +66,7 @@ public class GroupsManagerContactsDialog extends javax.swing.JDialog {
 
     //<editor-fold defaultstate="collapsed" desc="Actions">
     @Action
-    public Task addContactsToGroup() {
+    public Task<Boolean, Void> addContactsToGroup() {
         if (contactsTable.getSelectedRowCount() == 0) {
             JOptionPane.showMessageDialog(Main.getApplication().getMainFrame(), "Please select at least one contact!", "Error", JOptionPane.ERROR_MESSAGE);
             return null;
@@ -81,7 +81,7 @@ public class GroupsManagerContactsDialog extends javax.swing.JDialog {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Dependencies">
-    private class AddContactsToGroupTask extends org.jdesktop.application.Task<Object, Void> {
+    private class AddContactsToGroupTask extends org.jdesktop.application.Task<Boolean, Void> {
 
         private ManageGroupPanel panel = null;
 
@@ -95,27 +95,20 @@ public class GroupsManagerContactsDialog extends javax.swing.JDialog {
         }
 
         @Override
-        protected Object doInBackground() {
+        protected Boolean doInBackground() {
             boolean success = false;
-            List<Phonebook> contactsList = new ArrayList<Phonebook>();
-            Collection<Phonebook> phoneBookCollection = group.getPhoneBookCollection();
+            List<Contact> contactsList = new ArrayList<Contact>();            
             int[] selectedRows = contactsTable.getSelectedRows();
-            entityManager.getTransaction().begin();
             for (int idx = 0; idx < selectedRows.length; idx++) {
-                Phonebook phoneBook = phonebookList.get(contactsTable.convertRowIndexToModel(selectedRows[idx]));
-                contactsList.add(phoneBook);
-                phoneBookCollection.add(phoneBook);
+                Contact phoneBook = phonebookList.get(contactsTable.convertRowIndexToModel(selectedRows[idx]));
+                contactsList.add(phoneBook);                
             }
 
             try {
-                entityManager.merge(group);
-                entityManager.getTransaction().commit();
+                contactService.updateGroup(group, contactsList);
                 success = true;
-            } catch (RollbackException rollBackException) {
-                rollBackException.printStackTrace();
-                for (Phonebook phoneBook : contactsList) {
-                    phoneBookCollection.remove(phoneBook);
-                }
+            } catch (Exception rollBackException) {
+                rollBackException.printStackTrace();                
                 success = false;
             }
 
@@ -123,10 +116,10 @@ public class GroupsManagerContactsDialog extends javax.swing.JDialog {
         }
 
         @Override
-        protected void succeeded(Object result) {
+        protected void succeeded(Boolean result) {
             // Runs on the EDT.  Update the GUI based on
             // the result computed by doInBackground().
-            boolean success = (Boolean) result;
+            boolean success = result;
             if (success) {
                 cleanUpEntries();
                 this.panel.refreshContactsAction();
@@ -140,9 +133,8 @@ public class GroupsManagerContactsDialog extends javax.swing.JDialog {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        entityManager = Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("absolute-smsPU").createEntityManager();
-        phonebookQuery = Beans.isDesignTime() ? null : entityManager.createQuery("SELECT p FROM Phonebook p");
-        phonebookList = Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(phonebookQuery.getResultList());
+        contactService = Main.getApplication().getBean("contactService");
+        phonebookList = ObservableCollections.observableList(contactService.getContacts());
         selectContactsScrollPane = new javax.swing.JScrollPane();
         contactsTable = new javax.swing.JTable();
         addContactsButton = new javax.swing.JButton();
@@ -189,14 +181,13 @@ public class GroupsManagerContactsDialog extends javax.swing.JDialog {
 
         pack();
     }
+    private ContactService contactService;
     private javax.swing.JButton addContactsButton;
     private javax.swing.JButton closeButton;
     private javax.swing.JTable contactsTable;
-    private javax.persistence.EntityManager entityManager;
-    private java.util.List<com.alteregos.sms.campaigner.data.beans.Phonebook> phonebookList;
-    private javax.persistence.Query phonebookQuery;
+    private java.util.List<Contact> phonebookList;
     private javax.swing.JScrollPane selectContactsScrollPane;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    private Smsgroup group;
+    private Group group;
     private ManageGroupPanel panel;
 }
