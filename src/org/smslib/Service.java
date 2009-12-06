@@ -40,7 +40,7 @@ public class Service {
     private static final String LOG4J_CONF = "smslib-log4j.properties";
     private static final String LOG4J_CONF_XML = "smslib-log4j.xml";
     private Logger logger;
-    private List gtwList;
+    private List<AGateway> gtwList;
     private Router router;
     private LoadBalancer loadBalancer;
     private WatchDog watchDog;
@@ -77,7 +77,7 @@ public class Service {
             logger.info("JRE Version: " + System.getProperty("java.version"));
             logger.info("JRE Impl Version: " + System.getProperty("java.vm.version"));
             logger.info("O/S: " + System.getProperty("os.name") + " / " + System.getProperty("os.arch") + " / " + System.getProperty("os.version"));
-            gtwList = new ArrayList();
+            gtwList = new ArrayList<AGateway>();
             setRouter(new Router(this));
             setLoadBalancer(new RoundRobinLoadBalancer(this));
         } catch (Exception e) {
@@ -100,7 +100,7 @@ public class Service {
         logger.info("JRE Version: " + System.getProperty("java.version"));
         logger.info("JRE Impl Version: " + System.getProperty("java.vm.version"));
         logger.info("O/S: " + System.getProperty("os.name") + " / " + System.getProperty("os.arch") + " / " + System.getProperty("os.version"));
-        gtwList = new ArrayList();
+        gtwList = new ArrayList<AGateway>();
         setRouter(new Router(this));
         setLoadBalancer(new RoundRobinLoadBalancer(this));
     }
@@ -112,7 +112,7 @@ public class Service {
         } catch (Exception ex) {
             return null;
         }
-        Enumeration keys = props.keys();
+        Enumeration<Object> keys = props.keys();
         while (keys.hasMoreElements()) {
             String prop = (String) keys.nextElement();
             String val = props.getProperty(prop);
