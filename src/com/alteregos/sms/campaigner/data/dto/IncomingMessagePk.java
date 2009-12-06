@@ -10,14 +10,14 @@ package com.alteregos.sms.campaigner.data.dto;
  */
 public class IncomingMessagePk {
 
-    private int incomingMessagePk;
+    private int incomingMessageId;
 
-    public IncomingMessagePk(int incomingMessagePk) {
-        this.incomingMessagePk = incomingMessagePk;
+    public IncomingMessagePk(int incomingMessageId) {
+        this.incomingMessageId = incomingMessageId;
     }
 
-    public int getIncomingMessagePk() {
-        return incomingMessagePk;
+    public int getIncomingMessageId() {
+        return incomingMessageId;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class IncomingMessagePk {
 
         IncomingMessagePk that = (IncomingMessagePk) o;
 
-        if (incomingMessagePk != that.incomingMessagePk) {
+        if (incomingMessageId != that.incomingMessageId) {
             return false;
         }
 
@@ -40,14 +40,14 @@ public class IncomingMessagePk {
 
     @Override
     public int hashCode() {
-        return incomingMessagePk;
+        return incomingMessageId;
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
-        sb.append("IncomingMessagePk");
-        sb.append("{incomingMessagePk=").append(incomingMessagePk);
+        sb.append("IncomingMessageId");
+        sb.append("{incomingMessageId=").append(incomingMessageId);
         sb.append('}');
         return sb.toString();
     }
