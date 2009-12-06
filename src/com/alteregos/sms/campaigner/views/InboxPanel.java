@@ -1,7 +1,8 @@
 package com.alteregos.sms.campaigner.views;
 
 import com.alteregos.sms.campaigner.Main;
-import com.alteregos.sms.campaigner.data.beans.Inbox;
+import com.alteregos.sms.campaigner.data.dto.IncomingMessage;
+import com.alteregos.sms.campaigner.services.MessageService;
 import com.alteregos.sms.campaigner.util.DateUtils;
 import com.alteregos.sms.campaigner.views.helpers.DateColumnCellRenderer;
 import java.awt.Dimension;
@@ -17,6 +18,7 @@ import org.jdesktop.application.Application;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.Task;
 import org.jdesktop.beansbinding.ELProperty;
+import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 import org.jdesktop.swingx.JXDatePicker;
@@ -26,6 +28,8 @@ import org.jdesktop.swingx.JXDatePicker;
  * @author  John Emmanuel
  */
 public class InboxPanel extends javax.swing.JPanel {
+
+    private static final long serialVersionUID = 1L;
 
     /** Creates new form InboxPanel */
     public InboxPanel() {
@@ -46,7 +50,7 @@ public class InboxPanel extends javax.swing.JPanel {
             endDateField.setDate(endDate);
         }
         for (int i = 0; i < inboxList.size(); i++) {
-            Inbox inbox = inboxList.get(i);
+            IncomingMessage inbox = inboxList.get(i);
             boolean isReceiptDateBeforeStartDate = inbox.getReceiptDate().before(startDate);
             boolean isReceiptDateAfterEndDate = inbox.getReceiptDate().after(endDate);
             if (isReceiptDateBeforeStartDate || isReceiptDateAfterEndDate) {
@@ -57,7 +61,7 @@ public class InboxPanel extends javax.swing.JPanel {
     }
 
     @Action
-    public Task refreshAction() {
+    public Task<Boolean, Void> refreshAction() {
         return new RefreshListTask(Main.getApplication());
     }
     //</editor-fold>
@@ -68,32 +72,28 @@ public class InboxPanel extends javax.swing.JPanel {
         TableColumn messageDateColumn = inboxTable.getColumnModel().getColumn(3);
         receiptDateColumn.setCellRenderer(new DateColumnCellRenderer());
         messageDateColumn.setCellRenderer(new DateColumnCellRenderer());
-        filteredInboxList = new ArrayList<Inbox>();
+        filteredInboxList = new ArrayList<IncomingMessage>();
     }
 
-    private class RefreshListTask extends Task<Object, Void> {
+    private class RefreshListTask extends Task<Boolean, Void> {
 
         public RefreshListTask(Application arg0) {
             super(arg0);
         }
 
         @Override
-        protected Object doInBackground() throws Exception {
-            java.util.Collection data = inboxQuery.getResultList();
-            for (Object entity : data) {
-                entityManager.refresh(entity);
+        protected Boolean doInBackground() throws Exception {
+            java.util.Collection<IncomingMessage> data = messageService.getIncomingMessages();
+            if (inboxList == null) {
+                inboxList = ObservableCollections.observableList(new ArrayList<IncomingMessage>());
             }
-            if (inboxList != null) {
-                inboxList.clear();
-            } else {
-                inboxList = new ArrayList<Inbox>();
-            }
+            inboxList.clear();
             inboxList.addAll(data);
             return true;
         }
 
         @Override
-        protected void succeeded(Object arg0) {
+        protected void succeeded(Boolean arg0) {
             super.succeeded(arg0);
             filteredInboxList.clear();
         }
@@ -104,9 +104,9 @@ public class InboxPanel extends javax.swing.JPanel {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("absolute-smsPU").createEntityManager();
-        inboxQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT i FROM Inbox i");
-        inboxList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(inboxQuery.getResultList());        
+        messageService = Main.getApplication().getBean("messageService");
+
+        inboxList = ObservableCollections.observableList(messageService.getIncomingMessages());
         inboxScrollPane = new javax.swing.JScrollPane();
         inboxTable = new javax.swing.JTable();
         startDateLabel = new javax.swing.JLabel();
@@ -180,17 +180,16 @@ public class InboxPanel extends javax.swing.JPanel {
 
         bindingGroup.bind();
     }
+    private MessageService messageService;
+    private JXDatePicker startDateField;
     private JXDatePicker endDateField;
+    private javax.swing.JLabel startDateLabel;
     private javax.swing.JLabel endDateLabel;
-    private javax.persistence.EntityManager entityManager;
     private javax.swing.JButton filterButton;
-    private java.util.List<com.alteregos.sms.campaigner.data.beans.Inbox> inboxList;
-    private javax.persistence.Query inboxQuery;
     private javax.swing.JScrollPane inboxScrollPane;
     private javax.swing.JTable inboxTable;
     private javax.swing.JButton refreshButton;
-    private JXDatePicker startDateField;
-    private javax.swing.JLabel startDateLabel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    private List<Inbox> filteredInboxList;
+    private java.util.List<IncomingMessage> inboxList;
+    private List<IncomingMessage> filteredInboxList;
 }
