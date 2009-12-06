@@ -94,6 +94,7 @@ public class MainView extends FrameView {
         TaskMonitor taskMonitor = new TaskMonitor(getApplication().getContext());
         taskMonitor.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
 
+            @Override
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 String propertyName = evt.getPropertyName();
                 if ("started".equals(propertyName)) {
@@ -612,7 +613,7 @@ public class MainView extends FrameView {
         statusAnimationLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         statusAnimationLabel.setName("statusAnimationLabel"); // NOI18N        
         progressBar.setName("progressBar"); // NOI18N
-        
+
         statusPanel.setLayout(new MigLayout("fill, insets 0 6 5 6", "[][]10[]", "[]"));
         statusPanel.add(statusMessageLabel, "push");
         statusPanel.add(progressBar);
