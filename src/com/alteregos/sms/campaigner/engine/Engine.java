@@ -51,7 +51,7 @@ public class Engine {
                 callNotification = new CallNotification();
                 outboundMessageNotification = new OutboundMessageNotification();
                 inboundMessageNotification = new InboundMessageNotification();
-                gateway = new SerialModemGateway("absoluteSMS-Gateway", comPort, baudRate, "", "");
+                gateway = new SerialModemGateway("SmsCampaigner-Gateway", comPort, baudRate, "", "");
                 modemSettings.gateway(gateway);
                 gateway.setSimPin(configuration.getPin());
                 gateway.setInbound(true);
