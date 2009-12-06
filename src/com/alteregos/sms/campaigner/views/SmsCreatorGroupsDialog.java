@@ -1,7 +1,9 @@
 package com.alteregos.sms.campaigner.views;
 
-import com.alteregos.sms.campaigner.data.beans.Phonebook;
-import com.alteregos.sms.campaigner.data.beans.Smsgroup;
+import com.alteregos.sms.campaigner.Main;
+import com.alteregos.sms.campaigner.data.dto.Contact;
+import com.alteregos.sms.campaigner.data.dto.Group;
+import com.alteregos.sms.campaigner.services.ContactService;
 import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.application.Action;
+import org.jdesktop.observablecollections.ObservableCollections;
 
 /**
  *
@@ -34,14 +37,14 @@ public class SmsCreatorGroupsDialog extends javax.swing.JDialog {
         filterGroups(smsgroupList);
     }
 
-    private List<String> filterGroups(List<Smsgroup> groupsList) {
-        List<Smsgroup> filteredGroups = new ArrayList<Smsgroup>();
-        for (Smsgroup group : groupsList) {
+    private List<String> filterGroups(List<Group> groupsList) {
+        List<Group> filteredGroups = new ArrayList<Group>();
+        for (Group group : groupsList) {
             boolean missed = false;
-            Collection<Phonebook> phoneBookCollection = group.getPhoneBookCollection();
-            Iterator<Phonebook> iterator = phoneBookCollection.iterator();
+            Collection<Contact> phoneBookCollection = contactService.getContacts(group);
+            Iterator<Contact> iterator = phoneBookCollection.iterator();
             while (iterator.hasNext()) {
-                Phonebook contact = iterator.next();
+                Contact contact = iterator.next();
                 String number = contact.getMobileNo();
                 if (!this.recepients.contains(number)) {
                     missed = true;
@@ -57,13 +60,13 @@ public class SmsCreatorGroupsDialog extends javax.swing.JDialog {
         return this.recepients;
     }
 
-    private List<String> filterRecepients(List<Smsgroup> groupsList) {
+    private List<String> filterRecepients(List<Group> groupsList) {
         List<String> finalRecepients = new ArrayList<String>();
-        for (Smsgroup group : groupsList) {
-            Collection<Phonebook> phoneBookCollection = group.getPhoneBookCollection();
-            Iterator<Phonebook> iterator = phoneBookCollection.iterator();
+        for (Group group : groupsList) {
+            Collection<Contact> phoneBookCollection = contactService.getContacts(group);
+            Iterator<Contact> iterator = phoneBookCollection.iterator();
             while (iterator.hasNext()) {
-                Phonebook book = iterator.next();
+                Contact book = iterator.next();
                 String number = book.getMobileNo();
                 if (!this.recepients.contains(number)) {
                     finalRecepients.add(number);
@@ -78,9 +81,9 @@ public class SmsCreatorGroupsDialog extends javax.swing.JDialog {
     @Action
     public void addRecepientsAction() {
         int[] selectedRows = groupsTable.getSelectedRows();
-        List<Smsgroup> selectedGroupsList = new ArrayList<Smsgroup>();
+        List<Group> selectedGroupsList = new ArrayList<Group>();
         for (int index = 0; index < selectedRows.length; index++) {
-            Smsgroup group = smsgroupList.get(groupsTable.convertRowIndexToModel(selectedRows[index]));
+            Group group = smsgroupList.get(groupsTable.convertRowIndexToModel(selectedRows[index]));
             selectedGroupsList.add(group);
         }
 
@@ -97,10 +100,8 @@ public class SmsCreatorGroupsDialog extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
-
-        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("absolute-smsPU").createEntityManager();
-        smsgroupQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT s FROM Smsgroup s");
-        smsgroupList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(smsgroupQuery.getResultList());
+        contactService = Main.getApplication().getBean("contactService");
+        smsgroupList = ObservableCollections.observableList(contactService.getGroups());
         borderContainer = new javax.swing.JPanel();
         groupsScrollPane = new javax.swing.JScrollPane();
         groupsTable = new javax.swing.JTable();
@@ -150,14 +151,13 @@ public class SmsCreatorGroupsDialog extends javax.swing.JDialog {
 
         pack();
     }
+    private ContactService contactService;
     private javax.swing.JButton addRecepientsButton;
     private javax.swing.JPanel borderContainer;
     private javax.swing.JButton closeButton;
-    private javax.persistence.EntityManager entityManager;
     private javax.swing.JScrollPane groupsScrollPane;
     private javax.swing.JTable groupsTable;
-    private java.util.List<com.alteregos.sms.campaigner.data.beans.Smsgroup> smsgroupList;
-    private javax.persistence.Query smsgroupQuery;
+    private java.util.List<Group> smsgroupList;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     private SmsSenderPanel panel;
     private List<String> recepients;
