@@ -27,7 +27,7 @@
         </layout>
     </appender>
     <appender name="FILE" class="org.apache.log4j.RollingFileAppender">
-        <param name="file" value="logs/absoluteSMS.log"/>
+        <param name="file" value="logs/smscampaigner.log"/>
         <param name="Threshold" value="DEBUG"/>
         <param name="MaxFileSize" value="100KB"/>
         <param name="MaxBackupIndex" value="1"/>
