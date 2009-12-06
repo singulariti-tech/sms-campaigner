@@ -13,7 +13,6 @@ import com.alteregos.sms.campaigner.util.LoggerHelper;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.RollbackException;
 import org.apache.log4j.Logger;
 
 /**
@@ -82,7 +81,7 @@ public class SmsProcessor implements IProcessor {
 
         try {
             //Persist all outgoing messages            
-        } catch (RollbackException rollbackException) {
+        } catch (Exception rollbackException) {
             log.error("Error when processing messages received");
             log.error(rollbackException);
         }
