@@ -27,6 +27,7 @@ import org.jdesktop.application.Application;
 import org.jdesktop.application.LocalStorage;
 import org.jdesktop.application.SingleFrameApplication;
 import org.jdesktop.application.Task;
+import org.jdesktop.application.View;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -51,7 +52,7 @@ public class Main extends SingleFrameApplication {
     @Override
     protected void startup() {
         log.debug("Application startup");
-        log.debug("Library path: " + System.getProperty("java.library.path"));
+        addExitListener(new CustomExitListener());
         springContext = new ClassPathXmlApplicationContext("classpath:campaignerContext-core.xml");
         //Check if db exists. If not create it
         DatabaseCreator databaseCreator = getBean("databaseInitializer");
@@ -60,20 +61,19 @@ public class Main extends SingleFrameApplication {
             databaseCreator.createTables();
             databaseCreator.createIndices();
         }
-        show(new MainView(this));
+        View mainView = new MainView(this);
+        setLookAndFeel(getConfiguration().getLookAndFeel());
+        show(mainView);
     }
 
     @Override
     protected void initialize(String[] arg0) {
         super.initialize(arg0);
         log.debug("Application initialization");
-        addExitListener(new AbsoluteExitListener());
         //Verify License
         //verifyLicense();
         //Load Configuration
         loadConfiguration();
-        //Initialize look and feel
-        setLookAndFeel(getConfiguration().getLookAndFeel());
         //Initialize probe listeners
         probeListeners = new ArrayList<ProbeListener>();
     }
@@ -231,19 +231,20 @@ public class Main extends SingleFrameApplication {
         }
     }
 
-    private class AbsoluteExitListener implements Application.ExitListener {
+    private class CustomExitListener implements Application.ExitListener {
 
         @Override
         public boolean canExit(EventObject e) {
             Object source = (e != null) ? e.getSource() : null;
             Component owner = (source instanceof Component) ? (Component) source : null;
             int option = JOptionPane.showConfirmDialog(owner, "Really Exit?");
-            return (option == JOptionPane.YES_OPTION);
+            boolean exit = (option == JOptionPane.YES_OPTION);
+            return exit;
         }
 
         @Override
         public void willExit(EventObject e) {
-            // cleanup 
+            // cleanup
         }
     }
     //</editor-fold>
@@ -256,6 +257,7 @@ public class Main extends SingleFrameApplication {
     public static void main(String[] args) {
         log.debug("Application launched");
         log.debug("JAVA.HOME: " + System.getProperty("java.home"));
+        log.debug("Library path: " + System.getProperty("java.library.path"));
         try {
             launch(Main.class, args);
         } catch (Exception e) {
