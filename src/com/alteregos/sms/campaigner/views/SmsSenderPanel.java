@@ -3,7 +3,6 @@ package com.alteregos.sms.campaigner.views;
 import com.alteregos.sms.campaigner.Main;
 import com.alteregos.sms.campaigner.conf.Configuration;
 import com.alteregos.sms.campaigner.data.validation.SmsValidator;
-import com.alteregos.sms.campaigner.exceptions.ExceptionParser;
 import com.alteregos.sms.campaigner.exceptions.ITaskResult;
 import com.alteregos.sms.campaigner.exceptions.SuccessfulTaskResult;
 import com.alteregos.sms.campaigner.util.LoggerHelper;
@@ -16,7 +15,6 @@ import com.alteregos.sms.campaigner.services.DndService;
 import com.alteregos.sms.campaigner.services.MessageService;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
 import net.miginfocom.swing.MigLayout;
 import org.apache.log4j.Logger;
@@ -202,7 +200,6 @@ public class SmsSenderPanel extends javax.swing.JPanel {
 
         messageService = Main.getApplication().getBean("messageService");
 
-        smsSenderContainer = new javax.swing.JPanel();
         recepientsLabel = new javax.swing.JLabel();
         recepientsScrollPane = new javax.swing.JScrollPane();
         recepientsTextArea = new javax.swing.JTextArea();
@@ -226,8 +223,7 @@ public class SmsSenderPanel extends javax.swing.JPanel {
         setName("Form"); // NOI18N
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(com.alteregos.sms.campaigner.Main.class).getContext().getResourceMap(SmsSenderPanel.class);
-        smsSenderContainer.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("smsSenderContainer.border.title"))); // NOI18N
-        smsSenderContainer.setName("smsSenderContainer"); // NOI18N
+        this.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("smsSenderContainer.border.title"))); // NOI18N
 
         recepientsLabel.setText(resourceMap.getString("recepientsLabel.text")); // NOI18N
         recepientsLabel.setName("recepientsLabel"); // NOI18N
@@ -314,30 +310,27 @@ public class SmsSenderPanel extends javax.swing.JPanel {
         enableMessageFooterCheckbox.setAction(actionMap.get("toggleMessageFooter")); // NOI18N
         enableMessageFooterCheckbox.setText(resourceMap.getString("enableMessageFooterCheckbox.text")); // NOI18N
         enableMessageFooterCheckbox.setToolTipText(resourceMap.getString("enableMessageFooterCheckbox.toolTipText")); // NOI18N
-        enableMessageFooterCheckbox.setName("enableMessageFooterCheckbox"); // NOI18N
+        enableMessageFooterCheckbox.setName("enableMessageFooterCheckbox"); // NOI18N      
 
-        this.setLayout(new MigLayout("fill, insets panel"));
-        this.add(smsSenderContainer, "grow");
-
-        smsSenderContainer.setLayout(new MigLayout("fill, insets panel", "[min!][push]",
+        this.setLayout(new MigLayout("fill, insets panel", "[min!][push]",
                 "[min!][min!][min!]15[min!][push][min!]15[min!][push][min!]"));
 
-        smsSenderContainer.add(recepientsLabel, "span, wrap");
-        smsSenderContainer.add(groupsButton, "w 100!");
-        smsSenderContainer.add(recepientsScrollPane, "spany 2, grow, push, wrap");
-        smsSenderContainer.add(phoneBookButton, "w 100!, wrap");
-        smsSenderContainer.add(messageContentLabel, "span, wrap");
-        smsSenderContainer.add(messageContentScrollPane, "span, grow, push, wrap");
-        smsSenderContainer.add(messageContentLengthTextField);
-        smsSenderContainer.add(longMessageCheckbox, "span, split 5, right, push");
-        smsSenderContainer.add(enableMessageFooterCheckbox);
-        smsSenderContainer.add(priorityLabel);
-        smsSenderContainer.add(priorityComboBox, "wrap");
-        smsSenderContainer.add(previewLabel, "span, wrap");
-        smsSenderContainer.add(previewScrollPane, "span, grow, push, wrap");
-        smsSenderContainer.add(previewLengthTextField);
-        smsSenderContainer.add(sendButton, "span, split 3, right, push");
-        smsSenderContainer.add(clearButton);
+        this.add(recepientsLabel, "span, wrap");
+        this.add(groupsButton, "w 100!");
+        this.add(recepientsScrollPane, "spany 2, grow, push, wrap");
+        this.add(phoneBookButton, "w 100!, wrap");
+        this.add(messageContentLabel, "span, wrap");
+        this.add(messageContentScrollPane, "span, grow, push, wrap");
+        this.add(messageContentLengthTextField);
+        this.add(longMessageCheckbox, "span, split 5, right, push");
+        this.add(enableMessageFooterCheckbox);
+        this.add(priorityLabel);
+        this.add(priorityComboBox, "wrap");
+        this.add(previewLabel, "span, wrap");
+        this.add(previewScrollPane, "span, grow, push, wrap");
+        this.add(previewLengthTextField);
+        this.add(sendButton, "span, split 3, right, push");
+        this.add(clearButton);
     }
     private MessageService messageService;
     private DndService dndService;
@@ -360,7 +353,6 @@ public class SmsSenderPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane recepientsScrollPane;
     private javax.swing.JTextArea recepientsTextArea;
     private javax.swing.JButton sendButton;
-    private javax.swing.JPanel smsSenderContainer;
     private List<Dnd> dndList;
     private String footer;
     private SmsValidator validator;
