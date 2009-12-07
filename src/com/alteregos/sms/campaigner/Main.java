@@ -67,7 +67,7 @@ public class Main extends SingleFrameApplication {
     protected void initialize(String[] arg0) {
         super.initialize(arg0);
         log.debug("Application initialization");
-        addExitListener(new AbsoluteExitListener());
+        addExitListener(new ExitListener());
         //Verify License
         //verifyLicense();
         //Load Configuration
@@ -231,7 +231,7 @@ public class Main extends SingleFrameApplication {
         }
     }
 
-    private class AbsoluteExitListener implements Application.ExitListener {
+    private class ExitListener implements Application.ExitListener {
 
         @Override
         public boolean canExit(EventObject e) {
