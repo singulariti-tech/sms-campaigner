@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.alteregos.sms.campaigner.util;
 
 /**
@@ -10,12 +6,32 @@ package com.alteregos.sms.campaigner.util;
  */
 public enum LookAndFeel {
 
-    BUSINESS_BLACK_STEEL("Black Steel Business", "org.jvnet.substance.skin.SubstanceBusinessBlackSteelLookAndFeel"),
-    BUSINESS_BLUE_STEEL("Blue Steel Business", "org.jvnet.substance.skin.SubstanceBusinessBlueSteelLookAndFeel"),
-    CREME("Creme", "org.jvnet.substance.skin.SubstanceCremeLookAndFeel"),
-    FIELD_OF_WHEAT("Field of Wheat", "org.jvnet.substance.skin.SubstanceFieldOfWheatLookAndFeel"),
-    MIST_AQUA("Mist Aqua", "org.jvnet.substance.skin.SubstanceMistAquaLookAndFeel"),
-    NEBULA_BRICK_WALL("Nebula Brick Wall", "org.jvnet.substance.skin.SubstanceNebulaBrickWallLookAndFeel");
+    AUTUMN("Autumn", "org.pushingpixels.substance.api.skin.SubstanceAutumnLookAndFeel"),
+    BUSINESS_BLACK_STEEL("Black Steel Business", "org.pushingpixels.substance.api.skin.SubstanceBusinessBlackSteelLookAndFeel"),
+    BUSINESS_BLUE_STEEL("Blue Steel Business", "org.pushingpixels.substance.api.skin.SubstanceBusinessBlueSteelLookAndFeel"),
+    BUSINESS("Business", "org.pushingpixels.substance.api.skin.SubstanceBusinessLookAndFeel"),
+    CHALLENGER_DEEP("Challenger Deep", "org.pushingpixels.substance.api.skin.SubstanceChallengerDeepLookAndFeel"),
+    CREME_COFFEE("Creme Coffee", "org.pushingpixels.substance.api.skin.SubstanceCremeCoffeeLookAndFeel"),
+    CREME("Creme", "org.pushingpixels.substance.api.skin.SubstanceCremeLookAndFeel"),
+    DUST_COFFEE("Dust Coffee", "org.pushingpixels.substance.api.skin.SubstanceDustCoffeeLookAndFeel"),
+    DUST("Dust", "org.pushingpixels.substance.api.skin.SubstanceDustLookAndFeel"),
+    EMERALD_DUSK("Emerald Dusk", "org.pushingpixels.substance.api.skin.SubstanceEmeraldDuskLookAndFeel"),
+    GEMINI("Gemini", "org.pushingpixels.substance.api.skin.SubstanceGeminiLookAndFeel"),
+    MEGALLAN("Megallan", "org.pushingpixels.substance.api.skin.SubstanceMegallanLookAndFeel"),
+    MAGMA("Magma", "org.pushingpixels.substance.api.skin.SubstanceMagmaLookAndFeel"),
+    MIST_AQUA("Mist Aqua", "org.pushingpixels.substance.api.skin.SubstanceMistAquaLookAndFeel"),
+    MIST_SILVER("Mist Silver", "org.pushingpixels.substance.api.skin.SubstanceMistSilverLookAndFeel"),
+    MODERATE("Moderate", "org.pushingpixels.substance.api.skin.SubstanceModerateLookAndFeel"),
+    NEBULA("Nebula", "org.pushingpixels.substance.api.skin.SubstanceNebulaLookAndFeel"),
+    NEBULA_BRICK_WALL("Nebula Brick Wall", "org.pushingpixels.substance.api.skin.SubstanceNebulaBrickWallLookAndFeel"),
+    OFFICE_BLUE_2007("Office 2007 Blue", "org.pushingpixels.substance.api.skin.SubstanceOfficeBlue2007LookAndFeel"),
+    OFFICE_SILVER_2007("Office 2007 Silver", "org.pushingpixels.substance.api.skin.SubstanceOfficeSilver2007LookAndFeel"),
+    RAVEN_GRAPHITE_GLASS("Raven Graphite Glass", "org.pushingpixels.substance.api.skin.SubstanceRavenGraphiteGlassLookAndFeel"),
+    RAVEN_GRAPHITE("Raven Graphite", "org.pushingpixels.substance.api.skin.SubstanceRavenGraphiteLookAndFeel"),
+    RAVEN("Raven", "org.pushingpixels.substance.api.skin.SubstanceRavenLookAndFeel"),
+    SAHARA("Sahara", "org.pushingpixels.substance.api.skin.SubstanceSaharaLookAndFeel"),
+    TWILIGHT("Twilight", "org.pushingpixels.substance.api.skin.SubstanceTwilightLookAndFeel");
+    //
     private String label;
     private String className;
 
