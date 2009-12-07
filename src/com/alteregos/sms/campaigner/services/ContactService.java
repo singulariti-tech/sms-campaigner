@@ -10,6 +10,8 @@ import com.alteregos.sms.campaigner.data.dto.Group;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 /**
  *
@@ -58,35 +60,81 @@ public class ContactService {
     }
 
     public int newContact(Contact contact) {
-        return contactDao.insert(contact);
+        DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
+        int contactId = 0;
+        try {
+            contactId = contactDao.insert(contact);
+        } catch (Exception e) {
+            transactionManager.rollback(transactionStatus);
+        }
+        transactionManager.commit(transactionStatus);
+        return contactId;
     }
 
     public void updateContact(Contact contact) {
-        contactDao.update(contact);
+        DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
+        try {
+            contactDao.update(contact);
+        } catch (Exception e) {
+            transactionManager.rollback(transactionStatus);
+        }
+        transactionManager.commit(transactionStatus);
     }
 
     public void updateContacts(List<Contact> contacts) {
-        contactDao.update(contacts);
+        DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
+        try {
+            contactDao.update(contacts);
+        } catch (Exception e) {
+            transactionManager.rollback(transactionStatus);
+        }
+        transactionManager.commit(transactionStatus);
     }
 
     public void deleteContact(Contact contact) {
-        contactDao.delete(contact);
+        DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
+        try {
+            contactDao.delete(contact);
+        } catch (Exception e) {
+            transactionManager.rollback(transactionStatus);
+        }
+        transactionManager.commit(transactionStatus);
     }
 
     public void deleteContacts(List<Contact> contacts) {
-        contactDao.delete(contacts);
+        DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
+        try {
+            contactDao.delete(contacts);
+        } catch (Exception e) {
+            transactionManager.rollback(transactionStatus);
+        }
+        transactionManager.commit(transactionStatus);
+
     }
 
     public int newGroup(Group group, List<Contact> contacts) {
+        DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
         List<ContactGroupJoin> joins = new ArrayList<ContactGroupJoin>();
-        int groupId = groupDao.insert(group);
-        for (Contact c : contacts) {
-            ContactGroupJoin join = new ContactGroupJoin();
-            join.setContactId(c.getContactId());
-            join.setGroupId(groupId);
-            joins.add(join);
+        int groupId = 0;
+        try {
+            groupId = groupDao.insert(group);
+            for (Contact c : contacts) {
+                ContactGroupJoin join = new ContactGroupJoin();
+                join.setContactId(c.getContactId());
+                join.setGroupId(groupId);
+                joins.add(join);
+            }
+            contactGroupJoinDao.insert(joins);
+        } catch (Exception e) {
+            transactionManager.rollback(transactionStatus);
         }
-        contactGroupJoinDao.insert(joins);
+        transactionManager.commit(transactionStatus);
         return groupId;
     }
 
@@ -95,20 +143,34 @@ public class ContactService {
     }
 
     public void updateGroup(Group group, List<Contact> contacts) {
+        DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
         //TODO Should we synchronize or just add new contacts. As of now just adding
         List<ContactGroupJoin> joins = new ArrayList<ContactGroupJoin>();
-        for (Contact c : contacts) {
-            ContactGroupJoin join = new ContactGroupJoin();
-            join.setContactId(c.getContactId());
-            join.setGroupId(group.getGroupId());
-            joins.add(join);
+        try {
+            for (Contact c : contacts) {
+                ContactGroupJoin join = new ContactGroupJoin();
+                join.setContactId(c.getContactId());
+                join.setGroupId(group.getGroupId());
+                joins.add(join);
+            }
+            contactGroupJoinDao.insert(joins);
+        } catch (Exception e) {
+            transactionManager.rollback(transactionStatus);
         }
-        contactGroupJoinDao.insert(joins);
+        transactionManager.commit(transactionStatus);
     }
 
     public void deleteGroup(Group group) {
-        contactGroupJoinDao.delete(group);
-        groupDao.delete(group);
+        DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
+        try {
+            contactGroupJoinDao.delete(group);
+            groupDao.delete(group);
+        } catch (Exception e) {
+            transactionManager.rollback(transactionStatus);
+        }
+        transactionManager.commit(transactionStatus);
     }
 
     public void deleteGroups(List<Group> groups) {
@@ -116,13 +178,20 @@ public class ContactService {
     }
 
     public void deleteContacts(Group group, List<Contact> contacts) {
+        DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
         List<ContactGroupJoin> joins = new ArrayList<ContactGroupJoin>();
-        for (Contact c : contacts) {
-            ContactGroupJoin join = new ContactGroupJoin();
-            join.setContactId(c.getContactId());
-            join.setGroupId(group.getGroupId());
-            joins.add(join);
+        try {
+            for (Contact c : contacts) {
+                ContactGroupJoin join = new ContactGroupJoin();
+                join.setContactId(c.getContactId());
+                join.setGroupId(group.getGroupId());
+                joins.add(join);
+            }
+            contactGroupJoinDao.delete(joins);
+        } catch (Exception e) {
+            transactionManager.rollback(transactionStatus);
         }
-        contactGroupJoinDao.delete(joins);
+        transactionManager.commit(transactionStatus);
     }
 }
