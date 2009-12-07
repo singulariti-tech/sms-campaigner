@@ -262,8 +262,8 @@ public class ManageGroupPanel extends javax.swing.JPanel {
         deleteGroupsButton.setName("deleteGroupsButton"); // NOI18N
 
         this.setLayout(new MigLayout("fill, insets panel", "[][grow][]", "[][grow][]"));
-        this.add(groupLabel);
-        this.add(groupsComboBox, "grow, push, wrap");
+        this.add(groupLabel, "span, split 2");
+        this.add(groupsComboBox, "gap, width 150!, wrap");
         this.add(contactsScrollPane, "spanx 3, grow, push, wrap");
         this.add(deleteGroupsButton, "spanx 3, split 3, right, gapafter 10");
         this.add(addContactsButton);

@@ -11,6 +11,7 @@ import com.alteregos.sms.campaigner.services.MessageService;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JLabel;
 import javax.swing.table.TableColumn;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.application.Action;
@@ -238,19 +239,21 @@ public class OutboxPanel extends javax.swing.JPanel {
         endDateField.setName("endDateField"); // NOI18N
 
         this.setLayout(new MigLayout("fill, insets panel", "[min!][][min!][][min!][]", "[min!][min!][grow][min!]"));
-        this.add(priorityLabel);
-        this.add(priorityComboBox, "grow");
-        this.add(statusLabel);
-        this.add(statusComboBox, "grow");
-        this.add(typeLabel);
-        this.add(typeComboBox, "grow, wrap");
-        this.add(startDateLabel);
-        this.add(startDateField, "grow");
-        this.add(endDateLabel);
-        this.add(endDateField, "grow");
-        this.add(filterButton, "skip 1, wrap");
-        this.add(outboxScrollPane, "spanx 6, grow, wrap");
-        this.add(resendButton, "spanx 6, split 2, right");
+                
+        this.add(priorityLabel, "span, width 50!, split 6");
+        this.add(priorityComboBox, "width 150!, gapright 20");
+        this.add(statusLabel, "width 50!");
+        this.add(statusComboBox, "width 150!, gapright 20");
+        this.add(typeLabel, "width 50!");
+        this.add(typeComboBox, "width 150!, wrap");
+        this.add(startDateLabel, "span, width 50!, split 6");
+        this.add(startDateField, "width 150!, gapright 20");
+        this.add(endDateLabel, "width 50!");
+        this.add(endDateField, "width 150!, gapright 20");
+        this.add(new JLabel(""), "width 50!");
+        this.add(filterButton, "wrap");
+        this.add(outboxScrollPane, "span, grow, wrap");
+        this.add(resendButton, "span, split 2, right");
         this.add(refreshButton);
 
         bindingGroup.bind();

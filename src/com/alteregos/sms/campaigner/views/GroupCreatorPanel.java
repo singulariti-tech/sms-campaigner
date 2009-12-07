@@ -310,8 +310,8 @@ public class GroupCreatorPanel extends javax.swing.JPanel {
         this.setLayout(new MigLayout("fill, insets 20 20"));
         this.setBorder(javax.swing.BorderFactory.createTitledBorder("Create New Group"));
 
-        this.add(groupNameLabel);
-        this.add(groupNameField, "grow, wrap");
+        this.add(groupNameLabel, "span, split 2");
+        this.add(groupNameField, "gap, width 150!, wrap");
         this.add(phoneBookLabel, "gaptop 10");
         this.add(groupMembersLabel, "skip 2, wrap");
         this.add(phoneBookScrollPane, "spanx 2");

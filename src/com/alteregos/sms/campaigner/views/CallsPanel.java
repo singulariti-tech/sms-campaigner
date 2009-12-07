@@ -171,11 +171,13 @@ public class CallsPanel extends javax.swing.JPanel {
         startDateField.setPreferredSize(dimension);
         endDateField.setPreferredSize(dimension);
 
-        this.add(receiptStartDateLabel);
-        this.add(startDateField, "growx, push");
+        this.add(receiptStartDateLabel, "span, split 5");
+        this.add(startDateField, "width 150!, gapright 20");
         this.add(receiptEndDateLabel);
-        this.add(endDateField, "growx, push");
+        this.add(endDateField, "width 150!, gapright 20");
         this.add(filterButton, "wrap");
+
+
         this.add(callsScrollPane, "spanx 5, grow, push, wrap");
         this.add(refreshButton, "skip 4, align right");
 

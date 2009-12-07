@@ -42,7 +42,7 @@ public class DndPanel extends javax.swing.JPanel {
 
     //<editor-fold defaultstate="collapsed" desc="Actions">
     @Action
-    public Task<Boolean,Void> refreshListAction() {
+    public Task<Boolean, Void> refreshListAction() {
         return new RefreshListTask(Application.getInstance(com.alteregos.sms.campaigner.Main.class));
     }
 
@@ -167,11 +167,12 @@ public class DndPanel extends javax.swing.JPanel {
         startDateField.setPreferredSize(dimension);
         endDateField.setPreferredSize(dimension);
 
-        this.add(startDateLabel);
-        this.add(startDateField, "grow, push");
+        this.add(startDateLabel, "span, split 5");
+        this.add(startDateField, "width 150!, gapright 20");
         this.add(endDateLabel);
-        this.add(endDateField, "grow, push");
+        this.add(endDateField, "width 150!, gapright 20");
         this.add(filterButton, "wrap");
+
         this.add(dndScrollPane, "spanx 5, grow, push, wrap");
         this.add(refreshButton, "spanx 5, right");
 

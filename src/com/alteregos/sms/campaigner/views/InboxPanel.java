@@ -169,10 +169,10 @@ public class InboxPanel extends javax.swing.JPanel {
 
         this.setLayout(new MigLayout("insets panel", "[min!][grow,push]30[min!][grow,push]30[min!]", "[min!][][]"));
 
-        this.add(startDateLabel);
-        this.add(startDateField, "grow, push");
+        this.add(startDateLabel, "span, split 5");
+        this.add(startDateField, "width 150!, gapright 20");
         this.add(endDateLabel);
-        this.add(endDateField, "grow, push");
+        this.add(endDateField, "width 150!, gapright 20");
         this.add(filterButton, "wrap");
 
         this.add(inboxScrollPane, "spanx 5, grow, push, wrap");

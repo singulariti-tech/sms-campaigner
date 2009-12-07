@@ -198,7 +198,7 @@ public class HomePanel extends javax.swing.JPanel implements ProbeListener {
         servicesSummaryPanel.setBorder(BorderFactory.createTitledBorder(resourceMap.getString("homePanel.border.title")));
         modemSummaryPanel.setBorder(BorderFactory.createTitledBorder(resourceMap.getString("simCardSummaryPanel.border.title")));
 
-        this.setPreferredSize(new Dimension(640, 480));
+        this.setPreferredSize(new Dimension(resourceMap.getInteger("width.text"), resourceMap.getInteger("height.text")));
         this.setLayout(new MigLayout("insets panel, wrap 1"));
 
         this.add(servicesSummaryPanel, "top, left, grow");
