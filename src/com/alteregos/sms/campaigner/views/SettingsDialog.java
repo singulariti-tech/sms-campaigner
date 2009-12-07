@@ -56,8 +56,7 @@ public class SettingsDialog extends javax.swing.JDialog {
         configuration = Main.getApplication().getConfiguration();
         ModemSettings portSettings = Main.getApplication().getProbeResults().getModemSettings();
         //Set static items
-        //Flow Control
-        System.out.println("FC: " + configuration.getFlowControl());
+        //Flow Control        
         String configuredFlowControlMode = FlowControl.getFlowControl(Integer.parseInt(configuration.getFlowControl())).getLabel();
         String[] flowControlModes = portSettings.getFlowControlModes();
         for (String mode : flowControlModes) {
@@ -75,8 +74,7 @@ public class SettingsDialog extends javax.swing.JDialog {
         //Parity Bits
         parityBitsTextField.setText(String.valueOf(portSettings.getParityBits()));
         //Scan COM ports. set values found in combobox
-        String[] portNames = portSettings.getPorts();
-        System.out.println("No. Ports: " + portNames.length);
+        String[] portNames = portSettings.getPorts();        
         if (portNames.length > 0) {
             for (int i = 0; i < portNames.length; i++) {
                 String portName = portNames[i];

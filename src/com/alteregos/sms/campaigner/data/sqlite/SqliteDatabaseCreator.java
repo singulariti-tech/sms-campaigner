@@ -16,8 +16,7 @@ import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
  */
 public class SqliteDatabaseCreator extends BaseSqliteDao implements DatabaseCreator {
 
-    public SqliteDatabaseCreator() {
-        System.out.println("Initializing database creator");
+    public SqliteDatabaseCreator() {        
     }
 
     @Override
@@ -35,8 +34,7 @@ public class SqliteDatabaseCreator extends BaseSqliteDao implements DatabaseCrea
                 });
         for (String tableName : tableNames) {
             exists = tableExists(tableName);
-            if (!exists) {
-                System.out.println("Did not find table: " + tableName);
+            if (!exists) {                
                 break;
             }
         }
@@ -44,16 +42,14 @@ public class SqliteDatabaseCreator extends BaseSqliteDao implements DatabaseCrea
     }
 
     @Override
-    public boolean tableExists(String tableName) {
-        System.out.println("Querying for table: " + tableName);
+    public boolean tableExists(String tableName) {        
         boolean exists = false;
         List<Boolean> results = jdbcTemplate.query("SELECT name FROM sqlite_master WHERE name=?", new ParameterizedRowMapper<Boolean>() {
 
             @Override
             public Boolean mapRow(ResultSet rs, int rowNum) throws SQLException {
                 String name = rs.getString("name");
-                if (name != null) {
-                    System.out.println("Found name: " + name);
+                if (name != null) {                    
                     return Boolean.TRUE;
                 }
                 return Boolean.FALSE;
@@ -82,8 +78,7 @@ public class SqliteDatabaseCreator extends BaseSqliteDao implements DatabaseCrea
     }
 
     @Override
-    public void createIndices() {
-        System.out.println("Creating indices");
+    public void createIndices() {        
         jdbcTemplate.update("CREATE INDEX IF NOT EXISTS [idx_incoming_call_receipt_date] ON [incoming_call] ([receipt_date])");
         jdbcTemplate.update("CREATE INDEX IF NOT EXISTS [idx_incoming_call_caller_n0] ON [incoming_call] ([caller_no])");
         jdbcTemplate.update("CREATE INDEX IF NOT EXISTS [idx_incoming_call_process] ON [incoming_call] ([process])");
@@ -103,8 +98,7 @@ public class SqliteDatabaseCreator extends BaseSqliteDao implements DatabaseCrea
         jdbcTemplate.update("CREATE INDEX IF NOT EXISTS [idx_contact_name] ON [contact] ([name])");
     }
 
-    public void createIncomingCallTable() {
-        System.out.println("Creating incoming call table");
+    public void createIncomingCallTable() {       
         String sql = "CREATE TABLE IF NOT EXISTS [incoming_call] (" +
                 "	[call_id] INTEGER PRIMARY KEY ASC ON CONFLICT FAIL AUTOINCREMENT UNIQUE ON CONFLICT FAIL, " +
                 "	[receipt_date] DATETIME NOT NULL ON CONFLICT FAIL, " +
@@ -115,8 +109,7 @@ public class SqliteDatabaseCreator extends BaseSqliteDao implements DatabaseCrea
         jdbcTemplate.update(sql);
     }
 
-    public void createIncomingMessageTable() {
-        System.out.println("Creating incoming message table");
+    public void createIncomingMessageTable() {        
         String sql = "CREATE TABLE IF NOT EXISTS [incoming_message] (" +
                 "	[incoming_message_id] INTEGER PRIMARY KEY ASC ON CONFLICT FAIL AUTOINCREMENT UNIQUE ON CONFLICT FAIL, " +
                 "	[process] BOOLEAN NOT NULL ON CONFLICT FAIL DEFAULT 'false', " +
@@ -131,8 +124,7 @@ public class SqliteDatabaseCreator extends BaseSqliteDao implements DatabaseCrea
         jdbcTemplate.update(sql);
     }
 
-    public void createOutgoingMessageTable() {
-        System.out.println("Creating outgoing message table");
+    public void createOutgoingMessageTable() {        
         String sql = "CREATE TABLE IF NOT EXISTS [outgoing_message] (" +
                 "	[outgoing_message_id] INTEGER PRIMARY KEY ASC ON CONFLICT FAIL AUTOINCREMENT UNIQUE ON CONFLICT FAIL, " +
                 "	[recepient_no] VARCHAR(16) NOT NULL ON CONFLICT FAIL, " +
@@ -154,8 +146,7 @@ public class SqliteDatabaseCreator extends BaseSqliteDao implements DatabaseCrea
         jdbcTemplate.update(sql);
     }
 
-    public void createAutoReplyRuleTable() {
-        System.out.println("Creating auto reply rule table");
+    public void createAutoReplyRuleTable() {        
         String sql = "CREATE TABLE IF NOT EXISTS [auto_reply_rule] (" +
                 "	[auto_reply_rule_id] INTEGER PRIMARY KEY ASC ON CONFLICT FAIL AUTOINCREMENT UNIQUE ON CONFLICT FAIL, " +
                 "	[primary_keyword] VARCHAR(45) NOT NULL ON CONFLICT FAIL, " +
@@ -169,8 +160,7 @@ public class SqliteDatabaseCreator extends BaseSqliteDao implements DatabaseCrea
         jdbcTemplate.update(sql);
     }
 
-    public void createContactTable() {
-        System.out.println("Creating contact table");
+    public void createContactTable() {        
         String sql = "CREATE TABLE IF NOT EXISTS [contact] (" +
                 "	[contact_id] INTEGER PRIMARY KEY ASC ON CONFLICT FAIL AUTOINCREMENT UNIQUE ON CONFLICT FAIL, " +
                 "	[name] VARCHAR(64) NOT NULL ON CONFLICT FAIL, " +
@@ -182,8 +172,7 @@ public class SqliteDatabaseCreator extends BaseSqliteDao implements DatabaseCrea
         jdbcTemplate.update(sql);
     }
 
-    public void createDndTable() {
-        System.out.println("Creating dnd table");
+    public void createDndTable() {        
         String sql = "CREATE TABLE IF NOT EXISTS [dnd] (" +
                 "	[dnd_id] INTEGER PRIMARY KEY ASC ON CONFLICT FAIL AUTOINCREMENT UNIQUE ON CONFLICT FAIL, " +
                 "	[registered_date] DATETIME NOT NULL ON CONFLICT FAIL, " +
@@ -193,8 +182,7 @@ public class SqliteDatabaseCreator extends BaseSqliteDao implements DatabaseCrea
         jdbcTemplate.update(sql);
     }
 
-    public void createGroupTable() {
-        System.out.println("Creating group table");
+    public void createGroupTable() {        
         String sql = "CREATE TABLE IF NOT EXISTS [contact_group] (" +
                 "	[group_id] INTEGER PRIMARY KEY ASC ON CONFLICT FAIL AUTOINCREMENT UNIQUE ON CONFLICT FAIL, " +
                 "	[name] VARCHAR(128) NOT NULL ON CONFLICT FAIL, " +
@@ -203,8 +191,7 @@ public class SqliteDatabaseCreator extends BaseSqliteDao implements DatabaseCrea
         jdbcTemplate.update(sql);
     }
 
-    public void createContactGroupJoinTable() {
-        System.out.println("Creating contact group join table");
+    public void createContactGroupJoinTable() {        
         String sql = "CREATE TABLE IF NOT EXISTS [contact_group_join] (" +
                 "	[contact_id] INTEGER REFERENCES [contact](contact_id), " +
                 "	[group_id] INTEGER REFERENCES [group](group_id), " +

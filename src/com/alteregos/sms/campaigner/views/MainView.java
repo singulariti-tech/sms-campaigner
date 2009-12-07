@@ -30,7 +30,7 @@ public class MainView extends FrameView {
     public MainView(SingleFrameApplication app) {
         super(app);
         initComponents();
-        initApplicationResources();        
+        initApplicationResources();
         //Show Home
         showHome();
     }

@@ -56,13 +56,11 @@ public class SmsSenderPanel extends javax.swing.JPanel {
                 }
             }
             recepientsList.removeAll(filteredRecepientsList);
-            List<String> dndFreeList = filterDndNumbers(recepientsList);
-            System.out.println("No. recepients after dnd filteration: " + dndFreeList.size());
+            List<String> dndFreeList = filterDndNumbers(recepientsList);            
             List<OutgoingMessage> outboxList = new ArrayList<OutgoingMessage>();
             String message = previewTextArea.getText();
             String priority = (String) priorityComboBox.getSelectedItem();
-            for (String number : dndFreeList) {
-                System.out.println("Recepient: " + number);
+            for (String number : dndFreeList) {                
                 OutgoingMessage outbox = new OutgoingMessage();
                 outbox.setContent(message);
                 outbox.setPriority(MessagePriority.getPriorityForMessage(priority));

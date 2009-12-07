@@ -109,8 +109,7 @@ public class CallsPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     private void initComponents() {
         callService = Main.getApplication().getBean("incomingCallService");
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
-        System.out.println("CallService: " + callService);
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();        
         callsList = ObservableCollections.observableList(callService.findAll());
         callsPanel = new javax.swing.JPanel();
         callsScrollPane = new javax.swing.JScrollPane();

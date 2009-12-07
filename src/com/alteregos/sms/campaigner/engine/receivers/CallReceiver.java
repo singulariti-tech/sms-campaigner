@@ -26,8 +26,7 @@ public class CallReceiver {
         call.setProcess(false);
         call.setReceiptDate(new Date());
         try {
-            callService.newIncomingCall(call);
-            System.out.println("Call from " + callerId + " logged.");
+            callService.newIncomingCall(call);            
         } catch (Exception rollbackException) {
             log.error("Error when processing Call from " + callerId);
             log.error(rollbackException);

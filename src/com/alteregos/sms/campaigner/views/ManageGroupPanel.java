@@ -142,8 +142,7 @@ public class ManageGroupPanel extends javax.swing.JPanel {
 
         @Override
         protected void succeeded(Boolean result) {
-            boolean deleted = result;
-            System.out.println("Deleted: " + deleted);
+            boolean deleted = result;            
             if (deleted) {
                 refreshContactsTable();
                 contactsTable.clearSelection();
