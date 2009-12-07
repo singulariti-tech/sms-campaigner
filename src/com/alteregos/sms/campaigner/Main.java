@@ -238,8 +238,7 @@ public class Main extends SingleFrameApplication {
             Object source = (e != null) ? e.getSource() : null;
             Component owner = (source instanceof Component) ? (Component) source : null;
             int option = JOptionPane.showConfirmDialog(owner, "Really Exit?");
-            boolean exit = (option == JOptionPane.YES_OPTION);
-            return exit;
+            return (option == JOptionPane.YES_OPTION);
         }
 
         @Override
