@@ -207,7 +207,6 @@ public class RulesManagerPanel extends javax.swing.JPanel {
         ruleService = Main.getApplication().getBean("ruleService");
 
         ruleList = ObservableCollections.observableList(ruleService.getRules());
-        borderContainer = new javax.swing.JPanel();
         startDateLabel = new javax.swing.JLabel();
         startDateField = new JXDatePicker();
         endDateLabel = new javax.swing.JLabel();
@@ -231,8 +230,7 @@ public class RulesManagerPanel extends javax.swing.JPanel {
         setName("Form"); // NOI18N
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(com.alteregos.sms.campaigner.Main.class).getContext().getResourceMap(RulesManagerPanel.class);
-        borderContainer.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("borderContainer.border.title"))); // NOI18N
-        borderContainer.setName("borderContainer"); // NOI18N
+        this.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("borderContainer.border.title"))); // NOI18N
 
         startDateLabel.setText(resourceMap.getString("startDateLabel.text")); // NOI18N
         startDateLabel.setName("startDateLabel"); // NOI18N
@@ -352,36 +350,30 @@ public class RulesManagerPanel extends javax.swing.JPanel {
         primaryKeywordLabel.setPreferredSize(keywordFieldDimension);
         secondaryKeywordLabel.setPreferredSize(keywordFieldDimension);
 
-        this.setLayout(new MigLayout("fill, insets panel"));
-        this.add(borderContainer, "grow");
+        this.setLayout(new MigLayout("fill, insets panel", "", "[][]20[min!][min!][min!][75!][min!]"));
 
-        borderContainer.setLayout(new MigLayout("fill, insets panel", "", "[][]20[min!][min!][min!][75!][min!]"));
+        this.add(startDateLabel, "span, split 5");
+        this.add(startDateField, "gapright 20");
+        this.add(endDateLabel);
+        this.add(endDateField, "gapright 20");
+        this.add(filterButton, "wrap");
+        this.add(rulesScrollPane, "spanx 5, grow, push, wrap");
 
-        borderContainer.add(startDateLabel, "span, split 5");
-        borderContainer.add(startDateField, "gapright 20");
-        borderContainer.add(endDateLabel);
-        borderContainer.add(endDateField, "gapright 20");
-        borderContainer.add(filterButton, "wrap");
-        borderContainer.add(rulesScrollPane, "spanx 5, grow, push, wrap");
-
-        borderContainer.add(primaryKeywordLabel, "span, split 2");
-        borderContainer.add(primaryKeywordField, "grow, wrap");
-        borderContainer.add(secondaryKeywordLabel, "span, split 2");
-        borderContainer.add(secondaryKeywordField, "grow, wrap");
-        borderContainer.add(contentLabel, "wrap");
-        borderContainer.add(contentScrollPane, "spanx 5, grow, push, wrap");
-        borderContainer.add(contentLengthField, "spanx 2, split 2");
-        borderContainer.add(enabledCheckbox, "push");
-        borderContainer.add(saveButton, "spanx 3, split 3, right");
-        borderContainer.add(deleteButton);
-        borderContainer.add(refreshButton);
-
-
+        this.add(primaryKeywordLabel, "span, split 2");
+        this.add(primaryKeywordField, "grow, wrap");
+        this.add(secondaryKeywordLabel, "span, split 2");
+        this.add(secondaryKeywordField, "grow, wrap");
+        this.add(contentLabel, "wrap");
+        this.add(contentScrollPane, "spanx 5, grow, push, wrap");
+        this.add(contentLengthField, "spanx 2, split 2");
+        this.add(enabledCheckbox, "push");
+        this.add(saveButton, "spanx 3, split 3, right");
+        this.add(deleteButton);
+        this.add(refreshButton);
 
         bindingGroup.bind();
     }
     private RuleService ruleService;
-    private javax.swing.JPanel borderContainer;
     private javax.swing.JLabel contentLabel;
     private javax.swing.JTextField contentLengthField;
     private javax.swing.JScrollPane contentScrollPane;
