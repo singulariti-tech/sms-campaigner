@@ -1,7 +1,6 @@
 package com.alteregos.sms.campaigner.views;
 
 import com.alteregos.sms.campaigner.Main;
-import com.alteregos.sms.campaigner.helpers.AbsoluteWindowListener;
 import com.alteregos.sms.campaigner.util.LoggerHelper;
 import com.alteregos.sms.campaigner.util.LookAndFeel;
 import com.alteregos.sms.campaigner.util.StringUtils;
@@ -31,8 +30,7 @@ public class MainView extends FrameView {
     public MainView(SingleFrameApplication app) {
         super(app);
         initComponents();
-        initApplicationResources();
-        getFrame().addWindowListener(new AbsoluteWindowListener());
+        initApplicationResources();        
         //Show Home
         showHome();
     }
