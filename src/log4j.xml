@@ -44,9 +44,9 @@
         <priority value="FATAL"/>
     </category>
     <category name="org.smslib">
-        <priority value="DEBUG"/>
-    </category>
-    <category name="oracle.toplink">
+        <priority value="FATAL"/>
+    </category>    
+    <category name="org.springframework">
         <priority value="FATAL"/>
     </category>
     <category name="com.alteregos">
