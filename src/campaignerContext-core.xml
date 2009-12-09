@@ -58,19 +58,24 @@
         <property name="groupDao" ref="groupDao" />
         <property name="contactGroupJoinDao" ref="contactGroupJoinDao" />
         <property name="multipleTableJoinDao" ref="multipleTableJoinDao" />
+        <property name="transactionManager" ref="transactionManager" />
     </bean>
     <bean id="dndService" class="com.alteregos.sms.campaigner.services.DndService">
         <property name="dndDao" ref="dndDao" />
+        <property name="transactionManager" ref="transactionManager" />
     </bean>
     <bean id="incomingCallService" class="com.alteregos.sms.campaigner.services.IncomingCallService">
         <property name="incomingCallDao" ref="incomingCallDao" />
+        <property name="transactionManager" ref="transactionManager" />
     </bean>
     <bean id="messageService" class="com.alteregos.sms.campaigner.services.MessageService">
         <property name="incomingMessageDao" ref="incomingMessageDao" />
         <property name="outgoingMessageDao" ref="outgoingMessageDao" />
+        <property name="transactionManager" ref="transactionManager" />
     </bean>
     <bean id="ruleService" class="com.alteregos.sms.campaigner.services.RuleService">
         <property name="ruleDao" ref="autoReplyRuleDao" />
+        <property name="transactionManager" ref="transactionManager" />
     </bean>
 
    
