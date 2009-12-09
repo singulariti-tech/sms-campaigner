@@ -37,11 +37,29 @@ public class MessageService {
     }
 
     public List<IncomingMessage> getIncomingMessages() {
-        return new ArrayList<IncomingMessage>();
+        List<IncomingMessage> messages = null;
+        DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
+        try {
+            messages = incomingMessageDao.findAll();
+        } catch (Exception e) {
+            transactionManager.rollback(transactionStatus);
+        }
+        transactionManager.commit(transactionStatus);
+        return messages;
     }
 
     public IncomingMessage getIncomingMessage(int messageId) {
-        return incomingMessageDao.findById(messageId);
+        IncomingMessage message = null;
+        DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
+        try {
+            message = incomingMessageDao.findById(messageId);
+        } catch (Exception e) {
+            transactionManager.rollback(transactionStatus);
+        }
+        transactionManager.commit(transactionStatus);
+        return message;
     }
 
     public int newIncomingMessage(IncomingMessage incomingMessage) {
@@ -71,11 +89,29 @@ public class MessageService {
     }
 
     public List<OutgoingMessage> getOutgoingMessages() {
-        return new ArrayList<OutgoingMessage>();
+        List<OutgoingMessage> messages = null;
+        DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
+        try {
+            messages = outgoingMessageDao.findAll();
+        } catch (Exception e) {
+            transactionManager.rollback(transactionStatus);
+        }
+        transactionManager.commit(transactionStatus);
+        return messages;
     }
 
     public List<OutgoingMessage> getOutgoingMessages(MessageStatus status) {
-        return new ArrayList<OutgoingMessage>();
+        List<OutgoingMessage> messages = null;
+        DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
+        try {
+            messages = outgoingMessageDao.findByStatus(status);
+        } catch (Exception e) {
+            transactionManager.rollback(transactionStatus);
+        }
+        transactionManager.commit(transactionStatus);
+        return messages;
     }
 
     public OutgoingMessage getOutgoingMessage(int messageId) {
