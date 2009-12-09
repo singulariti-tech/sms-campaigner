@@ -11,6 +11,7 @@ import com.alteregos.sms.campaigner.views.helpers.PriorityColumnCellRenderer;
 import com.alteregos.sms.campaigner.views.helpers.StatusColumnCellRenderer;
 import com.alteregos.sms.campaigner.data.dto.OutgoingMessage;
 import com.alteregos.sms.campaigner.services.MessageService;
+import com.alteregos.sms.campaigner.views.helpers.ReferenceColumnCellRenderer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -82,11 +83,13 @@ public class OutboxPanel extends javax.swing.JPanel {
 
     //<editor-fold defaultstate="collapsed" desc="Dependencies">
     private void initialize() {
+        TableColumn referenceNoColumn = outboxTable.getColumnModel().getColumn(0);
         TableColumn priorityColumn = outboxTable.getColumnModel().getColumn(3);
         TableColumn statusColumn = outboxTable.getColumnModel().getColumn(4);
         TableColumn typeColumn = outboxTable.getColumnModel().getColumn(6);
         TableColumn createdDateColumn = outboxTable.getColumnModel().getColumn(7);
         TableColumn sentDateColumn = outboxTable.getColumnModel().getColumn(8);
+        referenceNoColumn.setCellRenderer(new ReferenceColumnCellRenderer());
         priorityColumn.setCellRenderer(new PriorityColumnCellRenderer());
         statusColumn.setCellRenderer(new StatusColumnCellRenderer());
         typeColumn.setCellRenderer(new MessageTypeColumnCellRenderer());
