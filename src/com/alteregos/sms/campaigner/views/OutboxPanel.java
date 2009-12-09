@@ -1,6 +1,9 @@
 package com.alteregos.sms.campaigner.views;
 
 import com.alteregos.sms.campaigner.Main;
+import com.alteregos.sms.campaigner.business.MessagePriority;
+import com.alteregos.sms.campaigner.business.MessageStatus;
+import com.alteregos.sms.campaigner.business.OutgoingMessageType;
 import com.alteregos.sms.campaigner.util.DateUtils;
 import com.alteregos.sms.campaigner.views.helpers.DateColumnCellRenderer;
 import com.alteregos.sms.campaigner.views.helpers.MessageTypeColumnCellRenderer;
@@ -19,6 +22,9 @@ import org.jdesktop.application.Application;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.Task;
 import org.jdesktop.observablecollections.ObservableCollections;
+import org.jdesktop.swingbinding.JTableBinding;
+import org.jdesktop.swingbinding.JTableBinding.ColumnBinding;
+import org.jdesktop.swingbinding.SwingBindings;
 import org.jdesktop.swingx.JXDatePicker;
 
 /**
@@ -189,11 +195,11 @@ public class OutboxPanel extends javax.swing.JPanel {
 
         outboxTable.setName("outboxTable"); // NOI18N
 
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, outboxList, outboxTable);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${refNo}"));
+        JTableBinding jTableBinding = SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, outboxList, outboxTable);
+        ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${referenceNo}"));
         columnBinding.setColumnName("Ref No");
         columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${recepient}"));
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${recepientNo}"));
         columnBinding.setColumnName("Recepient");
         columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${content}"));
@@ -201,16 +207,16 @@ public class OutboxPanel extends javax.swing.JPanel {
         columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${priority}"));
         columnBinding.setColumnName("Priority");
-        columnBinding.setColumnClass(String.class);
+        columnBinding.setColumnClass(MessagePriority.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${status}"));
         columnBinding.setColumnName("Status");
-        columnBinding.setColumnClass(String.class);
+        columnBinding.setColumnClass(MessageStatus.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${errors}"));
         columnBinding.setColumnName("Errors");
-        columnBinding.setColumnClass(Short.class);
+        columnBinding.setColumnClass(Integer.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${type}"));
         columnBinding.setColumnName("Type");
-        columnBinding.setColumnClass(String.class);
+        columnBinding.setColumnClass(OutgoingMessageType.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${createdDate}"));
         columnBinding.setColumnName("Created Date");
         columnBinding.setColumnClass(java.util.Date.class);
@@ -239,7 +245,7 @@ public class OutboxPanel extends javax.swing.JPanel {
         endDateField.setName("endDateField"); // NOI18N
 
         this.setLayout(new MigLayout("fill, insets panel", "[min!][][min!][][min!][]", "[min!][min!][grow][min!]"));
-                
+
         this.add(priorityLabel, "span, width 50!, split 6");
         this.add(priorityComboBox, "width 150!, gapright 20");
         this.add(statusLabel, "width 50!");
