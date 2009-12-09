@@ -128,7 +128,7 @@ public class InboxPanel extends javax.swing.JPanel {
         inboxTable.setName("inboxTable"); // NOI18N
 
         JTableBinding jTableBinding = SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, inboxList, inboxTable);
-        JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${sender}"));
+        JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${senderNo}"));
         columnBinding.setColumnName("Sender");
         columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(ELProperty.create("${content}"));
