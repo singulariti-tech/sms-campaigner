@@ -20,7 +20,7 @@ public class DateColumnCellRenderer extends DefaultTableCellRenderer {
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {        
-        String dateString = "";
+        String dateString = "-NA-";
         if (value != null) {
             Date date = (Date) value;
             DateFormat format = DateUtils.getDefaultDateFormat();
