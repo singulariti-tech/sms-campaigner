@@ -1,6 +1,6 @@
 package com.alteregos.sms.campaigner.views.helpers;
 
-import com.alteregos.sms.campaigner.business.OutboundSmsType;
+import com.alteregos.sms.campaigner.business.OutgoingMessageType;
 import java.awt.Component;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -20,7 +20,7 @@ public class MessageTypeColumnCellRenderer extends DefaultTableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         String typeString = "";
         if (value != null) {
-            OutboundSmsType type = OutboundSmsType.getType((String) value);
+            OutgoingMessageType type = (OutgoingMessageType) value;
             typeString = type.getMessage();
         }
         return super.getTableCellRendererComponent(table, typeString, isSelected, hasFocus, row, column);

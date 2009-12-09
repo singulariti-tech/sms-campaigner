@@ -20,7 +20,7 @@ public class PriorityColumnCellRenderer extends DefaultTableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         String priorityString = "";
         if (value != null) {
-            MessagePriority priority = MessagePriority.getPriority((String) value);
+            MessagePriority priority = (MessagePriority) value;
             priorityString = priority != null ? priority.getMessage() : priorityString;
         }
         return super.getTableCellRendererComponent(table, priorityString, isSelected, hasFocus, row, column);

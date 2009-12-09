@@ -20,7 +20,7 @@ public class StatusColumnCellRenderer extends DefaultTableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         String status = "";
         if (value != null) {
-            MessageStatus mStatus = MessageStatus.getStatus((String) value);
+            MessageStatus mStatus = (MessageStatus) value;
             status = mStatus != null ? mStatus.getMessage() : status;
         }
         return super.getTableCellRendererComponent(table, status, isSelected, hasFocus, row, column);

@@ -19,11 +19,10 @@ public class DateColumnCellRenderer extends DefaultTableCellRenderer {
     }
 
     @Override
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        Date date = null;
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {        
         String dateString = "";
         if (value != null) {
-            date = (Date) value;
+            Date date = (Date) value;
             DateFormat format = DateUtils.getDefaultDateFormat();
             dateString = format.format(date);
         }
