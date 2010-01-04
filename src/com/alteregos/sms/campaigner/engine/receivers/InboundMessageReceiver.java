@@ -3,7 +3,6 @@ package com.alteregos.sms.campaigner.engine.receivers;
 import com.alteregos.sms.campaigner.Main;
 import com.alteregos.sms.campaigner.business.Encoding;
 import com.alteregos.sms.campaigner.business.IncomingMessageType;
-import com.alteregos.sms.campaigner.business.MessageEncoding;
 import com.alteregos.sms.campaigner.data.dto.IncomingMessage;
 import com.alteregos.sms.campaigner.services.MessageService;
 import com.alteregos.sms.campaigner.util.LoggerHelper;
@@ -45,11 +44,11 @@ public class InboundMessageReceiver {
             }
             String encoding = null;
             if (msg.getEncoding().equals(MessageEncodings.ENC7BIT)) {
-                encoding = MessageEncoding.SEVEN_BIT.getLabel();
+                encoding = Encoding.SEVEN_BIT.toString();
             } else if (msg.getEncoding().equals(MessageEncodings.ENC8BIT)) {
-                encoding = MessageEncoding.EIGHT_BIT.getLabel();
+                encoding = Encoding.EIGHT_BIT.toString();
             } else if (msg.getEncoding().equals(MessageEncodings.ENCUCS2)) {
-                encoding = MessageEncoding.UNICODE_UCS2.getLabel();
+                encoding = Encoding.UNICODE_UCS2.toString();
             }
             IncomingMessageType type = null;
             if (msg.getType().equals(MessageTypes.INBOUND)) {
