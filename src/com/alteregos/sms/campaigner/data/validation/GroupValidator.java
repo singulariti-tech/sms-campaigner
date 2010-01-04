@@ -20,9 +20,7 @@ public class GroupValidator implements IValidator {
 
     private static Logger log = LoggerHelper.getLogger();
     private JTextComponent groupNameField;
-    private JTable groupMembersTable;
-    private Timer timer;
-    private Color gridColor;
+    private JTable groupMembersTable;        
 
     public GroupValidator(JTextComponent groupNameField, JTable membersList) {
         this.groupNameField = groupNameField;
@@ -30,6 +28,7 @@ public class GroupValidator implements IValidator {
         initializeListeners();
     }
 
+    @Override
     public boolean validate() {
         boolean validated = true;
         String groupName = groupNameField.getText();
@@ -41,9 +40,7 @@ public class GroupValidator implements IValidator {
 
         int rowCount = groupMembersTable.getRowCount();
         if (rowCount < 1) {
-            log.debug("Group members not valid");
-            gridColor = groupMembersTable.getGridColor();
-            //groupMembersTable.setGridColor(new Color(255, 0, 0));
+            log.debug("Group members not valid");            
             validated = false;
         }
 
