@@ -1,13 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.alteregos.sms.campaigner.data.validation;
 
 import com.alteregos.sms.campaigner.util.LoggerHelper;
 import com.alteregos.sms.campaigner.views.helpers.TextComponentFocusListener;
 import java.awt.Color;
-import java.util.Timer;
 import javax.swing.JTable;
 import javax.swing.text.JTextComponent;
 import org.apache.log4j.Logger;

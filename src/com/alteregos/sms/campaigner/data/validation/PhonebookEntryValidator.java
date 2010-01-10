@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.alteregos.sms.campaigner.data.validation;
 
 import com.alteregos.sms.campaigner.util.LoggerHelper;
@@ -26,6 +22,7 @@ public class PhonebookEntryValidator implements IValidator {
         initializeListeners();
     }
 
+    @Override
     public boolean validate() {
         boolean validated = true;
         String contact = nameField.getText();
