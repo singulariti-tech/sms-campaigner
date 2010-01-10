@@ -33,6 +33,25 @@ import org.jdesktop.swingx.JXDatePicker;
 public class DndPanel extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
+    //Binding
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    //Service
+    private DndService dndService;
+    //Components
+    private javax.swing.JPanel dndPanel;
+    private javax.swing.JScrollPane dndScrollPane;
+    private javax.swing.JTable dndTable;
+    private javax.swing.JLabel startDateLabel;
+    private javax.swing.JLabel endDateLabel;
+    private JXDatePicker endDateField;
+    private JXDatePicker startDateField;
+    private javax.swing.JButton filterButton;
+    private javax.swing.JButton refreshButton;
+    //Helper lists
+    private List<Dnd> dndList;
+    private List<Dnd> filteredDndList;
+    //Logger
+    private static Logger log = LoggerHelper.getLogger();
 
     /** Creates new form DndPanel */
     public DndPanel() {
@@ -178,23 +197,4 @@ public class DndPanel extends javax.swing.JPanel {
 
         bindingGroup.bind();
     }
-    //Binding
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    //Service
-    private DndService dndService;
-    //Components
-    private javax.swing.JPanel dndPanel;
-    private javax.swing.JScrollPane dndScrollPane;
-    private javax.swing.JTable dndTable;
-    private javax.swing.JLabel startDateLabel;
-    private javax.swing.JLabel endDateLabel;
-    private JXDatePicker endDateField;
-    private JXDatePicker startDateField;
-    private javax.swing.JButton filterButton;
-    private javax.swing.JButton refreshButton;
-    //Helper lists
-    private List<Dnd> dndList;
-    private List<Dnd> filteredDndList;
-    //Logger
-    private static Logger log = LoggerHelper.getLogger();
 }

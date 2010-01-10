@@ -27,6 +27,18 @@ import org.jdesktop.observablecollections.ObservableCollections;
 public class ManageGroupPanel extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
+    private ContactService contactService;
+    private javax.swing.JButton addContactsButton;
+    private javax.swing.JScrollPane contactsScrollPane;
+    private javax.swing.JTable contactsTable;
+    private javax.swing.JButton deleteContactsButton;
+    private javax.swing.JButton deleteGroupsButton;
+    private javax.swing.JLabel groupLabel;
+    private javax.swing.JComboBox groupsComboBox;
+    private java.util.List<Group> smsgroupList;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    private static Logger log = LoggerHelper.getLogger();
+    private DefaultListCellRenderer defaultListCellRenderer;
 
     /** Creates new form ManageGroupPanel */
     public ManageGroupPanel() {
@@ -142,7 +154,7 @@ public class ManageGroupPanel extends javax.swing.JPanel {
 
         @Override
         protected void succeeded(Boolean result) {
-            boolean deleted = result;            
+            boolean deleted = result;
             if (deleted) {
                 refreshContactsTable();
                 contactsTable.clearSelection();
@@ -270,16 +282,4 @@ public class ManageGroupPanel extends javax.swing.JPanel {
 
         bindingGroup.bind();
     }
-    private ContactService contactService;
-    private javax.swing.JButton addContactsButton;
-    private javax.swing.JScrollPane contactsScrollPane;
-    private javax.swing.JTable contactsTable;
-    private javax.swing.JButton deleteContactsButton;
-    private javax.swing.JButton deleteGroupsButton;
-    private javax.swing.JLabel groupLabel;
-    private javax.swing.JComboBox groupsComboBox;
-    private java.util.List<Group> smsgroupList;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    private static Logger log = LoggerHelper.getLogger();
-    private DefaultListCellRenderer defaultListCellRenderer;
 }

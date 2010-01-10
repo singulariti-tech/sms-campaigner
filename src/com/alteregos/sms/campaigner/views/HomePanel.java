@@ -22,6 +22,31 @@ import org.smslib.TimeoutException;
 public class HomePanel extends javax.swing.JPanel implements ProbeListener {
 
     private static final long serialVersionUID = 1L;
+    private javax.swing.JLabel gatewayStatusLabel;
+    private javax.swing.JButton autoReplyStatusCheckButton;
+    private javax.swing.JButton databaseConnectivityCheckButton;
+    private javax.swing.JLabel databaseConnectivityLabel;
+    private javax.swing.JLabel databaseConnectivityTextField;
+    private javax.swing.JLabel gatewayStatusTextField;
+    private javax.swing.JPanel servicesSummaryPanel;
+    private javax.swing.JLabel imsiNoLabel;
+    private javax.swing.JLabel imsiNoTextField;
+    private javax.swing.JLabel manufacturerLabel;
+    private javax.swing.JLabel manufacturerTextField;
+    private javax.swing.JLabel modelLabel;
+    private javax.swing.JLabel modelTextField;
+    private javax.swing.JLabel serialNoLabel;
+    private javax.swing.JLabel serialNoTextField;
+    private javax.swing.JLabel signalLevelLabel;
+    private javax.swing.JProgressBar signalLevelProgressBar;
+    private javax.swing.JLabel signalLevelTextField;
+    private javax.swing.JPanel modemSummaryPanel;
+    private javax.swing.JLabel simPinLabel;
+    private javax.swing.JLabel simPinTextField;
+    private javax.swing.JLabel softwareVersionLabel;
+    private javax.swing.JLabel softwareVersionTextField;
+    private static Logger log = LoggerHelper.getLogger();
+    private ProbeResults probeResults;
 
     /** Creates new form HomePanel */
     public HomePanel() {
@@ -225,29 +250,4 @@ public class HomePanel extends javax.swing.JPanel implements ProbeListener {
         modemSummaryPanel.add(simPinLabel);
         modemSummaryPanel.add(simPinTextField, "gap 5, push, wrap");
     }
-    private javax.swing.JLabel gatewayStatusLabel;
-    private javax.swing.JButton autoReplyStatusCheckButton;
-    private javax.swing.JButton databaseConnectivityCheckButton;
-    private javax.swing.JLabel databaseConnectivityLabel;
-    private javax.swing.JLabel databaseConnectivityTextField;
-    private javax.swing.JLabel gatewayStatusTextField;
-    private javax.swing.JPanel servicesSummaryPanel;
-    private javax.swing.JLabel imsiNoLabel;
-    private javax.swing.JLabel imsiNoTextField;
-    private javax.swing.JLabel manufacturerLabel;
-    private javax.swing.JLabel manufacturerTextField;
-    private javax.swing.JLabel modelLabel;
-    private javax.swing.JLabel modelTextField;
-    private javax.swing.JLabel serialNoLabel;
-    private javax.swing.JLabel serialNoTextField;
-    private javax.swing.JLabel signalLevelLabel;
-    private javax.swing.JProgressBar signalLevelProgressBar;
-    private javax.swing.JLabel signalLevelTextField;
-    private javax.swing.JPanel modemSummaryPanel;
-    private javax.swing.JLabel simPinLabel;
-    private javax.swing.JLabel simPinTextField;
-    private javax.swing.JLabel softwareVersionLabel;
-    private javax.swing.JLabel softwareVersionTextField;
-    private static Logger log = LoggerHelper.getLogger();
-    private ProbeResults probeResults;
 }

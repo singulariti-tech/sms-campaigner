@@ -35,6 +35,25 @@ import org.jdesktop.swingx.JXDatePicker;
 public class OutboxPanel extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
+    private MessageService messageService;
+    private JXDatePicker startDateField;
+    private JXDatePicker endDateField;
+    private javax.swing.JLabel endDateLabel;
+    private javax.swing.JButton filterButton;
+    private java.util.List<OutgoingMessage> outboxList;
+    private javax.swing.JScrollPane outboxScrollPane;
+    private javax.swing.JTable outboxTable;
+    private javax.swing.JComboBox priorityComboBox;
+    private javax.swing.JLabel priorityLabel;
+    private javax.swing.JButton refreshButton;
+    private javax.swing.JButton resendButton;
+    private javax.swing.JLabel startDateLabel;
+    private javax.swing.JComboBox statusComboBox;
+    private javax.swing.JLabel statusLabel;
+    private javax.swing.JComboBox typeComboBox;
+    private javax.swing.JLabel typeLabel;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    private List<OutgoingMessage> filteredOutboxList;
 
     /** Creates new form OutboxPanel */
     public OutboxPanel() {
@@ -267,23 +286,4 @@ public class OutboxPanel extends javax.swing.JPanel {
 
         bindingGroup.bind();
     }
-    private MessageService messageService;
-    private JXDatePicker startDateField;
-    private JXDatePicker endDateField;
-    private javax.swing.JLabel endDateLabel;
-    private javax.swing.JButton filterButton;
-    private java.util.List<OutgoingMessage> outboxList;
-    private javax.swing.JScrollPane outboxScrollPane;
-    private javax.swing.JTable outboxTable;
-    private javax.swing.JComboBox priorityComboBox;
-    private javax.swing.JLabel priorityLabel;
-    private javax.swing.JButton refreshButton;
-    private javax.swing.JButton resendButton;
-    private javax.swing.JLabel startDateLabel;
-    private javax.swing.JComboBox statusComboBox;
-    private javax.swing.JLabel statusLabel;
-    private javax.swing.JComboBox typeComboBox;
-    private javax.swing.JLabel typeLabel;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    private List<OutgoingMessage> filteredOutboxList;
 }

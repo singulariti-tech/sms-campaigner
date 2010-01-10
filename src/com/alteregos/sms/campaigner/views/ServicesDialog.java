@@ -18,6 +18,22 @@ import org.jdesktop.application.Action;
 public class ServicesDialog extends javax.swing.JDialog {
 
     private static final long serialVersionUID = 1L;
+    private javax.swing.JPanel gatewayDetailsPanel;
+    private javax.swing.JPanel gatewayServiceStatusPanel;
+    //
+    private javax.swing.JLabel gatewayServiceAutoStartLabel;
+    private javax.swing.ButtonGroup gatewayServiceAutoStartRbg;
+    private javax.swing.JRadioButton gatewayServiceAutoStartDisable;
+    private javax.swing.JRadioButton gatewayServiceAutoStartEnable;
+    private javax.swing.JLabel gatewayPortNoLabel;
+    private javax.swing.JTextField gatewayPortNoTextField;
+    private javax.swing.JButton gatewayServiceDetailsSaveButton;
+    //
+    private javax.swing.JLabel gatewayStatusLabel;
+    private javax.swing.JTextField gatewayStatusTextField;
+    private javax.swing.JButton startGatewayServiceButton;
+    private javax.swing.JButton stopGatewayServiceButton;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
 
     /** Creates new form ServicesDialog
      * @param parent
@@ -215,20 +231,4 @@ public class ServicesDialog extends javax.swing.JDialog {
 
         pack();
     }
-    private javax.swing.JPanel gatewayDetailsPanel;
-    private javax.swing.JPanel gatewayServiceStatusPanel;
-    //
-    private javax.swing.JLabel gatewayServiceAutoStartLabel;
-    private javax.swing.ButtonGroup gatewayServiceAutoStartRbg;
-    private javax.swing.JRadioButton gatewayServiceAutoStartDisable;
-    private javax.swing.JRadioButton gatewayServiceAutoStartEnable;
-    private javax.swing.JLabel gatewayPortNoLabel;
-    private javax.swing.JTextField gatewayPortNoTextField;
-    private javax.swing.JButton gatewayServiceDetailsSaveButton;
-    //
-    private javax.swing.JLabel gatewayStatusLabel;
-    private javax.swing.JTextField gatewayStatusTextField;
-    private javax.swing.JButton startGatewayServiceButton;
-    private javax.swing.JButton stopGatewayServiceButton;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
 }

@@ -36,6 +36,27 @@ import org.jdesktop.swingbinding.SwingBindings;
 public class GroupCreatorPanel extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
+    private javax.swing.JButton addAllButton;
+    private javax.swing.JButton addSelectedButton;
+    private javax.swing.JPanel borderContainer;
+    private javax.swing.JButton clearButton;
+    private javax.swing.JButton createButton;
+    private javax.swing.JLabel groupMembersLabel;
+    private javax.swing.JScrollPane groupMembersScrollPane;
+    private javax.swing.JTable groupMembersTable;
+    private javax.swing.JTextField groupNameField;
+    private javax.swing.JLabel groupNameLabel;
+    private javax.swing.JLabel phoneBookLabel;
+    private javax.swing.JScrollPane phoneBookScrollPane;
+    private javax.swing.JTable phoneBookTable;
+    private java.util.List<Contact> phonebookList;
+    private javax.swing.JButton removeAllButton;
+    private javax.swing.JButton removeSelectedButton;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    private java.util.List<Contact> groupMembersList;
+    private GroupValidator validator;
+    private ContactService contactService;
+    private static Logger log = LoggerHelper.getLogger();
 
     /** Creates new form GroupCreatorPanel */
     public GroupCreatorPanel() {
@@ -279,6 +300,7 @@ public class GroupCreatorPanel extends javax.swing.JPanel {
                 java.lang.String.class, java.lang.String.class
             };
 
+            @Override
             public Class getColumnClass(int columnIndex) {
                 return types[columnIndex];
             }
@@ -325,25 +347,4 @@ public class GroupCreatorPanel extends javax.swing.JPanel {
 
         bindingGroup.bind();
     }
-    private javax.swing.JButton addAllButton;
-    private javax.swing.JButton addSelectedButton;
-    private javax.swing.JPanel borderContainer;
-    private javax.swing.JButton clearButton;
-    private javax.swing.JButton createButton;
-    private javax.swing.JLabel groupMembersLabel;
-    private javax.swing.JScrollPane groupMembersScrollPane;
-    private javax.swing.JTable groupMembersTable;
-    private javax.swing.JTextField groupNameField;
-    private javax.swing.JLabel groupNameLabel;
-    private javax.swing.JLabel phoneBookLabel;
-    private javax.swing.JScrollPane phoneBookScrollPane;
-    private javax.swing.JTable phoneBookTable;
-    private java.util.List<Contact> phonebookList;
-    private javax.swing.JButton removeAllButton;
-    private javax.swing.JButton removeSelectedButton;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    private java.util.List<Contact> groupMembersList;
-    private GroupValidator validator;
-    private ContactService contactService;
-    private static Logger log = LoggerHelper.getLogger();
 }

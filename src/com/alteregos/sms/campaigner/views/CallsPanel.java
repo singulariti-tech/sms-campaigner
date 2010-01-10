@@ -33,6 +33,25 @@ import org.jdesktop.swingx.JXDatePicker;
 public class CallsPanel extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
+    //Data Service
+    private IncomingCallService callService;
+    //Components
+    private javax.swing.JPanel callsPanel;
+    private javax.swing.JTable callsTable;
+    private javax.swing.JScrollPane callsScrollPane;
+    private javax.swing.JLabel receiptEndDateLabel;
+    private javax.swing.JLabel receiptStartDateLabel;
+    private JXDatePicker startDateField;
+    private JXDatePicker endDateField;
+    private javax.swing.JButton filterButton;
+    private javax.swing.JButton refreshButton;
+    //Binding
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    //Helper lists
+    private List<IncomingCall> filteredCalls;
+    private java.util.List<IncomingCall> callsList;
+    //Logger
+    private static Logger log = LoggerHelper.getLogger();
 
     /** Creates new form DndPanel */
     public CallsPanel() {
@@ -109,7 +128,7 @@ public class CallsPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     private void initComponents() {
         callService = Main.getApplication().getBean("incomingCallService");
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();        
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
         callsList = ObservableCollections.observableList(callService.findAll());
         callsPanel = new javax.swing.JPanel();
         callsScrollPane = new javax.swing.JScrollPane();
@@ -182,23 +201,4 @@ public class CallsPanel extends javax.swing.JPanel {
 
         bindingGroup.bind();
     }
-    //Data Service    
-    private IncomingCallService callService;
-    //Components
-    private javax.swing.JPanel callsPanel;
-    private javax.swing.JTable callsTable;
-    private javax.swing.JScrollPane callsScrollPane;
-    private javax.swing.JLabel receiptEndDateLabel;
-    private javax.swing.JLabel receiptStartDateLabel;
-    private JXDatePicker startDateField;
-    private JXDatePicker endDateField;
-    private javax.swing.JButton filterButton;
-    private javax.swing.JButton refreshButton;
-    //Binding
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    //Helper lists
-    private List<IncomingCall> filteredCalls;
-    private java.util.List<IncomingCall> callsList;
-    //Logger
-    private static Logger log = LoggerHelper.getLogger();
 }

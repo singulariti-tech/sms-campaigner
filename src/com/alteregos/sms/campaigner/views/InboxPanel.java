@@ -30,6 +30,18 @@ import org.jdesktop.swingx.JXDatePicker;
 public class InboxPanel extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
+    private MessageService messageService;
+    private JXDatePicker startDateField;
+    private JXDatePicker endDateField;
+    private javax.swing.JLabel startDateLabel;
+    private javax.swing.JLabel endDateLabel;
+    private javax.swing.JButton filterButton;
+    private javax.swing.JScrollPane inboxScrollPane;
+    private javax.swing.JTable inboxTable;
+    private javax.swing.JButton refreshButton;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    private java.util.List<IncomingMessage> inboxList;
+    private List<IncomingMessage> filteredInboxList;
 
     /** Creates new form InboxPanel */
     public InboxPanel() {
@@ -180,16 +192,4 @@ public class InboxPanel extends javax.swing.JPanel {
 
         bindingGroup.bind();
     }
-    private MessageService messageService;
-    private JXDatePicker startDateField;
-    private JXDatePicker endDateField;
-    private javax.swing.JLabel startDateLabel;
-    private javax.swing.JLabel endDateLabel;
-    private javax.swing.JButton filterButton;
-    private javax.swing.JScrollPane inboxScrollPane;
-    private javax.swing.JTable inboxTable;
-    private javax.swing.JButton refreshButton;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    private java.util.List<IncomingMessage> inboxList;
-    private List<IncomingMessage> filteredInboxList;
 }

@@ -22,6 +22,52 @@ import org.jdesktop.application.LocalStorage;
 public class SettingsDialog extends javax.swing.JDialog {
 
     private static final long serialVersionUID = 1L;
+    private javax.swing.JLabel baudRateLabel;
+    private javax.swing.JTextField baudRateTextField;
+    private javax.swing.JButton callNotificationClearButton;
+    private javax.swing.JPanel callNotificationContainer;
+    private javax.swing.JTextField callNotificationLengthTextField;
+    private javax.swing.JCheckBox callNotificationLongMessageCheckBox;
+    private javax.swing.JPanel callNotificationPanel;
+    private javax.swing.JButton callNotificationSaveButton;
+    private javax.swing.JScrollPane callNotificationScrollPane;
+    private javax.swing.JTextArea callNotificationTextArea;
+    private javax.swing.JComboBox comPortComboBox;
+    private javax.swing.JLabel comPortLabel;
+    private javax.swing.JLabel dataBitsLabel;
+    private javax.swing.JTextField dataBitsTextField;
+    private javax.swing.JButton defaultMessageClearButton;
+    private javax.swing.JPanel defaultMessageContainer;
+    private javax.swing.JTextField defaultMessageLengthTextField;
+    private javax.swing.JCheckBox defaultMessageLongMessageCheckbox;
+    private javax.swing.JPanel defaultMessagePanel;
+    private javax.swing.JButton defaultMessageSaveButton;
+    private javax.swing.JScrollPane defaultMessageScrollPane;
+    private javax.swing.JTextArea defaultMessageTextArea;
+    private javax.swing.JCheckBox enableCallNotificationCheckbox;
+    private javax.swing.JCheckBox enableDefaultMessageCheckbox;
+    private javax.swing.JCheckBox enableMessageFooterForCallNotificationCheckbox;
+    private javax.swing.JCheckBox enableMessageFooterForDefaultMessageCheckbox;
+    private javax.swing.JComboBox flowControlComboBox;
+    private javax.swing.JLabel flowControlLabel;
+    private javax.swing.JButton footerClearButton;
+    private javax.swing.JButton footerSaveButton;
+    private javax.swing.JScrollPane footerScrollPane;
+    private javax.swing.JPanel messageFooterContainer;
+    private javax.swing.JPanel messageFooterPanel;
+    private javax.swing.JTextArea messageFooterTextArea;
+    private javax.swing.JTextField messageLengthTextField;
+    private javax.swing.JLabel parityBitsLabel;
+    private javax.swing.JTextField parityBitsTextField;
+    private javax.swing.JPanel portContainer;
+    private javax.swing.JPanel portPanel;
+    private javax.swing.JLabel portSettingsStatusLabel;
+    private javax.swing.JButton saveButton;
+    private javax.swing.JLabel stopBitsLabel;
+    private javax.swing.JTextField stopBitsTextField;
+    private javax.swing.JTabbedPane tabbedPane;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    private Configuration configuration;
 
     /** Creates new form SettingsDialog
      * @param parent
@@ -74,7 +120,7 @@ public class SettingsDialog extends javax.swing.JDialog {
         //Parity Bits
         parityBitsTextField.setText(String.valueOf(portSettings.getParityBits()));
         //Scan COM ports. set values found in combobox
-        String[] portNames = portSettings.getPorts();        
+        String[] portNames = portSettings.getPorts();
         if (portNames.length > 0) {
             for (int i = 0; i < portNames.length; i++) {
                 String portName = portNames[i];
@@ -619,50 +665,4 @@ public class SettingsDialog extends javax.swing.JDialog {
 
         pack();
     }
-    private javax.swing.JLabel baudRateLabel;
-    private javax.swing.JTextField baudRateTextField;
-    private javax.swing.JButton callNotificationClearButton;
-    private javax.swing.JPanel callNotificationContainer;
-    private javax.swing.JTextField callNotificationLengthTextField;
-    private javax.swing.JCheckBox callNotificationLongMessageCheckBox;
-    private javax.swing.JPanel callNotificationPanel;
-    private javax.swing.JButton callNotificationSaveButton;
-    private javax.swing.JScrollPane callNotificationScrollPane;
-    private javax.swing.JTextArea callNotificationTextArea;
-    private javax.swing.JComboBox comPortComboBox;
-    private javax.swing.JLabel comPortLabel;
-    private javax.swing.JLabel dataBitsLabel;
-    private javax.swing.JTextField dataBitsTextField;
-    private javax.swing.JButton defaultMessageClearButton;
-    private javax.swing.JPanel defaultMessageContainer;
-    private javax.swing.JTextField defaultMessageLengthTextField;
-    private javax.swing.JCheckBox defaultMessageLongMessageCheckbox;
-    private javax.swing.JPanel defaultMessagePanel;
-    private javax.swing.JButton defaultMessageSaveButton;
-    private javax.swing.JScrollPane defaultMessageScrollPane;
-    private javax.swing.JTextArea defaultMessageTextArea;
-    private javax.swing.JCheckBox enableCallNotificationCheckbox;
-    private javax.swing.JCheckBox enableDefaultMessageCheckbox;
-    private javax.swing.JCheckBox enableMessageFooterForCallNotificationCheckbox;
-    private javax.swing.JCheckBox enableMessageFooterForDefaultMessageCheckbox;
-    private javax.swing.JComboBox flowControlComboBox;
-    private javax.swing.JLabel flowControlLabel;
-    private javax.swing.JButton footerClearButton;
-    private javax.swing.JButton footerSaveButton;
-    private javax.swing.JScrollPane footerScrollPane;
-    private javax.swing.JPanel messageFooterContainer;
-    private javax.swing.JPanel messageFooterPanel;
-    private javax.swing.JTextArea messageFooterTextArea;
-    private javax.swing.JTextField messageLengthTextField;
-    private javax.swing.JLabel parityBitsLabel;
-    private javax.swing.JTextField parityBitsTextField;
-    private javax.swing.JPanel portContainer;
-    private javax.swing.JPanel portPanel;
-    private javax.swing.JLabel portSettingsStatusLabel;
-    private javax.swing.JButton saveButton;
-    private javax.swing.JLabel stopBitsLabel;
-    private javax.swing.JTextField stopBitsTextField;
-    private javax.swing.JTabbedPane tabbedPane;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    private Configuration configuration;
 }

@@ -11,6 +11,8 @@ import org.jdesktop.application.ResourceMap;
 public class AboutBox extends javax.swing.JDialog {
 
     private static final long serialVersionUID = 1L;
+    //Components
+    private javax.swing.JButton closeButton;
 
     public AboutBox(java.awt.Frame parent) {
         super(parent);
@@ -96,6 +98,5 @@ public class AboutBox extends javax.swing.JDialog {
         contentPane.add(closeButton, "skip 1, align right, push");
 
         pack();
-    }
-    private javax.swing.JButton closeButton;
+    }    
 }

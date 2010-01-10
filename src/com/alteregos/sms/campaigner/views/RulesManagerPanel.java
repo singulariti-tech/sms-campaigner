@@ -28,6 +28,29 @@ import org.jdesktop.swingx.JXDatePicker;
 public class RulesManagerPanel extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
+    private RuleService ruleService;
+    private javax.swing.JLabel contentLabel;
+    private javax.swing.JTextField contentLengthField;
+    private javax.swing.JScrollPane contentScrollPane;
+    private javax.swing.JTextArea contentTextArea;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JCheckBox enabledCheckbox;
+    private JXDatePicker endDateField;
+    private JXDatePicker startDateField;
+    private javax.swing.JLabel startDateLabel;
+    private javax.swing.JLabel endDateLabel;
+    private javax.swing.JButton filterButton;
+    private javax.swing.JTextField primaryKeywordField;
+    private javax.swing.JLabel primaryKeywordLabel;
+    private javax.swing.JButton refreshButton;
+    private javax.swing.JScrollPane rulesScrollPane;
+    private javax.swing.JTable rulesTable;
+    private javax.swing.JButton saveButton;
+    private javax.swing.JTextField secondaryKeywordField;
+    private javax.swing.JLabel secondaryKeywordLabel;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    private List<AutoReplyRule> ruleList;
+    private List<AutoReplyRule> filteredRuleList;
 
     /** Creates new form RulesManagerPanel */
     public RulesManagerPanel() {
@@ -373,27 +396,4 @@ public class RulesManagerPanel extends javax.swing.JPanel {
 
         bindingGroup.bind();
     }
-    private RuleService ruleService;
-    private javax.swing.JLabel contentLabel;
-    private javax.swing.JTextField contentLengthField;
-    private javax.swing.JScrollPane contentScrollPane;
-    private javax.swing.JTextArea contentTextArea;
-    private javax.swing.JButton deleteButton;
-    private javax.swing.JCheckBox enabledCheckbox;
-    private JXDatePicker endDateField;
-    private JXDatePicker startDateField;
-    private javax.swing.JLabel startDateLabel;
-    private javax.swing.JLabel endDateLabel;
-    private javax.swing.JButton filterButton;
-    private javax.swing.JTextField primaryKeywordField;
-    private javax.swing.JLabel primaryKeywordLabel;
-    private javax.swing.JButton refreshButton;
-    private javax.swing.JScrollPane rulesScrollPane;
-    private javax.swing.JTable rulesTable;
-    private javax.swing.JButton saveButton;
-    private javax.swing.JTextField secondaryKeywordField;
-    private javax.swing.JLabel secondaryKeywordLabel;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    private List<AutoReplyRule> ruleList;
-    private List<AutoReplyRule> filteredRuleList;
 }

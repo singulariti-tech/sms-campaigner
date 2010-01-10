@@ -20,6 +20,16 @@ import org.jdesktop.observablecollections.ObservableCollections;
 public class SmsCreatorGroupsDialog extends javax.swing.JDialog {
 
     private static final long serialVersionUID = 1L;
+    private ContactService contactService;
+    private javax.swing.JButton addRecepientsButton;
+    private javax.swing.JPanel borderContainer;
+    private javax.swing.JButton closeButton;
+    private javax.swing.JScrollPane groupsScrollPane;
+    private javax.swing.JTable groupsTable;
+    private java.util.List<Group> smsgroupList;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    private SmsSenderPanel panel;
+    private List<String> recepients;
 
     /** Creates new form SmsCreatorGroupsDialog
      * @param parent
@@ -151,14 +161,4 @@ public class SmsCreatorGroupsDialog extends javax.swing.JDialog {
 
         pack();
     }
-    private ContactService contactService;
-    private javax.swing.JButton addRecepientsButton;
-    private javax.swing.JPanel borderContainer;
-    private javax.swing.JButton closeButton;
-    private javax.swing.JScrollPane groupsScrollPane;
-    private javax.swing.JTable groupsTable;
-    private java.util.List<Group> smsgroupList;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    private SmsSenderPanel panel;
-    private List<String> recepients;
 }

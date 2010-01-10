@@ -11,6 +11,7 @@ import org.jdesktop.application.ResourceMap;
 public class BlockerDialog extends javax.swing.JDialog {
 
     private static final long serialVersionUID = 1L;
+    private javax.swing.JLabel statusLabel;
 
     /** Creates new form BlockerDialog
      * @param parent
@@ -42,6 +43,5 @@ public class BlockerDialog extends javax.swing.JDialog {
         getContentPane().add(statusLabel);
 
         pack();
-    }
-    private javax.swing.JLabel statusLabel;
+    }    
 }

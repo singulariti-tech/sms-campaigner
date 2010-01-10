@@ -21,6 +21,20 @@ import org.jdesktop.application.Task;
 public class PhonebookEntryCreatorPanel extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
+    private ContactService contactService;
+    private javax.swing.JButton clearButton;
+    private javax.swing.JLabel emailAddressLabel;
+    private javax.swing.JTextField emailAddressTextField;
+    private javax.swing.JLabel mobileNoLabel;
+    private javax.swing.JTextField mobileNoTextField;
+    private javax.swing.JLabel nameLabel;
+    private javax.swing.JTextField nameTextField;
+    private javax.swing.JLabel postalAddressLabel;
+    private javax.swing.JScrollPane postalAddressScrollPane;
+    private javax.swing.JTextArea postalAddressTextArea;
+    private javax.swing.JButton saveButton;
+    private Contact phoneBook;
+    private PhonebookEntryValidator validator;
 
     /** Creates new form PhonebookEntryCreatorPanel */
     public PhonebookEntryCreatorPanel() {
@@ -51,7 +65,7 @@ public class PhonebookEntryCreatorPanel extends javax.swing.JPanel {
             phoneBook.setMobileNo(mobileNoTextField.getText().trim());
             phoneBook.setEmail(emailAddressTextField.getText().trim());
             phoneBook.setName(nameTextField.getText().trim());
-            try {                
+            try {
                 contactService.newContact(phoneBook);
                 result = new SuccessfulTaskResult();
             } catch (Exception rex) {
@@ -159,19 +173,5 @@ public class PhonebookEntryCreatorPanel extends javax.swing.JPanel {
         this.add(postalAddressScrollPane, "spanx 2, grow, top, left, wrap");
         this.add(saveButton, "spanx 2, split 2, right");
         this.add(clearButton);
-    }    
-    private ContactService contactService;
-    private javax.swing.JButton clearButton;
-    private javax.swing.JLabel emailAddressLabel;
-    private javax.swing.JTextField emailAddressTextField;
-    private javax.swing.JLabel mobileNoLabel;
-    private javax.swing.JTextField mobileNoTextField;
-    private javax.swing.JLabel nameLabel;
-    private javax.swing.JTextField nameTextField;
-    private javax.swing.JLabel postalAddressLabel;
-    private javax.swing.JScrollPane postalAddressScrollPane;
-    private javax.swing.JTextArea postalAddressTextArea;
-    private javax.swing.JButton saveButton;
-    private Contact phoneBook;
-    private PhonebookEntryValidator validator;
+    }
 }

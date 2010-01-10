@@ -27,6 +27,31 @@ import org.jdesktop.application.Action;
 public class SmsSenderPanel extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
+    private MessageService messageService;
+    private DndService dndService;
+    private javax.swing.JButton clearButton;
+    private javax.swing.JCheckBox enableMessageFooterCheckbox;
+    private javax.swing.JButton groupsButton;
+    private javax.swing.JCheckBox longMessageCheckbox;
+    private javax.swing.JLabel messageContentLabel;
+    private javax.swing.JTextField messageContentLengthTextField;
+    private javax.swing.JScrollPane messageContentScrollPane;
+    private javax.swing.JTextArea messageContentTextArea;
+    private javax.swing.JButton phoneBookButton;
+    private javax.swing.JLabel previewLabel;
+    private javax.swing.JTextField previewLengthTextField;
+    private javax.swing.JScrollPane previewScrollPane;
+    private javax.swing.JTextArea previewTextArea;
+    private javax.swing.JComboBox priorityComboBox;
+    private javax.swing.JLabel priorityLabel;
+    private javax.swing.JLabel recepientsLabel;
+    private javax.swing.JScrollPane recepientsScrollPane;
+    private javax.swing.JTextArea recepientsTextArea;
+    private javax.swing.JButton sendButton;
+    private List<Dnd> dndList;
+    private String footer;
+    private SmsValidator validator;
+    private static Logger log = LoggerHelper.getLogger();
 
     /** Creates new form SmsSenderPanel */
     public SmsSenderPanel() {
@@ -56,11 +81,11 @@ public class SmsSenderPanel extends javax.swing.JPanel {
                 }
             }
             recepientsList.removeAll(filteredRecepientsList);
-            List<String> dndFreeList = filterDndNumbers(recepientsList);            
+            List<String> dndFreeList = filterDndNumbers(recepientsList);
             List<OutgoingMessage> outboxList = new ArrayList<OutgoingMessage>();
             String message = previewTextArea.getText();
             String priority = (String) priorityComboBox.getSelectedItem();
-            for (String number : dndFreeList) {                
+            for (String number : dndFreeList) {
                 OutgoingMessage outbox = new OutgoingMessage();
                 outbox.setContent(message);
                 outbox.setPriority(MessagePriority.getPriorityForMessage(priority));
@@ -330,29 +355,4 @@ public class SmsSenderPanel extends javax.swing.JPanel {
         this.add(sendButton, "span, split 3, right, push");
         this.add(clearButton);
     }
-    private MessageService messageService;
-    private DndService dndService;
-    private javax.swing.JButton clearButton;
-    private javax.swing.JCheckBox enableMessageFooterCheckbox;
-    private javax.swing.JButton groupsButton;
-    private javax.swing.JCheckBox longMessageCheckbox;
-    private javax.swing.JLabel messageContentLabel;
-    private javax.swing.JTextField messageContentLengthTextField;
-    private javax.swing.JScrollPane messageContentScrollPane;
-    private javax.swing.JTextArea messageContentTextArea;
-    private javax.swing.JButton phoneBookButton;
-    private javax.swing.JLabel previewLabel;
-    private javax.swing.JTextField previewLengthTextField;
-    private javax.swing.JScrollPane previewScrollPane;
-    private javax.swing.JTextArea previewTextArea;
-    private javax.swing.JComboBox priorityComboBox;
-    private javax.swing.JLabel priorityLabel;
-    private javax.swing.JLabel recepientsLabel;
-    private javax.swing.JScrollPane recepientsScrollPane;
-    private javax.swing.JTextArea recepientsTextArea;
-    private javax.swing.JButton sendButton;
-    private List<Dnd> dndList;
-    private String footer;
-    private SmsValidator validator;
-    private static Logger log = LoggerHelper.getLogger();
 }

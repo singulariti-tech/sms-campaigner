@@ -30,6 +30,15 @@ import org.jdesktop.swingbinding.SwingBindings;
 public class GroupsManagerContactsDialog extends javax.swing.JDialog {
 
     private static final long serialVersionUID = 1L;
+    private ContactService contactService;
+    private javax.swing.JButton addContactsButton;
+    private javax.swing.JButton closeButton;
+    private javax.swing.JTable contactsTable;
+    private java.util.List<Contact> phonebookList;
+    private javax.swing.JScrollPane selectContactsScrollPane;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    private Group group;
+    private ManageGroupPanel panel;
 
     /** Creates new form GroupsManagerContactsDialog
      * @param parent
@@ -97,18 +106,18 @@ public class GroupsManagerContactsDialog extends javax.swing.JDialog {
         @Override
         protected Boolean doInBackground() {
             boolean success = false;
-            List<Contact> contactsList = new ArrayList<Contact>();            
+            List<Contact> contactsList = new ArrayList<Contact>();
             int[] selectedRows = contactsTable.getSelectedRows();
             for (int idx = 0; idx < selectedRows.length; idx++) {
                 Contact phoneBook = phonebookList.get(contactsTable.convertRowIndexToModel(selectedRows[idx]));
-                contactsList.add(phoneBook);                
+                contactsList.add(phoneBook);
             }
 
             try {
                 contactService.updateGroup(group, contactsList);
                 success = true;
             } catch (Exception rollBackException) {
-                rollBackException.printStackTrace();                
+                rollBackException.printStackTrace();
                 success = false;
             }
 
@@ -181,13 +190,4 @@ public class GroupsManagerContactsDialog extends javax.swing.JDialog {
 
         pack();
     }
-    private ContactService contactService;
-    private javax.swing.JButton addContactsButton;
-    private javax.swing.JButton closeButton;
-    private javax.swing.JTable contactsTable;
-    private java.util.List<Contact> phonebookList;
-    private javax.swing.JScrollPane selectContactsScrollPane;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    private Group group;
-    private ManageGroupPanel panel;
 }

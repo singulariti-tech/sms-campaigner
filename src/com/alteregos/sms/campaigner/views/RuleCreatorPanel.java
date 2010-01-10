@@ -27,6 +27,20 @@ import org.jdesktop.application.Task;
 public class RuleCreatorPanel extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
+    private RuleService ruleService;
+    private javax.swing.JButton clearButton;
+    private javax.swing.JCheckBox enableRuleCheckbox;
+    private javax.swing.JLabel messageLabel;
+    private javax.swing.JTextField messageLengthTextField;
+    private javax.swing.JScrollPane messageScrollPane;
+    private javax.swing.JTextArea messageTextArea;
+    private javax.swing.JLabel primaryKeywordLabel;
+    private javax.swing.JTextField primaryKeywordTextField;
+    private javax.swing.JButton saveButton;
+    private javax.swing.JLabel secondaryKeywordLabel;
+    private javax.swing.JTextField secondaryKeywordTextField;
+    private AutoReplyRule rule;
+    private RuleValidator validator;
 
     /** Creates new form RuleCreatorPanel */
     public RuleCreatorPanel() {
@@ -192,18 +206,4 @@ public class RuleCreatorPanel extends javax.swing.JPanel {
         this.add(saveButton);
         this.add(clearButton);
     }
-    private RuleService ruleService;
-    private javax.swing.JButton clearButton;
-    private javax.swing.JCheckBox enableRuleCheckbox;
-    private javax.swing.JLabel messageLabel;
-    private javax.swing.JTextField messageLengthTextField;
-    private javax.swing.JScrollPane messageScrollPane;
-    private javax.swing.JTextArea messageTextArea;
-    private javax.swing.JLabel primaryKeywordLabel;
-    private javax.swing.JTextField primaryKeywordTextField;
-    private javax.swing.JButton saveButton;
-    private javax.swing.JLabel secondaryKeywordLabel;
-    private javax.swing.JTextField secondaryKeywordTextField;
-    private AutoReplyRule rule;
-    private RuleValidator validator;
 }

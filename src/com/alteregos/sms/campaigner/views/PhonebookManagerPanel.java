@@ -17,6 +17,23 @@ import org.jdesktop.observablecollections.ObservableCollections;
 public class PhonebookManagerPanel extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
+    private ContactService contactService;
+    private javax.swing.JLabel addressLabel;
+    private javax.swing.JScrollPane addressScrollPane;
+    private javax.swing.JTextArea addressTextArea;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JLabel emailLabel;
+    private javax.swing.JTextField emailTextField;
+    private javax.swing.JScrollPane phoneBookScrollPane;
+    private javax.swing.JLabel mobileNoLabel;
+    private javax.swing.JTextField mobileNoTextField;
+    private javax.swing.JLabel nameLabel;
+    private javax.swing.JTextField nameTextField;
+    private javax.swing.JTable phoneBookTable;
+    private java.util.List<Contact> phonebookList;
+    private javax.swing.JButton refreshButton;
+    private javax.swing.JButton saveButton;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
 
     /** Creates new form PhonebookManagerPanel */
     public PhonebookManagerPanel() {
@@ -307,21 +324,4 @@ public class PhonebookManagerPanel extends javax.swing.JPanel {
 
         bindingGroup.bind();
     }
-    private ContactService contactService;
-    private javax.swing.JLabel addressLabel;
-    private javax.swing.JScrollPane addressScrollPane;
-    private javax.swing.JTextArea addressTextArea;
-    private javax.swing.JButton deleteButton;
-    private javax.swing.JLabel emailLabel;
-    private javax.swing.JTextField emailTextField;
-    private javax.swing.JScrollPane phoneBookScrollPane;
-    private javax.swing.JLabel mobileNoLabel;
-    private javax.swing.JTextField mobileNoTextField;
-    private javax.swing.JLabel nameLabel;
-    private javax.swing.JTextField nameTextField;
-    private javax.swing.JTable phoneBookTable;
-    private java.util.List<Contact> phonebookList;
-    private javax.swing.JButton refreshButton;
-    private javax.swing.JButton saveButton;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
 }
