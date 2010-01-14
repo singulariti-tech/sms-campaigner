@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.alteregos.sms.campaigner.exceptions;
 
 /**
@@ -10,7 +6,7 @@ package com.alteregos.sms.campaigner.exceptions;
  */
 public class ExceptionParser {
 
-    //TODO Verify this for all cases
+    //TODO This is not valid for Sqlite
     private static final String DUPLICATE_ENTRY_CONSTRAINT = "com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry";
 
     public static ITaskResult getError(Exception ex) {
