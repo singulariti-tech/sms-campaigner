@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.alteregos.sms.campaigner.exceptions;
 
 /**
@@ -27,10 +23,12 @@ public class GenericTaskResult implements ITaskResult {
         setMessage(message);
     }
 
+    @Override
     public ResultMessage getResultMessage() {
         return resultMessage;
     }
 
+    @Override
     public boolean isSuccessful() {
         return success;
     }
