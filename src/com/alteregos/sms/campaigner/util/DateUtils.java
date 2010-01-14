@@ -139,12 +139,7 @@ public class DateUtils {
     }
 
     public static Date formatTime(long totalTime) {
-
-
-
-        long hours,
-                mins,
-                secs;
+        long hours, mins, secs;
         hours = totalTime / (60 * 60);
         mins = totalTime % (60 * 60);
         secs = mins % (60);
