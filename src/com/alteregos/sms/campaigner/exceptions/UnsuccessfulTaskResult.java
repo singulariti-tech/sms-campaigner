@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.alteregos.sms.campaigner.exceptions;
 
 /**
@@ -20,10 +16,12 @@ public class UnsuccessfulTaskResult implements ITaskResult {
         this.errorCode = errorCode;
     }
 
+    @Override
     public ResultMessage getResultMessage() {
         return errorCode;
     }
 
+    @Override
     public boolean isSuccessful() {
         return SUCCESS;
     }
