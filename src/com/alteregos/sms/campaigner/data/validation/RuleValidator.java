@@ -1,10 +1,10 @@
 package com.alteregos.sms.campaigner.data.validation;
 
-import com.alteregos.sms.campaigner.util.LoggerHelper;
 import com.alteregos.sms.campaigner.views.helpers.TextComponentFocusListener;
 import java.awt.Color;
 import javax.swing.text.JTextComponent;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
  */
 public class RuleValidator implements IValidator {
 
-    private static Logger log = LoggerHelper.getLogger();
+    private static final Logger LOGGER = LoggerFactory.getLogger(RuleValidator.class);
     private JTextComponent primaryKeywordField;
     private JTextComponent messageTextArea;
 
@@ -28,12 +28,12 @@ public class RuleValidator implements IValidator {
         String primary = primaryKeywordField.getText();
         String message = messageTextArea.getText();
         if (primary == null || primary.length() < 1 || primary.length() > 45) {
-            log.debug("Primary keyword is invalid");
+            LOGGER.debug("Invalid primary keyword");
             primaryKeywordField.setBackground(new Color(255, 0, 0));
             validated = false;
         }
         if (message == null || message.length() < 1) {
-            log.debug("Message is invalid");
+            LOGGER.debug("Empty or no message");
             messageTextArea.setBackground(new Color(255, 0, 0));
             validated = false;
         }

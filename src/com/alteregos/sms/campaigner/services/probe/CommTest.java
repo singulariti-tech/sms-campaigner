@@ -4,12 +4,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.Formatter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.smslib.helper.CommPortIdentifier;
 import org.smslib.helper.SerialPort;
 
 public class CommTest {
 
-    private static final String _NO_DEVICE_FOUND = "  no device found";
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommTest.class);
+    private static final String _NO_DEVICE_FOUND = "--  no device found";
     private final static Formatter _formatter = new Formatter(System.out);
     static CommPortIdentifier portId;
     static Enumeration<CommPortIdentifier> portList;
@@ -24,9 +27,10 @@ public class CommTest {
     }
 
     public static void main(String[] args) {
+        LOGGER.debug(">> main()");
         try {
-            System.out.println("Java.Home: " + System.getProperty("java.home"));
-            System.out.println("\nSearching for devices...");
+            LOGGER.debug("-- Java.Home: {}", System.getProperty("java.home"));
+            LOGGER.debug("-- Searching for devices...");
             portList = getCleanPortIdentifiers();
             while (portList.hasMoreElements()) {
                 portId = portList.nextElement();
@@ -77,12 +81,12 @@ public class CommTest {
                                         response += (char) c;
                                         c = inStream.read();
                                     }
-                                    System.out.println(" Found: " + response.replaceAll("\\s+OK\\s+", "").replaceAll("\n", "").replaceAll("\r", ""));
+                                    LOGGER.debug("-- Found: " + response.replaceAll("\\s+OK\\s+", "").replaceAll("\n", "").replaceAll("\r", ""));
                                 } catch (Exception e) {
-                                    System.out.println(_NO_DEVICE_FOUND);
+                                    LOGGER.debug(_NO_DEVICE_FOUND);
                                 }
                             } else {
-                                System.out.println(_NO_DEVICE_FOUND);
+                                LOGGER.debug(_NO_DEVICE_FOUND);
                             }
                         } catch (Exception e) {
                             System.out.print(_NO_DEVICE_FOUND);
@@ -90,7 +94,7 @@ public class CommTest {
                             while (cause.getCause() != null) {
                                 cause = cause.getCause();
                             }
-                            System.out.println(" (" + cause.getMessage() + ")");
+                            LOGGER.debug("-- (" + cause.getMessage() + ")");
                         } finally {
                             if (serialPort != null) {
                                 serialPort.close();
@@ -99,7 +103,7 @@ public class CommTest {
                     }
                 }
             }
-            System.out.println("\nTest complete.");
+            LOGGER.debug("-- Test complete.");
         } catch (Exception e) {
             e.printStackTrace();
         }

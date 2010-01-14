@@ -1,13 +1,13 @@
 package com.alteregos.sms.campaigner.services.probe;
 
 import com.alteregos.sms.campaigner.exceptions.CommPortTestException;
-import com.alteregos.sms.campaigner.util.LoggerHelper;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.smslib.helper.CommPortIdentifier;
 import org.smslib.helper.SerialPort;
 
@@ -18,7 +18,7 @@ import org.smslib.helper.SerialPort;
  */
 public class SerialPortDiscoverer {
 
-    private static Logger log = LoggerHelper.getLogger();
+    private static final Logger LOGGER = LoggerFactory.getLogger(SerialPortDiscoverer.class);
     private CommPortIdentifier portId;
     private Enumeration<CommPortIdentifier> portEnumeration;
     private int baudRate = 9600;
@@ -34,30 +34,36 @@ public class SerialPortDiscoverer {
     };
 
     private ArrayList<CommPortIdentifier> discoverCommPortIdentifiers() {
+        LOGGER.debug(">> discoverCommPortIdentifiers()");
         ArrayList<CommPortIdentifier> portList = new ArrayList<CommPortIdentifier>();
         portEnumeration = CommPortIdentifier.getPortIdentifiers();
         while (portEnumeration.hasMoreElements()) {
             portId = portEnumeration.nextElement();
-            System.out.println("Detected port " + portId.getName());
+            LOGGER.debug("-- detected port {}", portId.getName());
             if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
+                LOGGER.debug("-- is serial port, yay!!");
                 portList.add(portId);
             }
         }
+        LOGGER.debug("<< discoverCommPortIdentifiers()");
         return portList;
     }
 
     public String[] retrieveNamesOfAvailableCommPorts() {
+        LOGGER.debug(">> retrieveNamesOfAvailableCommPorts()");
         List<CommPortIdentifier> portList = discoverCommPortIdentifiers();
         List<String> portNames = new ArrayList<String>();
         for (CommPortIdentifier id : portList) {
             portNames.add(id.getName());
         }
         String[] portArray = new String[portNames.size()];
+        LOGGER.debug("<< retrieveNamesOfAvailableCommPorts()");
         return portNames.toArray(portArray);
     }
 
     public boolean test(String portName) throws CommPortTestException {
-        log.debug("Testing COM port " + portName);
+        LOGGER.debug(">> test()");
+        LOGGER.debug("-- port under test: {}", portName);
         boolean isTestSuccessful = false;
         String response = null;
         SerialPort serialPort = null;
@@ -77,10 +83,11 @@ public class SerialPortDiscoverer {
         for (int i = 0; i < baudRates.length; i++) {
             try {
                 serialPort = portUnderTest.open("SmsCampaigner-" + portUnderTest.getName(), 1971);
-                System.out.println("Testing port " + portUnderTest.getName() + " at baud rate " + baudRates[i]);
+                LOGGER.debug("-- testing port {} at baud rate {}", portUnderTest.getName(), baudRates[i]);
 
                 serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN);
-                serialPort.setSerialPortParams(baudRates[i], SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
+                serialPort.setSerialPortParams(baudRates[i], SerialPort.DATABITS_8, SerialPort.STOPBITS_1,
+                        SerialPort.PARITY_NONE);
                 InputStream inStream = serialPort.getInputStream();
                 OutputStream outStream = serialPort.getOutputStream();
                 serialPort.enableReceiveTimeout(1000);
@@ -102,7 +109,7 @@ public class SerialPortDiscoverer {
                 }
                 if (response.indexOf("OK") >= 0) {
                     try {
-                        System.out.print("  Getting Info...");
+                        LOGGER.debug("-- Getting Info...");
                         outStream.write('A');
                         outStream.write('T');
                         outStream.write('+');
@@ -117,7 +124,8 @@ public class SerialPortDiscoverer {
                             response += (char) c;
                             c = inStream.read();
                         }
-                        System.out.println(" Found: " + response.replaceAll("\\s+OK\\s+", "").replaceAll("\n", "").replaceAll("\r", ""));
+                        LOGGER.debug("-- Found: {}",
+                                response.replaceAll("\\s+OK\\s+", "").replaceAll("\n", "").replaceAll("\r", ""));
                         isTestSuccessful = true;
                         baudRate = baudRates[i];
                     } catch (Exception e) {
@@ -134,7 +142,8 @@ public class SerialPortDiscoverer {
             }
         }
 
-        System.out.println("Selected baud rate: " + baudRate);
+        LOGGER.debug("-- selected baud rate: {}", baudRate);
+        LOGGER.debug("<< test()");
         return isTestSuccessful;
     }
 
@@ -143,13 +152,16 @@ public class SerialPortDiscoverer {
     }
 
     public static void main(String[] args) {
+        LOGGER.debug(">> main()");
         SerialPortDiscoverer spd = new SerialPortDiscoverer();
+        LOGGER.debug("-- listing available comm ports...");
         for (String port : spd.retrieveNamesOfAvailableCommPorts()) {
-            System.out.println("Found port: " + port);
+            LOGGER.debug("-- {}", port);
         }
 
+        LOGGER.debug("-- listing discovered comm ports...");
         for (CommPortIdentifier port : spd.discoverCommPortIdentifiers()) {
-            System.out.println("Found port: " + port.getName());
+            LOGGER.debug("-- {}", port.getName());
         }
     }
 }

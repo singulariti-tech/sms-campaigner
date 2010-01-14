@@ -10,13 +10,11 @@ import com.alteregos.sms.campaigner.exceptions.ResultMessage;
 import com.alteregos.sms.campaigner.exceptions.SuccessfulTaskResult;
 import com.alteregos.sms.campaigner.exceptions.UnsuccessfulTaskResult;
 import com.alteregos.sms.campaigner.services.ContactService;
-import com.alteregos.sms.campaigner.util.LoggerHelper;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import net.miginfocom.swing.MigLayout;
-import org.apache.log4j.Logger;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.ResourceMap;
@@ -28,6 +26,8 @@ import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.JTableBinding.ColumnBinding;
 import org.jdesktop.swingbinding.SwingBindings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -36,6 +36,7 @@ import org.jdesktop.swingbinding.SwingBindings;
 public class GroupCreatorPanel extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = LoggerFactory.getLogger(GroupCreatorPanel.class);
     private javax.swing.JButton addAllButton;
     private javax.swing.JButton addSelectedButton;
     private javax.swing.JPanel borderContainer;
@@ -56,7 +57,6 @@ public class GroupCreatorPanel extends javax.swing.JPanel {
     private java.util.List<Contact> groupMembersList;
     private GroupValidator validator;
     private ContactService contactService;
-    private static Logger log = LoggerHelper.getLogger();
 
     /** Creates new form GroupCreatorPanel */
     public GroupCreatorPanel() {
@@ -76,8 +76,8 @@ public class GroupCreatorPanel extends javax.swing.JPanel {
         groupMemberTableBinding.bind();
         validator = new GroupValidator(groupNameField, groupMembersTable);
     }
-    //<editor-fold defaultstate="collapsed" desc="Actions">
 
+    //<editor-fold defaultstate="collapsed" desc="Actions">
     @Action
     public Task<Boolean, Void> clearDataAction() {
         return new ClearDataActionTask(Main.getApplication());
@@ -190,8 +190,7 @@ public class GroupCreatorPanel extends javax.swing.JPanel {
                     contactService.newGroup(group, groupMembersList);
                     result = new SuccessfulTaskResult();
                 } catch (Exception rollBackException) {
-                    log.error("Error when creating group");
-                    log.error(rollBackException);
+                    LOGGER.error("-- Error when creating group: {}", rollBackException);
                     result = ExceptionParser.getError(rollBackException);
                 }
             } else {
@@ -215,7 +214,7 @@ public class GroupCreatorPanel extends javax.swing.JPanel {
                 groupMembersList.clear();
                 JOptionPane.showMessageDialog(Main.getApplication().getMainFrame(), result.getResultMessage().getLabel());
             } else {
-                log.info("Group could not be created. Reason - " + result.getResultMessage().getLabel());
+                LOGGER.info("Group could not be created. Reason - " + result.getResultMessage().getLabel());
                 //TODO SHOULD WE SHOW THE MESSAGE DIALOG
                 //JOptionPane.showMessageDialog(
                 //        Main.getApplication().getMainFrame(), result.getResultMessage().getLabel());

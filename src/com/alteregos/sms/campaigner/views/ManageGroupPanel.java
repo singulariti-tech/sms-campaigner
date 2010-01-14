@@ -4,7 +4,6 @@ import com.alteregos.sms.campaigner.Main;
 import com.alteregos.sms.campaigner.data.dto.Contact;
 import com.alteregos.sms.campaigner.data.dto.Group;
 import com.alteregos.sms.campaigner.services.ContactService;
-import com.alteregos.sms.campaigner.util.LoggerHelper;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,11 +13,12 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 import javax.swing.table.DefaultTableModel;
 import net.miginfocom.swing.MigLayout;
-import org.apache.log4j.Logger;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.Task;
 import org.jdesktop.observablecollections.ObservableCollections;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -26,6 +26,7 @@ import org.jdesktop.observablecollections.ObservableCollections;
  */
 public class ManageGroupPanel extends javax.swing.JPanel {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ManageGroupPanel.class);
     private static final long serialVersionUID = 1L;
     private ContactService contactService;
     private javax.swing.JButton addContactsButton;
@@ -37,7 +38,6 @@ public class ManageGroupPanel extends javax.swing.JPanel {
     private javax.swing.JComboBox groupsComboBox;
     private java.util.List<Group> smsgroupList;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    private static Logger log = LoggerHelper.getLogger();
     private DefaultListCellRenderer defaultListCellRenderer;
 
     /** Creates new form ManageGroupPanel */
@@ -139,8 +139,7 @@ public class ManageGroupPanel extends javax.swing.JPanel {
                 contactService.deleteContacts(group, toRemove);
                 deleted = contactsInGroup.removeAll(toRemove);
             } catch (Exception rex) {
-                log.error("Error when removing contacts from group");
-                log.error(rex);
+                LOGGER.error("-- error when removing contacts from group: {}", rex);
                 List<Contact> merged = new ArrayList<Contact>(contactsInGroup.size());
                 merged.addAll(toRemove);
                 merged.addAll(contactsInGroup);
@@ -179,7 +178,7 @@ public class ManageGroupPanel extends javax.swing.JPanel {
                 deleted = true;
             } catch (Exception rollBackException) {
                 //TODO VERIFY IF ROLLBACK ADDS GROUP BACK CORRECTLY TO COMBOBOX
-                log.error(rollBackException);
+                LOGGER.error("-- error when removing group: {}", rollBackException);
                 smsgroupList.add(group);
                 deleted = false;
             }

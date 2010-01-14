@@ -6,11 +6,11 @@ import com.alteregos.sms.campaigner.engine.processors.helpers.RuleProcessResult;
 import com.alteregos.sms.campaigner.rules.DndRule;
 import com.alteregos.sms.campaigner.rules.IRule;
 import com.alteregos.sms.campaigner.services.RuleService;
-import com.alteregos.sms.campaigner.util.LoggerHelper;
 import com.alteregos.sms.campaigner.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -18,17 +18,18 @@ import org.apache.log4j.Logger;
  */
 public class RuleProcessor {
 
-    private static Logger log = LoggerHelper.getLogger();
+    private static final Logger LOGGER = LoggerFactory.getLogger(RuleProcessor.class);
     private IRule dndRule;
     private RuleService ruleService;
 
     public RuleProcessor() {
+        LOGGER.debug("** RuleProcessor()");
         dndRule = new DndRule();
         ruleService = Main.getApplication().getBean("ruleService");
     }
 
     public RuleProcessResult process(String content) {
-        log.debug("Processing rule content");
+        LOGGER.debug(">> process()");
         RuleParseResult parseResult = parse(content);
         MatchedRule matchedRule = new MatchedRule();
         boolean isDnd = false;
@@ -38,7 +39,7 @@ public class RuleProcessor {
             if (matchedRule.getRule() != null) {
                 ruleContent = matchedRule.getRule().getContent();
             } else {
-                log.debug("Could not match any rule");
+                LOGGER.debug("-- could not match any rule");
             }
             isDnd = matchedRule.isDnd();
         }
@@ -47,11 +48,13 @@ public class RuleProcessor {
         if (isDnd) {
             result.setDndRule(isDnd);
         }
+        LOGGER.debug("<< process()");
         return result;
     }
 
     //TODO Verify if ruleSecondary is null anytime
     private MatchedRule matchRule(RuleParseResult parseResult) {
+        LOGGER.debug(">> matchRule()");
         for (IRule rule : getRules()) {
             String rulePrimary = rule.getPrimaryKeyword().toLowerCase();
             String ruleSecondary = rule.getSecondaryKeyword().toLowerCase();
@@ -60,20 +63,24 @@ public class RuleProcessor {
 
             boolean isDnd = matchesDnd(parseResult);
             if (rulePrimary.equals(resultPrimary) && ruleSecondary.equals(resultSecondary)) {
-                log.debug("Rule matched - primary: " + rulePrimary + " secondary: " + ruleSecondary);
+                LOGGER.debug("-- rule matched - primary: {} secondary: {}", rulePrimary, ruleSecondary);
                 MatchedRule matchedRule = new MatchedRule(rule);
                 if (isDnd) {
                     matchedRule.setDnd(isDnd);
                     matchedRule.setRule(dndRule);
-                    log.debug("Matched DND rule");
+                    LOGGER.debug("-- matched DND rule");
                 }
+                LOGGER.debug("<< matchRule()");
                 return matchedRule;
             }
         }
+        LOGGER.debug("-- no matching rule found");
+        LOGGER.debug("<< matchRule()");
         return new MatchedRule();
     }
 
     private boolean matchesDnd(RuleParseResult parseResult) {
+        LOGGER.debug(">> matchesDnd()");
         boolean matches = false;
         String resultPrimary = parseResult.getPrimary().toLowerCase();
         String resultSecondary = parseResult.getSecondary().toLowerCase();
@@ -81,31 +88,34 @@ public class RuleProcessor {
                 && resultSecondary.equals(dndRule.getSecondaryKeyword().toLowerCase())) {
             return true;
         }
+        LOGGER.debug("<< matchesDnd()");
         return matches;
     }
 
     private RuleParseResult parse(String content) {
+        LOGGER.debug(">> parse()");
         RuleParseResult result = new RuleParseResult();
         String delimiter = "~:~";
         String delimitedString = StringUtils.stripSpaces(content, delimiter);
         String[] parsedContent = delimitedString.split(delimiter);
         if (parsedContent.length == 1) {
-            log.debug("Matched ONE word content");
+            LOGGER.debug("-- matched ONE word content");
             result.setPrimary(parsedContent[0]);
             result.setRule(true);
         } else if (parsedContent.length == 2) {
-            log.debug("Matched TWO word content");
+            LOGGER.debug("-- matched TWO word content");
             result.setPrimary(parsedContent[0]);
             result.setSecondary(parsedContent[1]);
             result.setRule(true);
         } else {
-            log.debug("More than 2 words in content. May not be rule based SMS");
+            LOGGER.debug("-- more than 2 words in content. may not be rule based SMS");
             if (parsedContent.length > 5) {
                 result.setRule(false);
             } else {
                 result.setRule(true);
             }
         }
+        LOGGER.debug("<< parse()");
         return result;
     }
 
@@ -160,6 +170,20 @@ public class RuleProcessor {
         public void setRule(boolean rule) {
             this.rule = rule;
         }
+
+        @Override
+        public String toString() {
+            StringBuilder builder = new StringBuilder();
+            builder.append("RuleParseResult [");
+            builder.append("primary=");
+            builder.append(primary);
+            builder.append(", rule=");
+            builder.append(rule);
+            builder.append(", secondary=");
+            builder.append(secondary);
+            builder.append("]");
+            return builder.toString();
+        }
     }
 
     private class MatchedRule {
@@ -193,6 +217,18 @@ public class RuleProcessor {
 
         public void setRule(IRule rule) {
             this.rule = rule;
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder builder = new StringBuilder();
+            builder.append("MatchedRule [");
+            builder.append("dnd=");
+            builder.append(dnd);
+            builder.append(", rule=");
+            builder.append(rule);
+            builder.append("]");
+            return builder.toString();
         }
     }
 }

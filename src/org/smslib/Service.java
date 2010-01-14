@@ -19,17 +19,15 @@
 // limitations under the License.
 package org.smslib;
 
+import ch.qos.logback.classic.Level;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-import org.apache.log4j.xml.DOMConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This is main library class. Your primary interface with SMSLib is via methods
@@ -39,7 +37,7 @@ public class Service {
 
     private static final String LOG4J_CONF = "smslib-log4j.properties";
     private static final String LOG4J_CONF_XML = "smslib-log4j.xml";
-    private Logger logger;
+    private static Logger LOGGER = LoggerFactory.getLogger("org.smslib");
     private List<AGateway> gtwList;
     private Router router;
     private LoadBalancer loadBalancer;
@@ -52,60 +50,63 @@ public class Service {
     public Settings S;
 
     /**
-     * Default Service constructor. Will set SMSLib to use its own logger.
+     * Default Service constructor. Will set SMSLib to use its own LOGGER.
      */
     public Service() {
+        LOGGER.debug(">> service()");
         S = new Settings();
         try {
-            logger = Logger.getLogger("org.smslib");
-            logger.setLevel(S.DEBUG ? Level.ALL : Level.WARN);
+            //LOGGER.setLevel(S.DEBUG ? Level.ALL : Level.WARN);
             Properties p = new Properties();
-            p = loadLoggerProps(LOG4J_CONF);
+            p = loadLOGGERProps(LOG4J_CONF);
             if (p != null) {
-                PropertyConfigurator.configure(p);
+                //PropertyConfigurator.configure(p);
             } else {
                 if (new File(LOG4J_CONF).exists()) {
-                    PropertyConfigurator.configure(LOG4J_CONF);
+                    //PropertyConfigurator.configure(LOG4J_CONF);
                 } else if (new File(LOG4J_CONF_XML).exists()) {
-                    DOMConfigurator.configure(LOG4J_CONF_XML);
+                    //DOMConfigurator.configure(LOG4J_CONF_XML);
                 } else {
-                    BasicConfigurator.configure();
+                    //BasicConfigurator.configure();
                 }
             }
-            logger.info(Library.getLibraryDescription());
-            logger.info("Version: " + Library.getLibraryVersion());
-            logger.info("JRE Version: " + System.getProperty("java.version"));
-            logger.info("JRE Impl Version: " + System.getProperty("java.vm.version"));
-            logger.info("O/S: " + System.getProperty("os.name") + " / " + System.getProperty("os.arch") + " / " + System.getProperty("os.version"));
+            LOGGER.info("-- {}", Library.getLibraryDescription());
+            LOGGER.info("-- Version: {}", Library.getLibraryVersion());
+            LOGGER.info("-- JRE Version: {}", System.getProperty("java.version"));
+            LOGGER.info("-- JRE Impl Version: {}", System.getProperty("java.vm.version"));
+            LOGGER.info("-- O/S Name: {}", System.getProperty("os.name"));
+            LOGGER.info("-- O/S Arch: {}", System.getProperty("os.arch"));
+            LOGGER.info("-- O/S Version: {}", System.getProperty("os.version"));
             gtwList = new ArrayList<AGateway>();
             setRouter(new Router(this));
             setLoadBalancer(new RoundRobinLoadBalancer(this));
         } catch (Exception e) {
-            logger.fatal(e);
+            LOGGER.error("FATAL: {}", e);
         }
     }
 
     /**
-     * Service constructor. Will set SMSLib to use the provided log4j logger.
+     * Service constructor. Will set SMSLib to use the provided log4j LOGGER.
      *
-     * @param logger
-     *            A ready log4j logger to use.
+     * @param LOGGER
+     *            A ready log4j LOGGER to use.
      */
-    public Service(Logger logger) {
+    public Service(Logger LOGGER) {
         S = new Settings();
-        this.logger = logger;
-        logger.setLevel(S.DEBUG ? Level.ALL : Level.WARN);
-        logger.info(Library.getLibraryDescription());
-        logger.info("Version: " + Library.getLibraryVersion());
-        logger.info("JRE Version: " + System.getProperty("java.version"));
-        logger.info("JRE Impl Version: " + System.getProperty("java.vm.version"));
-        logger.info("O/S: " + System.getProperty("os.name") + " / " + System.getProperty("os.arch") + " / " + System.getProperty("os.version"));
+        this.LOGGER = LOGGER;
+        LOGGER.info("-- {}", Library.getLibraryDescription());
+        LOGGER.info("-- Version: {}", Library.getLibraryVersion());
+        LOGGER.info("-- JRE Version: {}", System.getProperty("java.version"));
+        LOGGER.info("-- JRE Impl Version: {}", System.getProperty("java.vm.version"));
+        LOGGER.info("-- O/S Name: {}", System.getProperty("os.name"));
+        LOGGER.info("-- O/S Arch: {}", System.getProperty("os.arch"));
+        LOGGER.info("-- O/S Version: {}", System.getProperty("os.version"));
         gtwList = new ArrayList<AGateway>();
         setRouter(new Router(this));
         setLoadBalancer(new RoundRobinLoadBalancer(this));
     }
 
-    private Properties loadLoggerProps(String filename) {
+    private Properties loadLOGGERProps(String filename) {
         Properties props = new Properties();
         try {
             props.load(getClass().getResourceAsStream(filename));
@@ -122,12 +123,12 @@ public class Service {
     }
 
     /**
-     * Returns the logger used by SMSLib.
+     * Returns the LOGGER used by SMSLib.
      *
-     * @return The logger in use.
+     * @return The LOGGER in use.
      */
     public Logger getLogger() {
-        return logger;
+        return LOGGER;
     }
 
     /**
@@ -839,7 +840,7 @@ public class Service {
     }
 
     public void logError(String message, Exception e) {
-        logger.error(message + (e == null ? "" : (" (" + e.getMessage() + ")")));
+        LOGGER.error(message + (e == null ? "" : (" (" + e.getMessage() + ")")));
     }
 
     public void logDebug(String message) {
@@ -847,7 +848,7 @@ public class Service {
     }
 
     public void logDebug(String message, Exception e) {
-        logger.debug(message + (e == null ? "" : (" (" + e.getMessage() + ")")));
+        LOGGER.debug(message + (e == null ? "" : (" (" + e.getMessage() + ")")));
     }
 
     public void logWarn(String message) {
@@ -855,7 +856,7 @@ public class Service {
     }
 
     public void logWarn(String message, Exception e) {
-        logger.warn(message + (e == null ? "" : (" (" + e.getMessage() + ")")));
+        LOGGER.warn(message + (e == null ? "" : (" (" + e.getMessage() + ")")));
     }
 
     public void logInfo(String message) {
@@ -863,7 +864,7 @@ public class Service {
     }
 
     public void logInfo(String message, Exception e) {
-        logger.info(message + (e == null ? "" : (" (" + e.getMessage() + ")")));
+        LOGGER.info(message + (e == null ? "" : (" (" + e.getMessage() + ")")));
     }
 
     private class WatchDog extends Thread {

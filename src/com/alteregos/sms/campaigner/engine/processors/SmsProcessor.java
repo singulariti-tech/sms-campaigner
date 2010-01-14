@@ -9,11 +9,11 @@ import com.alteregos.sms.campaigner.data.dto.OutgoingMessage;
 import com.alteregos.sms.campaigner.engine.processors.helpers.RuleProcessResult;
 import com.alteregos.sms.campaigner.engine.IProcessor;
 import com.alteregos.sms.campaigner.services.MessageService;
-import com.alteregos.sms.campaigner.util.LoggerHelper;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * //TODO Insert or update messages wherever required
@@ -21,17 +21,21 @@ import org.apache.log4j.Logger;
  */
 public class SmsProcessor implements IProcessor {
 
-    private static Logger log = LoggerHelper.getLogger();
+    private static final Logger LOGGER = LoggerFactory.getLogger(SmsProcessor.class);
     private MessageService messageService;
     private String defaultMessage;
+    private final String DEFAULT_MESSAGE_DISABLED_WARNING = "-- Received a message that did not match any rules. "
+            + "In such circumstances, a default message should be sent. However, the option for sending the default "
+            + "message has been explicitly disabled. As such no message will be sent";
 
     public SmsProcessor() {
+        LOGGER.debug("** SmsProcessor()");
         messageService = Main.getApplication().getBean("messageService");
     }
 
     @Override
     public void process() {
-        log.debug("Processing messages received");
+        LOGGER.debug(">> process()");
         RuleProcessor ruleProcessor = new RuleProcessor();
         List<IncomingMessage> inboxList = filter(messageService.getIncomingMessages());
         List<OutgoingMessage> outboxList = new ArrayList<OutgoingMessage>();
@@ -46,7 +50,7 @@ public class SmsProcessor implements IProcessor {
                 }
 
                 if (!content.equals("") && (result.isDndRule() && reference != null)) {
-                    log.debug("Queueing message in outbox");
+                    LOGGER.debug("-- queueing message in outbox");
                     OutgoingMessage reply = new OutgoingMessage();
                     reply.setRecepientNo(sms.getSenderNo());
                     reply.setContent(content);
@@ -54,7 +58,7 @@ public class SmsProcessor implements IProcessor {
                     outboxList.add(reply);
                     sms.setProcess(true);
                 } else if (result.isDndRule() && reference == null) {
-                    log.debug("Requester already registered");
+                    LOGGER.debug("-- requester already registered");
                     OutgoingMessage reply = new OutgoingMessage();
                     reply.setRecepientNo(sms.getSenderNo());
                     reply.setContent("You are already registered on our DND list.");
@@ -63,27 +67,27 @@ public class SmsProcessor implements IProcessor {
                     sms.setProcess(true);
                 } else {
                     if (defaultMessage != null) {
-                        log.debug("Sending default message");
+                        LOGGER.debug("-- sending default message");
                         OutgoingMessage reply = new OutgoingMessage();
                         reply.setRecepientNo(sms.getSenderNo());
                         reply.setContent(getDefaultMessage());
                         outboxList.add(reply);
                         sms.setProcess(true);
                     } else {
-                        log.info("Default message disabled...so will not send sms");
-                        log.info("Details of the message: " + sms.getSenderNo() + " - " + sms.getContent());
+                        LOGGER.info(DEFAULT_MESSAGE_DISABLED_WARNING);
+                        LOGGER.info("-- Details of the message: Mobile no. {}, Message content: {}", sms.getSenderNo(),
+                                sms.getContent());
                     }
                 }
             } else {
-                log.debug("This is most probably a message received from vendors or the like. Will not process it");
+                LOGGER.debug("-- This is most probably a message received from vendors or the like. Will not process it");
             }
         }
 
         try {
-            //Persist all outgoing messages            
+            //TODO Persist all outgoing messages
         } catch (Exception rollbackException) {
-            log.error("Error when processing messages received");
-            log.error(rollbackException);
+            LOGGER.error("-- Error when processing messages received: {}", rollbackException);
         }
     }
 
@@ -111,12 +115,11 @@ public class SmsProcessor implements IProcessor {
         dnd.setMobileNo(mobileNo);
         dnd.setRegisteredDate(new Date());
         try {
-            //persist
+            //TODO persist
             success = true;
         } catch (Exception rollbackException) {
-            log.error("Error when registering DND");
-            log.error("Mobile no. of registrant: " + mobileNo);
-            log.error("Error details: " + rollbackException);
+            LOGGER.error("-- Error when registering DND for mobile no. {}", mobileNo);
+            LOGGER.error("-- Error details: {}", rollbackException);
             success = false;
         }
 

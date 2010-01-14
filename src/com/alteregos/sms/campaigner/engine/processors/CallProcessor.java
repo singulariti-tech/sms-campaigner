@@ -5,10 +5,10 @@ import com.alteregos.sms.campaigner.data.dto.IncomingCall;
 import com.alteregos.sms.campaigner.data.dto.OutgoingMessage;
 import com.alteregos.sms.campaigner.engine.IProcessor;
 import com.alteregos.sms.campaigner.services.IncomingCallService;
-import com.alteregos.sms.campaigner.util.LoggerHelper;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -16,17 +16,18 @@ import org.apache.log4j.Logger;
  */
 public class CallProcessor implements IProcessor {
 
-    private static Logger log = LoggerHelper.getLogger();
+    private static final Logger LOGGER = LoggerFactory.getLogger(CallProcessor.class);
     private String notificationMessage;
     private IncomingCallService callService;
 
     public CallProcessor() {
+        LOGGER.debug("** CallProcessor()");
         callService = Main.getApplication().getBean("incomingCallService");
     }
 
     @Override
     public void process() {
-        log.debug("Processing calls...");
+        LOGGER.debug(">> process()");
         List<IncomingCall> callsList = filter(callService.findAll());
         List<OutgoingMessage> bulkSms = new ArrayList<OutgoingMessage>();
         for (IncomingCall call : callsList) {
@@ -40,9 +41,9 @@ public class CallProcessor implements IProcessor {
         try {
             //TODO Insert or update calls appropriately
         } catch (Exception rollbackException) {
-            log.error("Exception when processing Calls");
-            log.error(rollbackException);
+            LOGGER.error("-- Exception when processing Calls: {}", rollbackException);
         }
+        LOGGER.debug("<< process()");
     }
 
     public String getNotificationMessage() {

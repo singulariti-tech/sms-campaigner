@@ -1,7 +1,6 @@
 package com.alteregos.sms.campaigner.views;
 
 import com.alteregos.sms.campaigner.Main;
-import com.alteregos.sms.campaigner.util.LoggerHelper;
 import com.alteregos.sms.campaigner.util.LookAndFeel;
 import com.alteregos.sms.campaigner.util.StringUtils;
 import org.jdesktop.application.Action;
@@ -18,15 +17,17 @@ import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
-import org.apache.log4j.Logger;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The application's main frame.
  */
 public class MainView extends FrameView {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(MainView.class);
     private javax.swing.JMenu applicationMenu;
     private javax.swing.JButton autoReplyRulesToolBarButton;
     private javax.swing.JMenuItem callsReceivedMenuItem;
@@ -80,7 +81,6 @@ public class MainView extends FrameView {
     private javax.swing.JToolBar.Separator toolbarSeparator5;
     private javax.swing.JToolBar.Separator toolbarSeparator6;
     private javax.swing.JMenuItem userManualMenuItem;
-    private static Logger log = LoggerHelper.getLogger();
     private Timer messageTimer;
     private Timer busyIconTimer;
     private Icon idleIcon;

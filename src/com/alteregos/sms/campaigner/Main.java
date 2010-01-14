@@ -7,7 +7,6 @@ import com.alteregos.sms.campaigner.engine.Engine;
 import com.alteregos.sms.campaigner.helpers.ProbeListener;
 import com.alteregos.sms.campaigner.services.probe.ProbeResults;
 import com.alteregos.sms.campaigner.services.probe.ProbeTask;
-import com.alteregos.sms.campaigner.util.LoggerHelper;
 import com.alteregos.sms.campaigner.views.MainView;
 import com.alteregos.sms.campaigner.conf.Configuration;
 import com.alteregos.sms.campaigner.data.dao.DatabaseCreator;
@@ -22,12 +21,13 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import org.apache.log4j.Logger;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.LocalStorage;
 import org.jdesktop.application.SingleFrameApplication;
 import org.jdesktop.application.Task;
 import org.jdesktop.application.View;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -37,7 +37,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class Main extends SingleFrameApplication {
 
     //<editor-fold defaultstate="collapsed" desc="Variable Declarations">
-    private static Logger log = LoggerHelper.getLogger();
+    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
     private Configuration configuration;
     private Engine engine;
     private ProbeResults probeResults;
@@ -51,49 +51,52 @@ public class Main extends SingleFrameApplication {
      */
     @Override
     protected void startup() {
-        log.debug("Application startup");
+        LOGGER.debug(">> startup()");
         addExitListener(new CustomExitListener());
         springContext = new ClassPathXmlApplicationContext("classpath:campaignerContext-core.xml");
         //Check if db exists. If not create it
         DatabaseCreator databaseCreator = getBean("databaseInitializer");
         if (!databaseCreator.allTablesExist()) {
-            log.debug("Tables not found. Initializing sqlite db");
+            LOGGER.debug("-- Database tables not found. Initializing sqlite db");
             databaseCreator.createTables();
             databaseCreator.createIndices();
         }
         View mainView = new MainView(this);
         setLookAndFeel(getConfiguration().getLookAndFeel());
         show(mainView);
+        LOGGER.debug("<< startup()");
     }
 
     @Override
     protected void initialize(String[] arg0) {
         super.initialize(arg0);
-        log.debug("Application initialization");
+        LOGGER.debug(">> initialize()");
         //Verify License
         //verifyLicense();
         //Load Configuration
         loadConfiguration();
         //Initialize probe listeners
         probeListeners = new ArrayList<ProbeListener>();
+        LOGGER.debug("<< initialize()");
     }
 
     @Override
     protected void ready() {
         super.ready();
-        log.debug("Application ready");
+        LOGGER.debug(">> ready()");
         //Run probe on 
         runProbe();
         //Start services
         //if (results.isPortTestSuccessful()) {
         //start gateway & auto reply services
         //}
+        LOGGER.debug("<< ready()");
     }
 
     @Override
     protected void shutdown() {
         super.shutdown();
-        log.debug("Application shutdown");
+        LOGGER.debug(">> shutdown()");
         cleanUp();
     }
     //</editor-fold>    
@@ -108,8 +111,9 @@ public class Main extends SingleFrameApplication {
     }
 
     public void addProbeListener(ProbeListener listener) {
-        log.debug("Probe Listener added");
+        LOGGER.debug(">> addProbeListener()");
         this.probeListeners.add(listener);
+        LOGGER.debug("<< addProbeListener()");
     }
 
     public Configuration getConfiguration() {
@@ -126,15 +130,17 @@ public class Main extends SingleFrameApplication {
     }
 
     public void setProbeResults(ProbeResults results) {
-        log.debug("Probe results set");
+        LOGGER.debug(">> setProbeResults()");
         this.probeResults = results;
 
         String[] portNames = this.probeResults.getPortNames();
         for (int i = 0; i < portNames.length; i++) {
+            LOGGER.debug("-- adding available port: {}", portNames[i]);
             this.probeResults.addPort(portNames[i]);
         }
 
         startServices();
+        LOGGER.debug("<< setProbeResults()");
     }
 
     public ProbeResults getProbeResults() {
@@ -142,108 +148,121 @@ public class Main extends SingleFrameApplication {
     }
 
     public void setLookAndFeel(String className) {
+        LOGGER.debug(">> setLookAndFeel()");
         try {
             //Initialize Look & Feel
-            log.debug("Setting look and feel: " + className);
+            LOGGER.debug("-- classname {} ", className);
             UIManager.setLookAndFeel(className);
             SwingUtilities.updateComponentTreeUI(getMainFrame());
         } catch (ClassNotFoundException ex) {
-            log.debug("Look and feel class not found");
+            LOGGER.debug("-- Look and feel class not found");
         } catch (InstantiationException ex) {
-            log.debug("Could not instantiate look and feel");
+            LOGGER.debug("-- Could not instantiate look and feel");
         } catch (IllegalAccessException ex) {
-            log.debug("Illegal access exception thrown...");
-            log.debug(ex);
+            LOGGER.debug("-- Illegal access exception thrown: {}", ex);
         } catch (UnsupportedLookAndFeelException ex) {
-            log.debug("Unsupported look and feel exception thrown");
+            LOGGER.debug("-- Unsupported look and feel exception thrown");
         }
+        LOGGER.debug("<< setLookAndFeel()");
     }
 
     public void cleanUp() {
-        log.debug("Clean up");
+        LOGGER.debug(">> cleanUp()");
         //Stop engine
         if (engine != null) {
-            log.debug("Stopping SMS engine");
+            LOGGER.debug("-- calling engine.stop()");
             engine.stop();
         }
         updateLicense();
         saveConfiguration();
         getApplication().getContext().getTaskService().shutdownNow();
+        LOGGER.debug("<< cleanUp()");
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Private convenience methods">
     private void runProbe() {
-        log.debug("Starting probe");
+        LOGGER.debug(">> runProbe()");
+        LOGGER.info("-- Probing for devices");
         Task<Object, Void> probeTask = new ProbeTask(getApplication(), getConfiguration());
         //probeTask.setInputBlocker(new ProbeInputBlocker(probeTask, new BlockerDialog(getMainFrame(), true)));
         getApplication().getContext().getTaskService().execute(probeTask);
+        LOGGER.debug("<< runProbe()");
     }
 
     private void saveConfiguration() {
         //Save configuration
-        log.debug("Saving configuration");
+        LOGGER.debug(">> saveConfiguration()");
         OutputStream stream = null;
         try {
             stream = getContext().getLocalStorage().openOutputFile(Configuration.CONFIG_FILE_NAME);
         } catch (IOException ex) {
-            log.error("IOException thrown");
-            log.error(ex);
+            LOGGER.error("-- IOException thrown: {}", ex);
         }
         Configuration.save(stream);
+        LOGGER.debug("<< saveConfiguration()");
     }
 
     private void updateLicense() {
         //LM update
-        log.debug("Updating license");
+        LOGGER.debug(">> updateLicense()");
         //licenseManager.updateLastUsedDate();
         //licenseManager.save();
+        LOGGER.debug("<< updateLicense()");
     }
 
     private void verifyLicense() {
-        log.debug("Verifying license");
+        LOGGER.debug(">> verifyLicense()");
     }
 
     private void loadConfiguration() {
-        log.debug("Loading configuration");
+        LOGGER.debug(">> loadConfiguration()");
         LocalStorage localStorage = getContext().getLocalStorage();
         InputStream stream = null;
         try {
             stream = localStorage.openInputFile(Configuration.CONFIG_FILE_NAME);
         } catch (IOException ex) {
-            log.error("IOException when loading configuration");
-            log.error(ex);
+            LOGGER.error("-- IOException when loading configuration: {}", ex);
         }
         configuration = Configuration.load(stream);
+        LOGGER.debug("<< loadConfiguration()");
     }
 
     private void startServices() {
-        log.debug("Starting services");
+        LOGGER.debug(">> startServices()");
         boolean isPortTestSuccessful = this.probeResults.isPortTestSuccessful();
         boolean isDbTestSuccessful = this.probeResults.isDbTestSuccessful();
         if (isPortTestSuccessful && isDbTestSuccessful) {
-            log.debug("Starting SMS engine");
+            LOGGER.debug("-- creating SMS engine");
             engine = new Engine(this.probeResults.getModemSettings());
         }
 
         for (ProbeListener listener : this.probeListeners) {
             listener.probeEnded(this.probeResults);
         }
+        LOGGER.debug("<< startServices()");
     }
 
     private class CustomExitListener implements Application.ExitListener {
 
+        public CustomExitListener() {
+            LOGGER.debug("** CustomeExitListener()");
+        }
+
         @Override
         public boolean canExit(EventObject e) {
+            LOGGER.debug(">> canExit()");
             Object source = (e != null) ? e.getSource() : null;
             Component owner = (source instanceof Component) ? (Component) source : null;
             int option = JOptionPane.showConfirmDialog(owner, "Really Exit?");
+            LOGGER.debug("-- opted to quit? {}", option);
             return (option == JOptionPane.YES_OPTION);
         }
 
         @Override
         public void willExit(EventObject e) {
             // cleanup
+            LOGGER.debug(">> willExit()");
         }
     }
     //</editor-fold>
@@ -254,15 +273,15 @@ public class Main extends SingleFrameApplication {
      * @param args 
      */
     public static void main(String[] args) {
-        log.debug("Application launched");
-        log.debug("JAVA.HOME: " + System.getProperty("java.home"));
-        log.debug("Library path: " + System.getProperty("java.library.path"));
+        LOGGER.debug(">> main()");
+        LOGGER.debug("-- JAVA.HOME: {}", System.getProperty("java.home"));
+        LOGGER.debug("-- Library path: {}", System.getProperty("java.library.path"));
         try {
             launch(Main.class, args);
         } catch (Exception e) {
-            log.debug("Catching exception in main");
-            log.debug(e);
+            LOGGER.debug("-- Catching exception in main: {}", e);
         }
+        LOGGER.debug("<< main()");
     }
     //</editor-fold>
 }

@@ -1,13 +1,13 @@
 package com.alteregos.sms.campaigner.conf;
 
-import com.alteregos.sms.campaigner.util.LoggerHelper;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -15,7 +15,7 @@ import org.apache.log4j.Logger;
  */
 public class Configuration {
 
-    private static Logger log = LoggerHelper.getLogger();
+    private static final Logger LOGGER = LoggerFactory.getLogger(Configuration.class);
     public static final String CONFIG_FILE_NAME = "SmsCampaigner.conf";
     private static Configuration instance = new Configuration();
     private Properties configProperties = null;
@@ -175,9 +175,10 @@ public class Configuration {
     }
 
     public static Configuration load(InputStream stream) {
+        LOGGER.debug(">> load()");
         InputStream inputStream = stream;
         if (inputStream != null) {
-            log.debug("Config file found. Reading properties.");
+            LOGGER.debug("-- Config file found. Reading properties.");
             //Config found load properties into configuration bean
             instance.configProperties = new Properties();
             try {
@@ -198,11 +199,9 @@ public class Configuration {
                 instance.gatewayAutoStart(Boolean.parseBoolean(instance.configProperties.getProperty(ConfigurationKeys.GATEWAY_AUTO_START.label())));
                 instance.lookAndFeel(instance.configProperties.getProperty(ConfigurationKeys.LOOK_AND_FEEL.label(), instance.getLookAndFeel()));
             } catch (InvalidPropertiesFormatException invalidPropertiesFormatException) {
-                log.error("Invalid properties format in config file");
-                log.error(invalidPropertiesFormatException);
+                LOGGER.warn("-- Invalid properties format in config file: {}", invalidPropertiesFormatException);
             } catch (IOException ioException) {
-                log.error("IOException when reading config properties");
-                log.error(ioException);
+                LOGGER.error("-- IOException when reading config properties: {}", ioException);
             } finally {
                 if (inputStream != null) {
                     try {
@@ -212,15 +211,16 @@ public class Configuration {
                 }
             }
         } else {
-            log.debug("Config file not found");
+            LOGGER.debug("-- config file not found");
         }
+        LOGGER.debug("<< load()");
         return instance;
     }
 
     public static void save(OutputStream stream) {
-        log.debug("Saving config properties");
+        LOGGER.debug(">> save()");
         if (stream == null) {
-            log.error("Output stream to config file is null");
+            LOGGER.error("-- output stream to config file is null");
             throw new RuntimeException("Outputstream to Config file is null");
         }
         OutputStream outputStream = stream;
@@ -243,10 +243,9 @@ public class Configuration {
             instance.configProperties.setProperty(ConfigurationKeys.LOOK_AND_FEEL.label(), String.valueOf(instance.getLookAndFeel()));
             instance.configProperties.storeToXML(outputStream, CONFIG_FILE_NAME);
         } catch (FileNotFoundException ex) {
-            log.debug("File not found when trying to save config");
+            LOGGER.debug("-- File not found when trying to save config: {}", ex);
         } catch (IOException ioException) {
-            log.error("IO Exception when trying to save config");
-            log.error(ioException);
+            LOGGER.error("-- IO Exception when trying to save config: {}", ioException);
         } finally {
             if (outputStream != null) {
                 try {
@@ -255,5 +254,6 @@ public class Configuration {
                 }
             }
         }
+        LOGGER.debug("<< save()");
     }
 }

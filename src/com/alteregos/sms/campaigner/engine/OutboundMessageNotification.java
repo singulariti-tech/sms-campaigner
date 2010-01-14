@@ -2,11 +2,11 @@ package com.alteregos.sms.campaigner.engine;
 
 import com.alteregos.sms.campaigner.Main;
 import com.alteregos.sms.campaigner.business.FailureCause;
-import com.alteregos.sms.campaigner.util.LoggerHelper;
 import com.alteregos.sms.campaigner.business.MessageStatus;
 import com.alteregos.sms.campaigner.data.dto.OutgoingMessage;
 import com.alteregos.sms.campaigner.services.MessageService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.smslib.IOutboundMessageNotification;
 import org.smslib.MessageStatuses;
 import org.smslib.OutboundMessage;
@@ -17,20 +17,22 @@ import org.smslib.OutboundMessage;
  */
 public class OutboundMessageNotification implements IOutboundMessageNotification {
 
-    private static Logger log = LoggerHelper.getLogger();
+    private static final Logger LOGGER = LoggerFactory.getLogger(OutboundMessageNotification.class);
     private MessageService messageService;
     private final int MAX_TRIES = 2;
 
     public OutboundMessageNotification() {
+        LOGGER.debug("** OutboundMessageNotification()");
         messageService = Main.getApplication().getBean("messageService");
     }
 
     @Override
     public void process(String gtwId, OutboundMessage outboundMessage) {
+        LOGGER.debug(">> process()");
         String messageId = outboundMessage.getId();
         OutgoingMessage outboxMessage = getMessage(messageId);
         if (outboundMessage == null) {
-            log.warn("Outbox message with id: " + messageId + " not found. Most probably deleted");
+            LOGGER.warn("-- Outbox message with id: {} not found. Most probably deleted", messageId);
         }
 
         if (outboxMessage != null && outboundMessage.getMessageStatus().equals(MessageStatuses.SENT)) {
@@ -38,10 +40,11 @@ public class OutboundMessageNotification implements IOutboundMessageNotification
             outboxMessage.setStatus(MessageStatus.SUCCESSFULLY_SENT);
             outboxMessage.setReferenceNo(outboundMessage.getRefNo());
             outboxMessage.setGatewayId(outboundMessage.getGatewayId());
-            log.debug("Message sent successfully");
+            LOGGER.debug("-- Message sent successfully");
         } else if (outboxMessage != null && outboundMessage.getMessageStatus().equals(MessageStatuses.FAILED)) {
             FailureCause cause = FailureCause.getFailureCause(outboundMessage.getFailureCause());
-            log.error("Sending message to recepient " + outboundMessage.getRecipient() + " failed. Reason - " + cause.getLabel());
+            LOGGER.error("-- Sending message to recepient {} failed. Reason - {}", outboundMessage.getRecipient(),
+                    cause.getLabel());
             int noTries = outboxMessage.getErrors() + 1;
             if (noTries > MAX_TRIES) {
                 outboxMessage.setErrors((short) noTries);
@@ -52,11 +55,10 @@ public class OutboundMessageNotification implements IOutboundMessageNotification
             }
         }
 
-        try {            
+        try {
             messageService.updateOutgoingMessage(outboxMessage);
         } catch (Exception rollbackException) {
-            log.error("Exception when processing outbound message");
-            log.error(rollbackException);
+            LOGGER.error("-- Exception when processing outbound message: {}", rollbackException);
         }
     }
 

@@ -1,12 +1,12 @@
 package com.alteregos.sms.campaigner.data.validation;
 
-import com.alteregos.sms.campaigner.util.LoggerHelper;
 import com.alteregos.sms.campaigner.util.StringUtils;
 import com.alteregos.sms.campaigner.views.helpers.TextComponentFocusListener;
 import java.awt.Color;
 import java.util.List;
 import javax.swing.text.JTextComponent;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
  */
 public class SmsValidator implements IValidator {
 
-    private static Logger log = LoggerHelper.getLogger();
+    private static final Logger LOGGER = LoggerFactory.getLogger(SmsValidator.class);
     private JTextComponent recepientsTextArea;
     private JTextComponent messageTextArea;
 
@@ -29,12 +29,12 @@ public class SmsValidator implements IValidator {
         boolean validated = true;
         List<String> recepientsList = StringUtils.tokenizeToList(recepientsTextArea.getText(), ",");
         if (recepientsList.size() < 1) {
-            log.debug("No. of SMS recepients is 0");
+            LOGGER.debug("No. of recepients is 0");
             recepientsTextArea.setBackground(new Color(255, 0, 0));
             validated = false;
         }
         if (messageTextArea.getText() == null || messageTextArea.getText().length() < 1) {
-            log.debug("Message is invalid");
+            LOGGER.debug("Empty or no message");
             messageTextArea.setBackground(new Color(255, 0, 0));
             validated = false;
         }

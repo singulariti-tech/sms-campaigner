@@ -5,7 +5,6 @@ import com.alteregos.sms.campaigner.conf.Configuration;
 import com.alteregos.sms.campaigner.data.validation.SmsValidator;
 import com.alteregos.sms.campaigner.exceptions.ITaskResult;
 import com.alteregos.sms.campaigner.exceptions.SuccessfulTaskResult;
-import com.alteregos.sms.campaigner.util.LoggerHelper;
 import com.alteregos.sms.campaigner.util.StringUtils;
 import com.alteregos.sms.campaigner.views.helpers.SizeLimitedTextComponent;
 import com.alteregos.sms.campaigner.business.MessagePriority;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.text.JTextComponent;
 import net.miginfocom.swing.MigLayout;
-import org.apache.log4j.Logger;
 import org.jdesktop.application.Action;
 
 /**
@@ -51,7 +49,6 @@ public class SmsSenderPanel extends javax.swing.JPanel {
     private List<Dnd> dndList;
     private String footer;
     private SmsValidator validator;
-    private static Logger log = LoggerHelper.getLogger();
 
     /** Creates new form SmsSenderPanel */
     public SmsSenderPanel() {
@@ -150,7 +147,6 @@ public class SmsSenderPanel extends javax.swing.JPanel {
         Configuration configuration = Main.getApplication().getConfiguration();
         this.footer = configuration.getMessageFooter();
         initListeners();
-        log.debug("SmsSenderPanel initialized");
     }
 
     private List<String> filterDndNumbers(List<String> inputList) {

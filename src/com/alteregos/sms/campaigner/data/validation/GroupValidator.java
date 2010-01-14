@@ -1,11 +1,11 @@
 package com.alteregos.sms.campaigner.data.validation;
 
-import com.alteregos.sms.campaigner.util.LoggerHelper;
 import com.alteregos.sms.campaigner.views.helpers.TextComponentFocusListener;
 import java.awt.Color;
 import javax.swing.JTable;
 import javax.swing.text.JTextComponent;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -13,9 +13,9 @@ import org.apache.log4j.Logger;
  */
 public class GroupValidator implements IValidator {
 
-    private static Logger log = LoggerHelper.getLogger();
+    private static final Logger LOGGER = LoggerFactory.getLogger(GroupValidator.class);
     private JTextComponent groupNameField;
-    private JTable groupMembersTable;        
+    private JTable groupMembersTable;
 
     public GroupValidator(JTextComponent groupNameField, JTable membersList) {
         this.groupNameField = groupNameField;
@@ -28,14 +28,14 @@ public class GroupValidator implements IValidator {
         boolean validated = true;
         String groupName = groupNameField.getText();
         if (groupName == null || groupName.length() < 1) {
-            log.debug("Group name not valid");
+            LOGGER.debug("Invalid group name");
             groupNameField.setBackground(new Color(255, 0, 0));
             validated = false;
         }
 
         int rowCount = groupMembersTable.getRowCount();
         if (rowCount < 1) {
-            log.debug("Group members not valid");            
+            LOGGER.debug("Looks like group members were not selected");
             validated = false;
         }
 

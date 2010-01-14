@@ -5,13 +5,13 @@ import com.alteregos.sms.campaigner.conf.Configuration;
 import com.alteregos.sms.campaigner.conf.ModemSettings;
 import com.alteregos.sms.campaigner.helpers.ProbeListener;
 import com.alteregos.sms.campaigner.services.probe.ProbeResults;
-import com.alteregos.sms.campaigner.util.LoggerHelper;
 import java.awt.Dimension;
 import java.io.IOException;
 import javax.swing.BorderFactory;
 import net.miginfocom.swing.MigLayout;
-import org.apache.log4j.Logger;
 import org.jdesktop.application.ResourceMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.smslib.GatewayException;
 import org.smslib.TimeoutException;
 
@@ -22,6 +22,7 @@ import org.smslib.TimeoutException;
 public class HomePanel extends javax.swing.JPanel implements ProbeListener {
 
     private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = LoggerFactory.getLogger(HomePanel.class);
     private javax.swing.JLabel gatewayStatusLabel;
     private javax.swing.JButton autoReplyStatusCheckButton;
     private javax.swing.JButton databaseConnectivityCheckButton;
@@ -45,7 +46,6 @@ public class HomePanel extends javax.swing.JPanel implements ProbeListener {
     private javax.swing.JLabel simPinTextField;
     private javax.swing.JLabel softwareVersionLabel;
     private javax.swing.JLabel softwareVersionTextField;
-    private static Logger log = LoggerHelper.getLogger();
     private ProbeResults probeResults;
 
     /** Creates new form HomePanel */
@@ -67,8 +67,8 @@ public class HomePanel extends javax.swing.JPanel implements ProbeListener {
     }
 
     private void initState() {
-        try {
-            log.debug("Initializing home state");
+        LOGGER.debug(">> initState()");
+        try {            
             Configuration configuration = Main.getApplication().getConfiguration();
             ModemSettings portSettings = (this.probeResults != null) ? this.probeResults.getModemSettings() : null;
             //SIM & Gateway settings
@@ -107,16 +107,14 @@ public class HomePanel extends javax.swing.JPanel implements ProbeListener {
             databaseConnectivityTextField.setText(dbTestMessage);
 
         } catch (TimeoutException ex) {
-            log.error("Timeout when reading SIM settings");
+            LOGGER.error("-- Timeout when reading SIM settings");
         } catch (GatewayException ex) {
-            log.error("Gateway exception when reading SIM settings");
+            LOGGER.error("-- Gateway exception when reading SIM settings");
         } catch (IOException ex) {
-            log.error("IO exception when reading SIM settings");
+            LOGGER.error("-- IO exception when reading SIM settings");
         } catch (InterruptedException ex) {
-            log.error("Interrupted exception when reading SIM settings");
+            LOGGER.error("-- Interrupted exception when reading SIM settings");
         }
-
-
     }
 
     @SuppressWarnings("unchecked")

@@ -5,10 +5,10 @@ import com.alteregos.sms.campaigner.conf.Configuration;
 import com.alteregos.sms.campaigner.engine.processors.CallProcessor;
 import com.alteregos.sms.campaigner.engine.processors.SmsProcessor;
 import com.alteregos.sms.campaigner.engine.senders.SmsSender;
-import com.alteregos.sms.campaigner.util.LoggerHelper;
-import org.apache.log4j.Logger;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.Task;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.smslib.Service;
 
 /**
@@ -17,7 +17,7 @@ import org.smslib.Service;
  */
 public class EngineServicesTask extends Task<Object, Void> {
 
-    private static Logger log = LoggerHelper.getLogger();
+    private static final Logger LOGGER = LoggerFactory.getLogger(EngineServicesTask.class);
     private CallProcessor callProcessor;
     private SmsProcessor smsProcessor;
     private SmsSender smsSender;
@@ -25,7 +25,7 @@ public class EngineServicesTask extends Task<Object, Void> {
 
     public EngineServicesTask(Application application, Service service) {
         super(application);
-        log.debug("Initializing engine services");
+        LOGGER.debug("** EngineServicesTask()");
         setUserCanCancel(true);
         callProcessor = new CallProcessor();
         smsProcessor = new SmsProcessor();
@@ -34,21 +34,19 @@ public class EngineServicesTask extends Task<Object, Void> {
         if (configuration.isCallNotificationEnabled()) {
             callNotificationEnabled = true;
             String callNotificationMessage = configuration.getCallNotification();
-            if (configuration.isMessageFooterEnabledForCallNotification()) {
-                log.debug("Call notification is enabled with message footer");
+            boolean messageFooterEnabledForCallNotification = configuration.isMessageFooterEnabledForCallNotification();
+            LOGGER.info("-- call notifications enabled with message footer: {}", messageFooterEnabledForCallNotification);
+            if (messageFooterEnabledForCallNotification) {
                 callNotificationMessage = callNotificationMessage + configuration.getMessageFooter();
-            } else {
-                log.debug("Call notification is enabled without message footer");
             }
             callProcessor.setNotificationMessage(callNotificationMessage);
         }
         if (configuration.isDefaultMessageEnabled()) {
             String defaultMessage = configuration.getDefaultMessage();
-            if (configuration.isMessageFooterEnabledForDefaultMessage()) {
-                log.debug("Default message is enabled with message footer");
+            boolean messageFooterEnabledForDefaultMessage = configuration.isMessageFooterEnabledForDefaultMessage();
+            LOGGER.info("-- default message enabled with message footer? {}", messageFooterEnabledForDefaultMessage);
+            if (messageFooterEnabledForDefaultMessage) {
                 defaultMessage = defaultMessage + configuration.getMessageFooter();
-            } else {
-                log.debug("Default message is enabled without message footer");
             }
             smsProcessor.setDefaultMessage(defaultMessage);
         }
@@ -56,7 +54,7 @@ public class EngineServicesTask extends Task<Object, Void> {
 
     @Override
     protected Object doInBackground() throws Exception {
-        log.debug("Starting engine tasks");
+        LOGGER.debug(">> doInBackground()");
         while (!isCancelled()) {
             if (callNotificationEnabled) {
                 callProcessor.process();
@@ -65,24 +63,25 @@ public class EngineServicesTask extends Task<Object, Void> {
             smsSender.send();
             Thread.sleep(500);
         }
+        LOGGER.debug("<< doInBackground()");
         return null;
     }
 
     @Override
     protected void failed(Throwable arg0) {
         super.failed(arg0);
-        log.error("SMS engine task failed");
+        LOGGER.error(">> failed()");
     }
 
     @Override
     protected void finished() {
         super.finished();
-        log.info("SMS engine task completed");
+        LOGGER.info(">> finished()");
     }
 
     @Override
     protected void succeeded(Object arg0) {
         super.succeeded(arg0);
-        log.info("SMS engine task succeded");
+        LOGGER.info(">> succeeded()");
     }
 }

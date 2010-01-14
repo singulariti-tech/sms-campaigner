@@ -1,10 +1,10 @@
 package com.alteregos.sms.campaigner.data.validation;
 
-import com.alteregos.sms.campaigner.util.LoggerHelper;
 import com.alteregos.sms.campaigner.views.helpers.TextComponentFocusListener;
 import java.awt.Color;
 import javax.swing.text.JTextComponent;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
  */
 public class PhonebookEntryValidator implements IValidator {
 
-    private static Logger log = LoggerHelper.getLogger();
+    private static final Logger LOGGER = LoggerFactory.getLogger(PhonebookEntryValidator.class);
     private JTextComponent nameField;
     private JTextComponent mobileNoField;
 
@@ -28,12 +28,12 @@ public class PhonebookEntryValidator implements IValidator {
         String contact = nameField.getText();
         String mobileNo = mobileNoField.getText();
         if (contact == null || contact.length() < 1 || contact.length() > 64) {
-            log.debug("Contact name is invalid");
+            LOGGER.debug("Invalid contact name");
             nameField.setBackground(new Color(255, 0, 0));
             validated = false;
         }
         if (mobileNo == null || mobileNo.length() < 1 || mobileNo.length() > 16) {
-            log.debug("Contact mobile no. is invalid");
+            LOGGER.debug("Invalid mobile number");
             mobileNoField.setBackground(new Color(255, 0, 0));
             validated = false;
         }

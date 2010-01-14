@@ -1,13 +1,13 @@
 package com.alteregos.sms.campaigner.views.helpers;
 
-import com.alteregos.sms.campaigner.util.LoggerHelper;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.AbstractDocument.DefaultDocumentEvent;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 public class SizeLimitedTextComponent extends PlainDocument {
 
     private static final long serialVersionUID = 1L;
-    private Logger log = LoggerHelper.getLogger();
+    private static final Logger LOGGER = LoggerFactory.getLogger(SizeLimitedTextComponent.class);
     private int maxLength = 160;
     private JTextField counter;
     private JTextArea preview;
@@ -24,21 +24,22 @@ public class SizeLimitedTextComponent extends PlainDocument {
 
     public SizeLimitedTextComponent(int maxLength, JTextField counter) {
         super();
+        LOGGER.debug("** SizeLimitedTextComponent({}, {})", maxLength, counter.getName());
         this.maxLength = maxLength;
         this.counter = counter;
         this.counter.setText(String.valueOf(this.maxLength));
-        log.debug("Initialized text component with maxlength " + maxLength);
     }
 
     public SizeLimitedTextComponent(int maxLength, JTextField counter, JTextArea preview, String footer) {
         super();
+        String[] args = new String[]{String.valueOf(maxLength), counter.getName(), preview.getName(), footer};
+        LOGGER.debug("** SizeLimitedTextComponent({}, {}, {}, {})", args);
         this.maxLength = maxLength;
         this.counter = counter;
         this.preview = preview;
         this.footer = footer == null ? "" : footer;
         this.counter.setText(String.valueOf(this.maxLength));
         this.preview.setText(footer);
-        log.debug("Initialized text component with maxlength " + maxLength + " & with preview and footer: " + footer);
     }
 
     @Override
@@ -55,7 +56,7 @@ public class SizeLimitedTextComponent extends PlainDocument {
                     updatePreviewContent();
                 }
             } catch (BadLocationException ex) {
-                log.debug("Size of text component exceeded");
+                LOGGER.debug("-- size of text component exceeded");
             }
         }
     }
@@ -68,7 +69,7 @@ public class SizeLimitedTextComponent extends PlainDocument {
             try {
                 updatePreviewContent();
             } catch (BadLocationException ex) {
-                log.debug("Size of text component exceeded");
+                LOGGER.debug("-- size of text component exceeded");
             }
         }
     }
@@ -84,7 +85,7 @@ public class SizeLimitedTextComponent extends PlainDocument {
                 builder.append(footer);
                 this.preview.setText(builder.toString());
             } catch (BadLocationException ex) {
-                log.debug("Size of text component exceeded");
+                LOGGER.debug("-- size of text component exceeded");
             }
         }
     }

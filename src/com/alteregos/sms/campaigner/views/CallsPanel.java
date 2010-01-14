@@ -4,7 +4,6 @@ import com.alteregos.sms.campaigner.Main;
 import com.alteregos.sms.campaigner.data.dto.IncomingCall;
 import com.alteregos.sms.campaigner.services.IncomingCallService;
 import com.alteregos.sms.campaigner.util.DateUtils;
-import com.alteregos.sms.campaigner.util.LoggerHelper;
 import com.alteregos.sms.campaigner.views.helpers.DateColumnCellRenderer;
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import java.util.List;
 import javax.swing.ActionMap;
 import javax.swing.table.TableColumn;
 import net.miginfocom.swing.MigLayout;
-import org.apache.log4j.Logger;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.ResourceMap;
@@ -25,6 +23,8 @@ import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 import org.jdesktop.swingx.JXDatePicker;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -33,6 +33,8 @@ import org.jdesktop.swingx.JXDatePicker;
 public class CallsPanel extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
+    //Logger
+    private static final Logger LOGGER = LoggerFactory.getLogger(CallsPanel.class);
     //Data Service
     private IncomingCallService callService;
     //Components
@@ -50,8 +52,6 @@ public class CallsPanel extends javax.swing.JPanel {
     //Helper lists
     private List<IncomingCall> filteredCalls;
     private java.util.List<IncomingCall> callsList;
-    //Logger
-    private static Logger log = LoggerHelper.getLogger();
 
     /** Creates new form DndPanel */
     public CallsPanel() {

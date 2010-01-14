@@ -1,9 +1,9 @@
 package com.alteregos.sms.campaigner.conf;
 
 import com.alteregos.sms.campaigner.business.FlowControl;
-import com.alteregos.sms.campaigner.util.LoggerHelper;
 import com.alteregos.sms.campaigner.util.LookAndFeel;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -29,7 +29,7 @@ public enum ConfigurationKeys {
     /**
      * 
      */
-    private static Logger log = LoggerHelper.getLogger();
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigurationKeys.class);
     private String label;
     private String defaultValue;
 
@@ -47,12 +47,14 @@ public enum ConfigurationKeys {
     }
 
     public static ConfigurationKeys getKey(String label) {
+        LOGGER.debug(">> getKey({})", label);
         for (ConfigurationKeys key : values()) {
             if (key.label().equals(label)) {
                 return key;
             }
         }
-        log.debug("Configuration key for label '" + label + "' not found");
+        LOGGER.debug("-- key not found");
+        LOGGER.debug("<< getKey()");
         return null;
     }
 }

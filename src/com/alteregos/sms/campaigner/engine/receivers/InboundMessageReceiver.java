@@ -5,12 +5,12 @@ import com.alteregos.sms.campaigner.business.Encoding;
 import com.alteregos.sms.campaigner.business.IncomingMessageType;
 import com.alteregos.sms.campaigner.data.dto.IncomingMessage;
 import com.alteregos.sms.campaigner.services.MessageService;
-import com.alteregos.sms.campaigner.util.LoggerHelper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.smslib.GatewayException;
 import org.smslib.InboundMessage;
 import org.smslib.MessageEncodings;
@@ -24,14 +24,16 @@ import org.smslib.TimeoutException;
  */
 public class InboundMessageReceiver {
 
-    private static Logger log = LoggerHelper.getLogger();
+    private static final Logger LOGGER = LoggerFactory.getLogger(InboundMessageReceiver.class);
     private MessageService messageService;
 
     public InboundMessageReceiver() {
+        LOGGER.debug("** InboundMessageReceiver()");
         messageService = Main.getApplication().getBean("messageService");
     }
 
     public void receive(List<InboundMessage> inboundMessages, Service service) {
+        LOGGER.debug(">> receive()");
         List<IncomingMessage> inboxList = new ArrayList<IncomingMessage>();
         for (InboundMessage msg : inboundMessages) {
             String sender = msg.getOriginator();
@@ -66,6 +68,7 @@ public class InboundMessageReceiver {
             sms.setGatewayId(gatewayId);
 
             inboxList.add(sms);
+            LOGGER.debug("<< receive()");
         }
 
         boolean commited = false;
@@ -74,8 +77,7 @@ public class InboundMessageReceiver {
             commited = true;
             //TODO Check insert counts
         } catch (Exception rollbackException) {
-            log.error("Error when receiving inbound message");
-            log.error(rollbackException);
+            LOGGER.error("-- Error when receiving inbound message: {}", rollbackException);
             commited = false;
         } finally {
             //TODO Delete only those messages that were successfully commited
@@ -84,17 +86,13 @@ public class InboundMessageReceiver {
                     try {
                         service.deleteMessage(message);
                     } catch (TimeoutException ex) {
-                        log.error("Timeout when trying to delete messages on SIM");
-                        log.error(ex);
+                        LOGGER.error("-- Timeout when trying to delete messages on SIM: {}", ex);
                     } catch (GatewayException ex) {
-                        log.error("Gateway exception when trying to delete messages on SIM");
-                        log.error(ex);
+                        LOGGER.error("-- Gateway exception when trying to delete messages on SIM: {}", ex);
                     } catch (IOException ex) {
-                        log.error("IO Exception when trying to delete messages on SIM");
-                        log.error(ex);
+                        LOGGER.error("-- IO Exception when trying to delete messages on SIM: {}", ex);
                     } catch (InterruptedException ex) {
-                        log.error("Interrupted exception when trying to delete messages on SIM");
-                        log.error(ex);
+                        LOGGER.error("-- Interrupted exception when trying to delete messages on SIM: {}", ex);
                     }
                 }
             }
