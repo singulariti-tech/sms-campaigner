@@ -120,4 +120,29 @@ public class SqliteOutgoingMessageDao extends BaseSqliteDao implements OutgoingM
             throw new DaoException(e);
         }
     }
+
+    @Override
+    public int[] update(List<OutgoingMessage> messages) {
+        int[] counts = null;
+        try {
+            List<Object[]> batch = new ArrayList<Object[]>();
+            for (OutgoingMessage m : messages) {
+                Object[] oa = new Object[]{
+                    m.getContent(), m.getCreatedDate(), m.getSentDate(), m.getErrors(),
+                    m.getGatewayId(), m.getDstPort(), m.getSrcPort(), m.getRecepientNo(), m.getSenderNo(),
+                    m.isStatusReport(), m.getStatus().toString(), m.getEncoding().toString(), m.isFlashMessage(),
+                    m.getPriority().toString(), m.getReferenceNo(), m.getType().toString(),
+                    m.getOutgoingMessageId()
+                };
+                batch.add(oa);
+            }
+            counts = jdbcTemplate.batchUpdate(updateStmt, batch);
+        } catch (DataAccessException e) {
+            throw new DaoException(e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DaoException(e);
+        }
+        return counts;
+    }
 }

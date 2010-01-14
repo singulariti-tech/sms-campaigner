@@ -190,13 +190,12 @@ public class RulesManagerPanel extends javax.swing.JPanel {
             }
 
             try {
-                ruleService.delete(ruleList);
+                ruleService.delete(toRemove);
                 result = new SuccessfulTaskResult();
             } catch (Exception rollbackException) {
                 List<AutoReplyRule> toMerge = new ArrayList<AutoReplyRule>();
-                for (AutoReplyRule rule : ruleList) {
-                    //TODO rollback if delete fails
-                }
+                toMerge.addAll(ruleList);
+                toMerge.addAll(toRemove);
                 ruleList.clear();
                 ruleList.addAll(toMerge);
                 result = ExceptionParser.getError(rollbackException);

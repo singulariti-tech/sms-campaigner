@@ -88,6 +88,19 @@ public class MessageService {
         return counts;
     }
 
+    public void updateIncomingMessages(List<IncomingMessage> messages) {
+        int[] counts = null;
+        DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
+        try {
+            counts = incomingMessageDao.update(messages);
+            //TODO Verify update counts
+        } catch (Exception e) {
+            transactionManager.rollback(transactionStatus);
+        }
+        transactionManager.commit(transactionStatus);
+    }
+
     public List<OutgoingMessage> getOutgoingMessages() {
         List<OutgoingMessage> messages = null;
         DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
@@ -149,6 +162,18 @@ public class MessageService {
         TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
         try {
             outgoingMessageDao.update(outgoingMessage);
+        } catch (Exception e) {
+            transactionManager.rollback(transactionStatus);
+        }
+        transactionManager.commit(transactionStatus);
+    }
+
+    public void updateOutgoingMessages(List<OutgoingMessage> outgoingMessages) {
+        DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
+        try {
+            int[] counts = outgoingMessageDao.update(outgoingMessages);
+            //TODO Verify counts
         } catch (Exception e) {
             transactionManager.rollback(transactionStatus);
         }

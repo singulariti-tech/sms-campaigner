@@ -40,4 +40,17 @@ public class IncomingCallService {
         transactionManager.commit(transactionStatus);
         return incomingCallId;
     }
+
+    public void updateIncomingCalls(List<IncomingCall> calls) {
+        DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
+        int[] counts = null;
+        try {
+            counts = incomingCallDao.update(calls);
+            //TODO Verify counts
+        } catch (Exception e) {
+            transactionManager.rollback(transactionStatus);
+        }
+        transactionManager.commit(transactionStatus);
+    }
 }

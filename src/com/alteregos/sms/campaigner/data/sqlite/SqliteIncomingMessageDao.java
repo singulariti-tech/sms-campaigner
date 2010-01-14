@@ -100,4 +100,27 @@ public class SqliteIncomingMessageDao extends BaseSqliteDao implements IncomingM
             throw new DaoException(e);
         }
     }
+
+    @Override
+    public int[] update(List<IncomingMessage> messages) {
+        int[] counts = null;
+        try {
+            List<Object[]> batch = new ArrayList<Object[]>();
+            for (IncomingMessage m : messages) {
+                Object[] oa = new Object[]{
+                    m.getContent(), m.getEncoding().toString(), m.getGatewayId(),
+                    m.getMessageDate(), m.getReceiptDate(), m.isProcess(), m.getSenderNo(),
+                    m.getType().toString(), m.getIncomingMessageId()
+                };
+                batch.add(oa);
+            }
+            counts = jdbcTemplate.batchUpdate(updateStmt, batch);
+        } catch (DataAccessException e) {
+            throw new DaoException(e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DaoException(e);
+        }
+        return counts;
+    }
 }

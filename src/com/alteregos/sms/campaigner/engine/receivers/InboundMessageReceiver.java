@@ -80,7 +80,6 @@ public class InboundMessageReceiver {
             LOGGER.error("-- Error when receiving inbound message: {}", rollbackException);
             commited = false;
         } finally {
-            //TODO Delete only those messages that were successfully commited
             if (commited) {
                 for (InboundMessage message : inboundMessages) {
                     try {

@@ -15,4 +15,5 @@ public interface OutgoingMessageDao {
     int insert(OutgoingMessage message);
     int[] insert(List<OutgoingMessage> messages);
     void update(OutgoingMessage message);
+    int[] update(List<OutgoingMessage> messages);
 }

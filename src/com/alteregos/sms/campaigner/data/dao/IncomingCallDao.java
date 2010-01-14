@@ -12,4 +12,5 @@ public interface IncomingCallDao {
     List<IncomingCall> findAll ();
     int insert(IncomingCall call);
     void update(IncomingCall call);
+    int[] update(List<IncomingCall> calls);
 }

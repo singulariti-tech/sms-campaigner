@@ -4,6 +4,7 @@ import com.alteregos.sms.campaigner.data.dao.IncomingCallDao;
 import com.alteregos.sms.campaigner.data.dto.IncomingCall;
 import com.alteregos.sms.campaigner.data.exceptions.DaoException;
 import com.alteregos.sms.campaigner.data.mappers.IncomingCallRowMapper;
+import java.util.ArrayList;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
@@ -29,8 +30,8 @@ public class SqliteIncomingCallDao extends BaseSqliteDao implements IncomingCall
         findByIdQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " WHERE call_id = ?";
         findAllQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " ORDER BY call_id";
         insertStmt = "INSERT INTO " + TABLE_NAME + "(" + DEFAULT_SELECTORS + ") VALUES(?,?,?,?,?)";
-        updateStmt = "UPDATE " + TABLE_NAME + " SET receipt_date = ?, gateway_id = ?, caller_no = ?, " +
-                "process = ? WHERE call_id = ?";
+        updateStmt = "UPDATE " + TABLE_NAME + " SET receipt_date = ?, gateway_id = ?, caller_no = ?, "
+                + "process = ? WHERE call_id = ?";
     }
 
     @Override
@@ -76,5 +77,27 @@ public class SqliteIncomingCallDao extends BaseSqliteDao implements IncomingCall
         } catch (DataAccessException e) {
             throw new DaoException(e);
         }
+    }
+
+    @Override
+    public int[] update(List<IncomingCall> calls) {
+        int[] counts = null;
+        try {
+            List<Object[]> batch = new ArrayList<Object[]>();
+            for (IncomingCall call : calls) {
+                Object[] oa = new Object[]{
+                    call.getReceiptDate(), call.getGatewayId(), call.getCallerNo(),
+                    call.isProcess(), call.getIncomingCallId()
+                };
+                batch.add(oa);
+            }
+            counts = jdbcTemplate.batchUpdate(updateStmt, batch);
+        } catch (DataAccessException e) {
+            throw new DaoException(e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DaoException(e);
+        }
+        return counts;
     }
 }
