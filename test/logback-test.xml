@@ -15,34 +15,29 @@
             <pattern>%-4relative [%thread] %-5level %class - %msg%n</pattern>
         </layout>
     </appender>
-    <!-- Basic file logger -->
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%-4relative [%thread] %-5level %class - %msg%n</pattern>
-        </layout>
-        <File>stripes-starter.log</File>
-    </appender>
     <!-- Rolling file logger -->
     <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
         </layout>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>stripes-starter.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <FileNamePattern>logs/smscampaigner.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <!-- keep 30 days' worth of history -->
+            <MaxHistory>30</MaxHistory>
         </rollingPolicy>
-        <File>stripes-starter-rolling.log</File>
     </appender>
 
 
-
-    <logger name="com.idolafori.starter">
+    <logger name="com.alteregos">
+        <level value="DEBUG" />
+    </logger>
+    <logger name="org.springframework">
         <level value="DEBUG" />
     </logger>
 
-    <root>
-        <level value="ERROR" />
+    <root level="OFF">
         <appender-ref ref="STDOUT" />
-        <appender-ref ref="FILE" />
+        <appender-ref ref="ROLLING_FILE" />
     </root>
 
 </configuration>
