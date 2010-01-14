@@ -35,7 +35,9 @@ import org.jdesktop.swingx.JXDatePicker;
 public class OutboxPanel extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
+    //Services
     private MessageService messageService;
+    //Components
     private JXDatePicker startDateField;
     private JXDatePicker endDateField;
     private javax.swing.JLabel endDateLabel;
@@ -52,7 +54,9 @@ public class OutboxPanel extends javax.swing.JPanel {
     private javax.swing.JLabel statusLabel;
     private javax.swing.JComboBox typeComboBox;
     private javax.swing.JLabel typeLabel;
+    //Binding
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    //Helpers
     private List<OutgoingMessage> filteredOutboxList;
 
     /** Creates new form OutboxPanel */

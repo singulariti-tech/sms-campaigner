@@ -22,7 +22,9 @@ import org.smslib.TimeoutException;
 public class HomePanel extends javax.swing.JPanel implements ProbeListener {
 
     private static final long serialVersionUID = 1L;
+    //Logger
     private static final Logger LOGGER = LoggerFactory.getLogger(HomePanel.class);
+    //Components
     private javax.swing.JLabel gatewayStatusLabel;
     private javax.swing.JButton autoReplyStatusCheckButton;
     private javax.swing.JButton databaseConnectivityCheckButton;
@@ -46,6 +48,7 @@ public class HomePanel extends javax.swing.JPanel implements ProbeListener {
     private javax.swing.JLabel simPinTextField;
     private javax.swing.JLabel softwareVersionLabel;
     private javax.swing.JLabel softwareVersionTextField;
+    //Helpers
     private ProbeResults probeResults;
 
     /** Creates new form HomePanel */

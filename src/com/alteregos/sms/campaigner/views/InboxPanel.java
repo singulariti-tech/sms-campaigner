@@ -30,7 +30,9 @@ import org.jdesktop.swingx.JXDatePicker;
 public class InboxPanel extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
+    //Services
     private MessageService messageService;
+    //Components
     private JXDatePicker startDateField;
     private JXDatePicker endDateField;
     private javax.swing.JLabel startDateLabel;
@@ -39,7 +41,9 @@ public class InboxPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane inboxScrollPane;
     private javax.swing.JTable inboxTable;
     private javax.swing.JButton refreshButton;
+    //Binding
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    //Helpers
     private java.util.List<IncomingMessage> inboxList;
     private List<IncomingMessage> filteredInboxList;
 

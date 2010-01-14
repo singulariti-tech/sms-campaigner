@@ -27,7 +27,9 @@ import org.slf4j.LoggerFactory;
  */
 public class MainView extends FrameView {
 
+    //Logger
     private static final Logger LOGGER = LoggerFactory.getLogger(MainView.class);
+    //Components
     private javax.swing.JMenu applicationMenu;
     private javax.swing.JButton autoReplyRulesToolBarButton;
     private javax.swing.JMenuItem callsReceivedMenuItem;

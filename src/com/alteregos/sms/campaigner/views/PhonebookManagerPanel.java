@@ -17,7 +17,9 @@ import org.jdesktop.observablecollections.ObservableCollections;
 public class PhonebookManagerPanel extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
+    //Services
     private ContactService contactService;
+    //Components
     private javax.swing.JLabel addressLabel;
     private javax.swing.JScrollPane addressScrollPane;
     private javax.swing.JTextArea addressTextArea;
@@ -29,11 +31,13 @@ public class PhonebookManagerPanel extends javax.swing.JPanel {
     private javax.swing.JTextField mobileNoTextField;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField nameTextField;
-    private javax.swing.JTable phoneBookTable;
-    private java.util.List<Contact> phonebookList;
+    private javax.swing.JTable phoneBookTable;    
     private javax.swing.JButton refreshButton;
     private javax.swing.JButton saveButton;
+    //Binding
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    //Helpers
+    private java.util.List<Contact> phonebookList;
 
     /** Creates new form PhonebookManagerPanel */
     public PhonebookManagerPanel() {

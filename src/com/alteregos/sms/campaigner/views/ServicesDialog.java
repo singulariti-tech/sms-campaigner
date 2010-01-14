@@ -18,6 +18,7 @@ import org.jdesktop.application.Action;
 public class ServicesDialog extends javax.swing.JDialog {
 
     private static final long serialVersionUID = 1L;
+    //Components
     private javax.swing.JPanel gatewayDetailsPanel;
     private javax.swing.JPanel gatewayServiceStatusPanel;
     //
@@ -33,6 +34,7 @@ public class ServicesDialog extends javax.swing.JDialog {
     private javax.swing.JTextField gatewayStatusTextField;
     private javax.swing.JButton startGatewayServiceButton;
     private javax.swing.JButton stopGatewayServiceButton;
+    //Binding
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
 
     /** Creates new form ServicesDialog

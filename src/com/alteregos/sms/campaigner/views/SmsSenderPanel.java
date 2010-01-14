@@ -25,8 +25,10 @@ import org.jdesktop.application.Action;
 public class SmsSenderPanel extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
+    //Services
     private MessageService messageService;
     private DndService dndService;
+    //Components
     private javax.swing.JButton clearButton;
     private javax.swing.JCheckBox enableMessageFooterCheckbox;
     private javax.swing.JButton groupsButton;
@@ -46,6 +48,7 @@ public class SmsSenderPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane recepientsScrollPane;
     private javax.swing.JTextArea recepientsTextArea;
     private javax.swing.JButton sendButton;
+    //Dtos & helpers
     private List<Dnd> dndList;
     private String footer;
     private SmsValidator validator;

@@ -21,7 +21,9 @@ import org.jdesktop.application.Task;
 public class PhonebookEntryCreatorPanel extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
+    //Services
     private ContactService contactService;
+    //Components
     private javax.swing.JButton clearButton;
     private javax.swing.JLabel emailAddressLabel;
     private javax.swing.JTextField emailAddressTextField;
@@ -33,6 +35,7 @@ public class PhonebookEntryCreatorPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane postalAddressScrollPane;
     private javax.swing.JTextArea postalAddressTextArea;
     private javax.swing.JButton saveButton;
+    //Dtos & helpers
     private Contact phoneBook;
     private PhonebookEntryValidator validator;
 

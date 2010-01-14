@@ -26,9 +26,12 @@ import org.slf4j.LoggerFactory;
  */
 public class ManageGroupPanel extends javax.swing.JPanel {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ManageGroupPanel.class);
     private static final long serialVersionUID = 1L;
+    //Logger
+    private static final Logger LOGGER = LoggerFactory.getLogger(ManageGroupPanel.class);
+    //Services
     private ContactService contactService;
+    //Components
     private javax.swing.JButton addContactsButton;
     private javax.swing.JScrollPane contactsScrollPane;
     private javax.swing.JTable contactsTable;
@@ -37,7 +40,9 @@ public class ManageGroupPanel extends javax.swing.JPanel {
     private javax.swing.JLabel groupLabel;
     private javax.swing.JComboBox groupsComboBox;
     private java.util.List<Group> smsgroupList;
+    //Binding
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    //Helpers
     private DefaultListCellRenderer defaultListCellRenderer;
 
     /** Creates new form ManageGroupPanel */

@@ -30,13 +30,17 @@ import org.jdesktop.swingbinding.SwingBindings;
 public class GroupsManagerContactsDialog extends javax.swing.JDialog {
 
     private static final long serialVersionUID = 1L;
+    //Services
     private ContactService contactService;
+    //Components
     private javax.swing.JButton addContactsButton;
     private javax.swing.JButton closeButton;
     private javax.swing.JTable contactsTable;
     private java.util.List<Contact> phonebookList;
     private javax.swing.JScrollPane selectContactsScrollPane;
+    //Binding
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    //Dtos & helpers
     private Group group;
     private ManageGroupPanel panel;
 

@@ -22,6 +22,7 @@ import org.jdesktop.application.LocalStorage;
 public class SettingsDialog extends javax.swing.JDialog {
 
     private static final long serialVersionUID = 1L;
+    //Components
     private javax.swing.JLabel baudRateLabel;
     private javax.swing.JTextField baudRateTextField;
     private javax.swing.JButton callNotificationClearButton;
@@ -66,7 +67,9 @@ public class SettingsDialog extends javax.swing.JDialog {
     private javax.swing.JLabel stopBitsLabel;
     private javax.swing.JTextField stopBitsTextField;
     private javax.swing.JTabbedPane tabbedPane;
+    //Binding
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    //Dtos
     private Configuration configuration;
 
     /** Creates new form SettingsDialog

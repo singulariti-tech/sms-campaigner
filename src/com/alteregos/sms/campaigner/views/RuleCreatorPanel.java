@@ -27,7 +27,9 @@ import org.jdesktop.application.Task;
 public class RuleCreatorPanel extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
+    //Services
     private RuleService ruleService;
+    //Components
     private javax.swing.JButton clearButton;
     private javax.swing.JCheckBox enableRuleCheckbox;
     private javax.swing.JLabel messageLabel;
@@ -39,6 +41,7 @@ public class RuleCreatorPanel extends javax.swing.JPanel {
     private javax.swing.JButton saveButton;
     private javax.swing.JLabel secondaryKeywordLabel;
     private javax.swing.JTextField secondaryKeywordTextField;
+    //Dtos & helpers
     private AutoReplyRule rule;
     private RuleValidator validator;
 

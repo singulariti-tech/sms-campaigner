@@ -28,7 +28,9 @@ import org.jdesktop.swingx.JXDatePicker;
 public class RulesManagerPanel extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
+    //Services
     private RuleService ruleService;
+    //Components
     private javax.swing.JLabel contentLabel;
     private javax.swing.JTextField contentLengthField;
     private javax.swing.JScrollPane contentScrollPane;
@@ -48,7 +50,9 @@ public class RulesManagerPanel extends javax.swing.JPanel {
     private javax.swing.JButton saveButton;
     private javax.swing.JTextField secondaryKeywordField;
     private javax.swing.JLabel secondaryKeywordLabel;
+    //Binding
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    //Helpers
     private List<AutoReplyRule> ruleList;
     private List<AutoReplyRule> filteredRuleList;
 

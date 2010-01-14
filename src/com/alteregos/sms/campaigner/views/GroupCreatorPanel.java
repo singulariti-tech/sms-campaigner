@@ -36,7 +36,9 @@ import org.slf4j.LoggerFactory;
 public class GroupCreatorPanel extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
+    //Logger
     private static final Logger LOGGER = LoggerFactory.getLogger(GroupCreatorPanel.class);
+    //Components
     private javax.swing.JButton addAllButton;
     private javax.swing.JButton addSelectedButton;
     private javax.swing.JPanel borderContainer;
@@ -53,10 +55,14 @@ public class GroupCreatorPanel extends javax.swing.JPanel {
     private java.util.List<Contact> phonebookList;
     private javax.swing.JButton removeAllButton;
     private javax.swing.JButton removeSelectedButton;
+    //Services
+    private ContactService contactService;
+    //Binding
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    //Helpers
     private java.util.List<Contact> groupMembersList;
     private GroupValidator validator;
-    private ContactService contactService;
+    
 
     /** Creates new form GroupCreatorPanel */
     public GroupCreatorPanel() {
