@@ -11,6 +11,7 @@ import com.alteregos.sms.campaigner.views.MainView;
 import com.alteregos.sms.campaigner.conf.Configuration;
 import com.alteregos.sms.campaigner.data.dao.DatabaseCreator;
 import java.awt.Component;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -55,6 +56,10 @@ public class Main extends SingleFrameApplication {
         addExitListener(new CustomExitListener());
         springContext = new ClassPathXmlApplicationContext("classpath:campaignerContext-core.xml");
         //Check if db exists. If not create it
+        File dbPath = new File("./database");
+        if (!dbPath.exists()) {
+            dbPath.mkdir();
+        }
         DatabaseCreator databaseCreator = getBean("databaseInitializer");
         if (!databaseCreator.allTablesExist()) {
             LOGGER.debug("-- Database tables not found. Initializing sqlite db");
