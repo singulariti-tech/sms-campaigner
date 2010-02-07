@@ -35,9 +35,11 @@ public class RuleProcessor {
         boolean isDnd = false;
         String ruleContent = "";
         if (parseResult.isRule()) {
+            LOGGER.debug("-- parsed result is rule");
             matchedRule = matchRule(parseResult);
             if (matchedRule.getRule() != null) {
                 ruleContent = matchedRule.getRule().getContent();
+                LOGGER.debug("-- matched rule content: {}", ruleContent);
             } else {
                 LOGGER.debug("-- could not match any rule");
             }
@@ -55,11 +57,11 @@ public class RuleProcessor {
     //TODO Verify if ruleSecondary is null anytime
     private MatchedRule matchRule(RuleParseResult parseResult) {
         LOGGER.debug(">> matchRule()");
+        String resultPrimary = parseResult.getPrimary().toLowerCase();
+        String resultSecondary = parseResult.getSecondary().toLowerCase();
         for (IRule rule : getRules()) {
             String rulePrimary = rule.getPrimaryKeyword().toLowerCase();
-            String ruleSecondary = rule.getSecondaryKeyword().toLowerCase();
-            String resultPrimary = parseResult.getPrimary().toLowerCase();
-            String resultSecondary = parseResult.getSecondary().toLowerCase();
+            String ruleSecondary = rule.getSecondaryKeyword().toLowerCase();            
 
             boolean isDnd = matchesDnd(parseResult);
             if (rulePrimary.equals(resultPrimary) && ruleSecondary.equals(resultSecondary)) {
