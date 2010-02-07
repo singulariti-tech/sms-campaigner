@@ -41,7 +41,7 @@ public class AutoReplyRule implements IRule {
     }
 
     public void setPrimaryKeyword(String primaryKeyword) {
-        this.primaryKeyword = primaryKeyword;
+        this.primaryKeyword = primaryKeyword.toLowerCase();
     }
 
     @Override
@@ -50,7 +50,7 @@ public class AutoReplyRule implements IRule {
     }
 
     public void setSecondaryKeyword(String secondaryKeyword) {
-        this.secondaryKeyword = secondaryKeyword;
+        this.secondaryKeyword = secondaryKeyword.toLowerCase();
     }
 
     @Override
