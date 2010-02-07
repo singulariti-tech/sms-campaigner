@@ -53,28 +53,17 @@ public class SmsProcessor implements IProcessor {
 
                 if (!content.equals("") && (result.isDndRule() && reference != null)) {
                     LOGGER.debug("-- queueing message in outbox");
-                    OutgoingMessage reply = new OutgoingMessage();
-                    reply.setRecepientNo(sms.getSenderNo());
-                    reply.setContent(content);
-                    reply.setType(OutgoingMessageType.AUTO_REPLY);
-                    outboxList.add(reply);
-                    sms.setProcess(true);
+                    queueOutgoingMessage(sms, content, outboxList);
                 } else if (result.isDndRule() && reference == null) {
                     LOGGER.debug("-- requester already registered in DND");
-                    OutgoingMessage reply = new OutgoingMessage();
-                    reply.setRecepientNo(sms.getSenderNo());
-                    reply.setContent("You are already registered on our DND list.");
-                    reply.setType(OutgoingMessageType.AUTO_REPLY);
-                    outboxList.add(reply);
-                    sms.setProcess(true);
+                    queueOutgoingMessage(sms, "You are already registered on our DND list.", outboxList);
+                } else if (content != null && !result.isDndRule()) {
+                    LOGGER.debug("-- queueing message in outbox");
+                    queueOutgoingMessage(sms, content, outboxList);
                 } else {
                     if (defaultMessage != null) {
                         LOGGER.debug("-- sending default message");
-                        OutgoingMessage reply = new OutgoingMessage();
-                        reply.setRecepientNo(sms.getSenderNo());
-                        reply.setContent(getDefaultMessage());
-                        outboxList.add(reply);
-                        sms.setProcess(true);
+                        queueOutgoingMessage(sms, getDefaultMessage(), outboxList);
                     } else {
                         LOGGER.info(DEFAULT_MESSAGE_DISABLED_WARNING);
                         LOGGER.info("-- Details of the message: Mobile no. {}, Message content: {}", sms.getSenderNo(),
@@ -104,7 +93,7 @@ public class SmsProcessor implements IProcessor {
         this.defaultMessage = defaultMessage;
     }
 
-    private List<IncomingMessage> filter(List<IncomingMessage> inputList) {
+    List<IncomingMessage> filter(List<IncomingMessage> inputList) {
         List<IncomingMessage> outputList = new ArrayList<IncomingMessage>();
         for (IncomingMessage sms : inputList) {
             if (!sms.getType().equals(IncomingMessageType.STATUS_REPORT) && !sms.isProcess()) {
@@ -114,7 +103,7 @@ public class SmsProcessor implements IProcessor {
         return outputList;
     }
 
-    private String registerDnd(String mobileNo) {
+    String registerDnd(String mobileNo) {
         boolean success = false;
         Dnd dnd = new Dnd();
         dnd.setMobileNo(mobileNo);
@@ -130,5 +119,14 @@ public class SmsProcessor implements IProcessor {
 
         String reference = success ? String.valueOf(dnd.getDndId()) : null;
         return reference;
+    }
+
+    void queueOutgoingMessage(IncomingMessage sms, String content, List<OutgoingMessage> outboxList) {
+        OutgoingMessage reply = new OutgoingMessage();
+        reply.setRecepientNo(sms.getSenderNo());
+        reply.setContent(content);
+        reply.setType(OutgoingMessageType.AUTO_REPLY);
+        outboxList.add(reply);
+        sms.setProcess(true);
     }
 }
