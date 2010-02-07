@@ -5,8 +5,8 @@ package com.alteregos.sms.campaigner.rules;
  */
 public class DndRule implements IRule {
 
-    private String primaryKeyword;
-    private String secondaryKeyword;
+    private String primaryKeyword = "start";
+    private String secondaryKeyword = "dnd";
     private boolean enabled;
     private String content;
 
