@@ -2,7 +2,10 @@ package com.alteregos.sms.campaigner.services;
 
 import com.alteregos.sms.campaigner.data.dao.AutoReplyRuleDao;
 import com.alteregos.sms.campaigner.data.dto.AutoReplyRule;
+import com.alteregos.sms.campaigner.data.exceptions.DaoException;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -16,6 +19,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
  */
 public class RuleService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(RuleService.class);
     private AutoReplyRuleDao ruleDao;
     private PlatformTransactionManager transactionManager;
 
@@ -41,26 +45,30 @@ public class RuleService {
         return rules;
     }
 
-    public int newRule(AutoReplyRule rule) {
+    public synchronized int newRule(AutoReplyRule rule) {
         DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
         TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
         int ruleId = 0;
         try {
             ruleId = ruleDao.insert(rule);
         } catch (Exception e) {
+            LOGGER.error("-- newRule(): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
         return ruleId;
     }
 
-    public void update(AutoReplyRule rule) {
+    public synchronized void update(AutoReplyRule rule) {
         DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
         TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
         try {
             ruleDao.update(rule);
         } catch (Exception e) {
+            LOGGER.error("-- update(rule): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
     }
@@ -72,7 +80,9 @@ public class RuleService {
         try {
             counts = ruleDao.update(rules);
         } catch (Exception e) {
+            LOGGER.error("-- update(rules): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
         return counts;
@@ -84,7 +94,9 @@ public class RuleService {
         try {
             ruleDao.delete(rule);
         } catch (Exception e) {
+            LOGGER.error("-- delete(rule): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
     }
@@ -95,7 +107,9 @@ public class RuleService {
         try {
             ruleDao.delete(rules);
         } catch (Exception e) {
+            LOGGER.error("-- delete(rules): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
     }

@@ -7,8 +7,11 @@ import com.alteregos.sms.campaigner.data.dao.MultipleTableJoinDao;
 import com.alteregos.sms.campaigner.data.dto.Contact;
 import com.alteregos.sms.campaigner.data.dto.ContactGroupJoin;
 import com.alteregos.sms.campaigner.data.dto.Group;
+import com.alteregos.sms.campaigner.data.exceptions.DaoException;
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -22,6 +25,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
  */
 public class ContactService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ContactService.class);
     private ContactDao contactDao;
     private GroupDao groupDao;
     private ContactGroupJoinDao contactGroupJoinDao;
@@ -66,7 +70,9 @@ public class ContactService {
         try {
             contactId = contactDao.insert(contact);
         } catch (Exception e) {
+            LOGGER.error("-- newContact(): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
         return contactId;
@@ -78,7 +84,9 @@ public class ContactService {
         try {
             contactDao.update(contact);
         } catch (Exception e) {
+            LOGGER.error("-- updateContact(): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
     }
@@ -89,7 +97,9 @@ public class ContactService {
         try {
             contactDao.update(contacts);
         } catch (Exception e) {
+            LOGGER.error("-- updateContacts(): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
     }
@@ -100,7 +110,9 @@ public class ContactService {
         try {
             contactDao.delete(contact);
         } catch (Exception e) {
+            LOGGER.error("-- deleteContact(): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
     }
@@ -111,7 +123,9 @@ public class ContactService {
         try {
             contactDao.delete(contacts);
         } catch (Exception e) {
+            LOGGER.error("-- deleteContacts(): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
 
@@ -132,7 +146,9 @@ public class ContactService {
             }
             contactGroupJoinDao.insert(joins);
         } catch (Exception e) {
+            LOGGER.error("-- newGroup(): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
         return groupId;
@@ -156,7 +172,9 @@ public class ContactService {
             }
             contactGroupJoinDao.insert(joins);
         } catch (Exception e) {
+            LOGGER.error("-- updateGroup(): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
     }
@@ -168,7 +186,9 @@ public class ContactService {
             contactGroupJoinDao.delete(group);
             groupDao.delete(group);
         } catch (Exception e) {
+            LOGGER.error("-- deleteGroup(): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
     }
@@ -190,7 +210,9 @@ public class ContactService {
             }
             contactGroupJoinDao.delete(joins);
         } catch (Exception e) {
+            LOGGER.error("-- deleteContacts(): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
     }

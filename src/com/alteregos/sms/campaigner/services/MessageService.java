@@ -5,8 +5,10 @@ import com.alteregos.sms.campaigner.data.dao.IncomingMessageDao;
 import com.alteregos.sms.campaigner.data.dao.OutgoingMessageDao;
 import com.alteregos.sms.campaigner.data.dto.IncomingMessage;
 import com.alteregos.sms.campaigner.data.dto.OutgoingMessage;
-import java.util.ArrayList;
+import com.alteregos.sms.campaigner.data.exceptions.DaoException;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -20,6 +22,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
  */
 public class MessageService {
 
+    private static Logger LOGGER = LoggerFactory.getLogger(MessageService.class);
     private IncomingMessageDao incomingMessageDao;
     private OutgoingMessageDao outgoingMessageDao;
     private PlatformTransactionManager transactionManager;
@@ -43,7 +46,9 @@ public class MessageService {
         try {
             messages = incomingMessageDao.findAll();
         } catch (Exception e) {
+            LOGGER.error("-- getIncomingMessages(): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
         return messages;
@@ -56,39 +61,45 @@ public class MessageService {
         try {
             message = incomingMessageDao.findById(messageId);
         } catch (Exception e) {
+            LOGGER.error("-- getIncomingMessage(): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
         return message;
     }
 
-    public int newIncomingMessage(IncomingMessage incomingMessage) {
+    public synchronized int newIncomingMessage(IncomingMessage incomingMessage) {
         DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
         TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
         int incomingMessageId = 0;
         try {
             incomingMessageDao.insert(incomingMessage);
         } catch (Exception e) {
+            LOGGER.error("-- newIncomingMessage(): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
         return incomingMessageId;
     }
 
-    public int[] newIncomingMessages(List<IncomingMessage> incomingMessages) {
+    public synchronized int[] newIncomingMessages(List<IncomingMessage> incomingMessages) {
         int[] counts = null;
         DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
         TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
         try {
             counts = incomingMessageDao.insert(incomingMessages);
         } catch (Exception e) {
+            LOGGER.error("-- newIncomingMessages(): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
         return counts;
     }
 
-    public void updateIncomingMessages(List<IncomingMessage> messages) {
+    public synchronized void updateIncomingMessages(List<IncomingMessage> messages) {
         int[] counts = null;
         DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
         TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
@@ -96,7 +107,9 @@ public class MessageService {
             counts = incomingMessageDao.update(messages);
             //TODO Verify update counts
         } catch (Exception e) {
+            LOGGER.error("-- updateIncomingMessages(): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
     }
@@ -108,7 +121,9 @@ public class MessageService {
         try {
             messages = outgoingMessageDao.findAll();
         } catch (Exception e) {
+            LOGGER.error("-- getOutgoingMessages(): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
         return messages;
@@ -121,7 +136,9 @@ public class MessageService {
         try {
             messages = outgoingMessageDao.findByStatus(status);
         } catch (Exception e) {
+            LOGGER.error("-- getOutgoingMessages(): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
         return messages;
@@ -131,27 +148,31 @@ public class MessageService {
         return outgoingMessageDao.findById(messageId);
     }
 
-    public int newOutgoingMessage(OutgoingMessage outgoingMessage) {
+    public synchronized int newOutgoingMessage(OutgoingMessage outgoingMessage) {
         DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
         TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
         int outgoingMessageId = 0;
         try {
             outgoingMessageId = outgoingMessageDao.insert(outgoingMessage);
         } catch (Exception e) {
+            LOGGER.error("-- newOutgoingMessage(): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
         return outgoingMessageId;
     }
 
-    public int[] newOutgoingMessages(List<OutgoingMessage> outgoingMessages) {
+    public synchronized int[] newOutgoingMessages(List<OutgoingMessage> outgoingMessages) {
         DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
         TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
         int[] counts = null;
         try {
             counts = outgoingMessageDao.insert(outgoingMessages);
         } catch (Exception e) {
+            LOGGER.error("-- newOutgoingMessages(): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
         return counts;
@@ -163,19 +184,23 @@ public class MessageService {
         try {
             outgoingMessageDao.update(outgoingMessage);
         } catch (Exception e) {
+            LOGGER.error("-- updateOutgoingMessage(): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
     }
 
-    public void updateOutgoingMessages(List<OutgoingMessage> outgoingMessages) {
+    public synchronized void updateOutgoingMessages(List<OutgoingMessage> outgoingMessages) {
         DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
         TransactionStatus transactionStatus = transactionManager.getTransaction(defaultTransactionDefinition);
         try {
             int[] counts = outgoingMessageDao.update(outgoingMessages);
             //TODO Verify counts
         } catch (Exception e) {
+            LOGGER.error("-- updateOutgoingMessages(): {}", e);
             transactionManager.rollback(transactionStatus);
+            throw new DaoException(e);
         }
         transactionManager.commit(transactionStatus);
     }
