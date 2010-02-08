@@ -30,7 +30,7 @@ public class SqliteIncomingMessageDao extends BaseSqliteDao implements IncomingM
         findByIdQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " WHERE incoming_message_id = ? " + "ORDER BY incoming_message_id ASC";
         findAllQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " ORDER BY incoming_message_id ASC";
         insertStmt = "INSERT INTO " + TABLE_NAME + "(" + DEFAULT_SELECTORS + ") VALUES(?,?,?,?,?,?,?,?,?)";
-        updateStmt = "UPDATE " + TABLE_NAME + "SET content = ?, encoding = ?, gateway_id = ?, " + "message_date = ?, receipt_date = ?, process = ?, sender_no = ?, message_type = ? WHERE " + "incoming_message_id = ?";
+        updateStmt = "UPDATE " + TABLE_NAME + " SET content = ?, encoding = ?, gateway_id = ?, " + "message_date = ?, receipt_date = ?, process = ?, sender_no = ?, message_type = ? WHERE " + "incoming_message_id = ?";
     }
 
     @Override

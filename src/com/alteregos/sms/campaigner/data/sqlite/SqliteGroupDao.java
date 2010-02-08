@@ -30,7 +30,7 @@ public class SqliteGroupDao extends BaseSqliteDao implements GroupDao {
         findByIdQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " WHERE group_id = ?";
         findAllQuery = "SELECT" + DEFAULT_SELECTORS + "FROM " + TABLE_NAME + " ORDER BY group_id ASC";
         insertStmt = "INSERT INTO " + TABLE_NAME + " (" + DEFAULT_SELECTORS + ") VALUES(?, ?)";
-        updateStmt = "UPDATE " + TABLE_NAME + "SET  name = ? WHERE group_id = ?";
+        updateStmt = "UPDATE " + TABLE_NAME + " SET  name = ? WHERE group_id = ?";
         deleteStmt = "DELETE FROM " + TABLE_NAME + " WHERE group_id = ?";
     }
 
